@@ -1,0 +1,67 @@
+name: Validate Plugin
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate plugin.json exists
+        run: |
+          if [ ! -f ".claude-plugin/plugin.json" ]; then
+            echo "Error: .claude-plugin/plugin.json not found"
+            exit 1
+          fi
+          echo "✓ plugin.json exists"
+
+      - name: Validate plugin.json syntax
+        run: |
+          python3 -m json.tool .claude-plugin/plugin.json > /dev/null
+          echo "✓ plugin.json is valid JSON"
+
+      - name: Validate required fields
+        run: |
+          # Check for required fields
+          REQUIRED_FIELDS=("name" "version" "description")
+          for field in "${REQUIRED_FIELDS[@]}"; do
+            if ! grep -q "\"$field\"" .claude-plugin/plugin.json; then
+              echo "Error: Missing required field '$field' in plugin.json"
+              exit 1
+            fi
+          done
+          echo "✓ All required fields present"
+
+      - name: Validate skill exists
+        run: |
+          if [ -d "skills" ]; then
+            SKILL_COUNT=$(find skills -name "SKILL.md" | wc -l)
+            echo "✓ Found $SKILL_COUNT skill(s)"
+          else
+            echo "⚠ No skills directory found"
+          fi
+
+      - name: Validate commands exist
+        run: |
+          if [ -d "commands" ]; then
+            CMD_COUNT=$(find commands -name "*.md" | wc -l)
+            echo "✓ Found $CMD_COUNT command(s)"
+          else
+            echo "⚠ No commands directory found"
+          fi
+
+      - name: Summary
+        run: |
+          echo ""
+          echo "=== Plugin Validation Summary ==="
+          echo "Plugin: $(grep -o '"name": *"[^"]*"' .claude-plugin/plugin.json | head -1 | cut -d'"' -f4)"
+          echo "Version: $(grep -o '"version": *"[^"]*"' .claude-plugin/plugin.json | head -1 | cut -d'"' -f4)"
+          echo "================================="
