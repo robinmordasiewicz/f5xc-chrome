@@ -5,9 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
+
+
 ## [0.5.0] - 2025-12-25
 
 - feat(docs): add MkDocs Material documentation system with manifest generator
+
+
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
 
 
 ## [0.4.0] - 2025-12-25
@@ -15,9 +25,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat(sitemap): expand URL inventory from live console crawl
 
 
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
+
+
 ## [0.5.0] - 2025-12-25
 
 - feat(docs): add MkDocs Material documentation system with manifest generator
+
+
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
 
 
 ## [0.3.0] - 2025-12-25
@@ -25,9 +45,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat(metadata): upgrade to v2.2.0 with stable selectors and URL sitemap
 
 
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
+
+
 ## [0.5.0] - 2025-12-25
 
 - feat(docs): add MkDocs Material documentation system with manifest generator
+
+
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
 
 
 ## [0.4.0] - 2025-12-25
@@ -35,9 +65,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat(sitemap): expand URL inventory from live console crawl
 
 
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
+
+
 ## [0.5.0] - 2025-12-25
 
 - feat(docs): add MkDocs Material documentation system with manifest generator
+
+
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
 
 
 ## [0.2.0] - 2025-12-25
@@ -45,9 +85,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat(auth): add multi-provider authentication support
 
 
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
+
+
 ## [0.5.0] - 2025-12-25
 
 - feat(docs): add MkDocs Material documentation system with manifest generator
+
+
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
 
 
 ## [0.4.0] - 2025-12-25
@@ -55,9 +105,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat(sitemap): expand URL inventory from live console crawl
 
 
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
+
+
 ## [0.5.0] - 2025-12-25
 
 - feat(docs): add MkDocs Material documentation system with manifest generator
+
+
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
 
 
 ## [0.3.0] - 2025-12-25
@@ -65,9 +125,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat(metadata): upgrade to v2.2.0 with stable selectors and URL sitemap
 
 
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
+
+
 ## [0.5.0] - 2025-12-25
 
 - feat(docs): add MkDocs Material documentation system with manifest generator
+
+
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
 
 
 ## [0.4.0] - 2025-12-25
@@ -75,9 +145,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat(sitemap): expand URL inventory from live console crawl
 
 
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
+
+
 ## [0.5.0] - 2025-12-25
 
 - feat(docs): add MkDocs Material documentation system with manifest generator
+
+
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
 
 
 ## [0.1.1] - 2025-12-25
@@ -85,9 +165,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix: change plugin name to xc for cleaner command path
 
 
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
+
+
 ## [0.5.0] - 2025-12-25
 
 - feat(docs): add MkDocs Material documentation system with manifest generator
+
+
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
 
 
 ## [0.4.0] - 2025-12-25
@@ -95,9 +185,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat(sitemap): expand URL inventory from live console crawl
 
 
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
+
+
 ## [0.5.0] - 2025-12-25
 
 - feat(docs): add MkDocs Material documentation system with manifest generator
+
+
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
 
 
 ## [0.3.0] - 2025-12-25
@@ -105,9 +205,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat(metadata): upgrade to v2.2.0 with stable selectors and URL sitemap
 
 
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
+
+
 ## [0.5.0] - 2025-12-25
 
 - feat(docs): add MkDocs Material documentation system with manifest generator
+
+
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
 
 
 ## [0.4.0] - 2025-12-25
@@ -115,9 +225,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat(sitemap): expand URL inventory from live console crawl
 
 
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
+
+
 ## [0.5.0] - 2025-12-25
 
 - feat(docs): add MkDocs Material documentation system with manifest generator
+
+
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
 
 
 ## [0.2.0] - 2025-12-25
@@ -125,9 +245,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat(auth): add multi-provider authentication support
 
 
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
+
+
 ## [0.5.0] - 2025-12-25
 
 - feat(docs): add MkDocs Material documentation system with manifest generator
+
+
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
 
 
 ## [0.4.0] - 2025-12-25
@@ -135,9 +265,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat(sitemap): expand URL inventory from live console crawl
 
 
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
+
+
 ## [0.5.0] - 2025-12-25
 
 - feat(docs): add MkDocs Material documentation system with manifest generator
+
+
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
 
 
 ## [0.3.0] - 2025-12-25
@@ -145,9 +285,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat(metadata): upgrade to v2.2.0 with stable selectors and URL sitemap
 
 
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
+
+
 ## [0.5.0] - 2025-12-25
 
 - feat(docs): add MkDocs Material documentation system with manifest generator
+
+
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
 
 
 ## [0.4.0] - 2025-12-25
@@ -155,9 +305,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat(sitemap): expand URL inventory from live console crawl
 
 
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
+
+
 ## [0.5.0] - 2025-12-25
 
 - feat(docs): add MkDocs Material documentation system with manifest generator
+
+
+## [0.5.1] - 2025-12-25
+
+- fix(docs): use mkdocs gh-deploy for gh-pages branch initialization
 
 
 ## [1.0.0] - 2025-12-24
