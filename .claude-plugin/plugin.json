@@ -1,6 +1,6 @@
 {
   "name": "xc",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Chrome browser automation for F5 Distributed Cloud console - navigate, crawl, and automate XC GUI operations",
   "author": {
     "name": "Robin Mordasiewicz",
