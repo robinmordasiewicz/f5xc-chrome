@@ -1,12 +1,21 @@
-# F5 XC Console Crawl Workflow
+# F5 XC Console Crawl Workflow (v2.2)
 
-This document defines the step-by-step workflow for Claude to crawl the F5 XC console and generate deterministic navigation metadata.
+This document defines the step-by-step workflow for Claude to crawl the F5 XC console and generate deterministic navigation metadata with stable selectors.
+
+## Overview
+
+The plugin ships with pre-crawled metadata that works out of the box. Crawling is **optional** - use it to refresh stale data or update after F5 XC console UI changes.
+
+**What gets extracted:**
+- Element refs (session-specific)
+- Stable selectors (data-testid, aria-label, text content)
+- URL sitemap (static and dynamic routes)
 
 ## Quick Start
 
 To execute a crawl:
 ```
-/f5xc-console crawl https://nferreira.staging.volterra.us/
+/xc:console crawl https://nferreira.staging.volterra.us/
 ```
 
 Claude will follow the phases below to systematically extract page metadata.
@@ -95,6 +104,108 @@ Expected cards:
   }
 }
 ```
+
+---
+
+## Phase 2B: Extract Stable Selectors
+
+For each element identified, extract stable selectors that work across browser sessions.
+
+### Step 2B.1: Execute JavaScript to Extract Element Attributes
+
+```
+Tool: mcp__claude-in-chrome__javascript_tool
+Parameters: {
+  tabId: [tabId],
+  text: `
+    const elements = document.querySelectorAll('[data-testid], [aria-label], button, input, select, a');
+    const selectors = [];
+
+    elements.forEach((el) => {
+      const selector = {
+        tagName: el.tagName.toLowerCase(),
+        data_testid: el.getAttribute('data-testid'),
+        aria_label: el.getAttribute('aria-label'),
+        text_content: el.textContent?.trim().substring(0, 50),
+        id: el.id || null,
+        name: el.getAttribute('name'),
+        role: el.getAttribute('role')
+      };
+
+      if (selector.data_testid || selector.aria_label || selector.id || selector.name) {
+        selectors.push(selector);
+      }
+    });
+
+    JSON.stringify(selectors, null, 2);
+  `
+}
+```
+
+### Step 2B.2: Map Selectors to Element Refs
+
+For each element from `read_page`:
+1. Match by position/role to extracted selectors
+2. Combine ref with stable selector data
+3. Build fallback chain: `data_testid > aria_label > text_match > css > ref`
+
+### Step 2B.3: Update Metadata with Selectors
+
+```json
+{
+  "web_app_api_protection": {
+    "ref": "ref_7",
+    "name": "Web App & API Protection",
+    "selectors": {
+      "data_testid": null,
+      "aria_label": null,
+      "text_match": "Web App & API Protection",
+      "css": ".workspace-card:has-text('Web App')"
+    }
+  }
+}
+```
+
+---
+
+## Phase 2C: URL Mapping
+
+Extract all navigation URLs for the sitemap.
+
+### Step 2C.1: Extract Navigation Links
+
+```
+Tool: mcp__claude-in-chrome__javascript_tool
+Parameters: {
+  tabId: [tabId],
+  text: `
+    const links = document.querySelectorAll('nav a[href], .sidebar a[href], [role="navigation"] a[href]');
+    const urls = [];
+
+    links.forEach(link => {
+      const href = link.getAttribute('href');
+      if (href && href.startsWith('/web/')) {
+        urls.push({
+          url: href,
+          text: link.textContent?.trim(),
+          aria_label: link.getAttribute('aria-label')
+        });
+      }
+    });
+
+    JSON.stringify(urls, null, 2);
+  `
+}
+```
+
+### Step 2C.2: Categorize URLs
+
+- **Static routes**: Fixed paths like `/web/home`, `/web/workspaces/...`
+- **Dynamic routes**: Paths with variables like `/namespaces/{namespace}/...`
+
+### Step 2C.3: Update url-sitemap.json
+
+Add discovered URLs to the sitemap file.
 
 ---
 
@@ -270,13 +381,14 @@ Merge all page metadata into single JSON structure.
 
 ```json
 {
-  "version": "2.0.0",
+  "version": "2.2.0",
   "tenant": "nferreira.staging.volterra.us",
   "last_crawled": "2025-12-24T15:00:00Z",
   "crawl_duration_minutes": 25,
   "pages_crawled": 45,
   "forms_extracted": 12,
-  "total_elements": 350
+  "total_elements": 350,
+  "selectors_extracted": 280
 }
 ```
 
@@ -291,14 +403,21 @@ Write complete JSON to:
 
 ```json
 {
-  "version": "2.0.0",
+  "version": "2.2.0",
   "tenant": "string",
   "last_crawled": "ISO-8601",
+  "selector_priority": ["data_testid", "aria_label", "text_match", "css", "ref"],
 
   "workspaces": {
     "Web App & API Protection": {
       "url": "/web/workspaces/web-app-and-api-protection",
       "card_ref": "ref_X",
+      "selectors": {
+        "data_testid": null,
+        "aria_label": null,
+        "text_match": "Web App & API Protection",
+        "css": ".workspace-card:has-text('Web App')"
+      },
       "sections": ["Overview", "Manage"]
     }
   },
@@ -308,7 +427,17 @@ Write complete JSON to:
       "title": "string",
       "workspace": "string",
       "url": "string",
-      "elements": {},
+      "elements": {
+        "element_name": {
+          "ref": "ref_X",
+          "selectors": {
+            "data_testid": "string|null",
+            "aria_label": "string|null",
+            "text_match": "string|null",
+            "css": "string|null"
+          }
+        }
+      },
       "table": {},
       "form": {}
     }

@@ -1,0 +1,132 @@
+{
+  "version": "2.2.0",
+  "tenant": "nferreira.staging.volterra.us",
+  "last_crawled": null,
+  "description": "Complete URL sitemap for F5 XC console deterministic navigation",
+
+  "static_routes": {
+    "/web/home": {
+      "title": "F5 Distributed Cloud Console Home",
+      "description": "Landing page with workspace cards",
+      "page_type": "home"
+    },
+    "/web/workspaces/web-app-and-api-protection": {
+      "title": "Web App & API Protection",
+      "workspace": "waap",
+      "page_type": "workspace"
+    },
+    "/web/workspaces/multi-cloud-network-connect": {
+      "title": "Multi-Cloud Network Connect",
+      "workspace": "mcn",
+      "page_type": "workspace"
+    },
+    "/web/workspaces/multi-cloud-app-connect": {
+      "title": "Multi-Cloud App Connect",
+      "workspace": "mac",
+      "page_type": "workspace"
+    },
+    "/web/workspaces/distributed-apps": {
+      "title": "Distributed Apps",
+      "workspace": "distributed_apps",
+      "page_type": "workspace"
+    },
+    "/web/workspaces/dns-management": {
+      "title": "DNS Management",
+      "workspace": "dns",
+      "page_type": "workspace"
+    },
+    "/web/workspaces/content-delivery-network": {
+      "title": "Content Delivery Network",
+      "workspace": "cdn",
+      "page_type": "workspace"
+    },
+    "/web/workspaces/administration": {
+      "title": "Administration",
+      "workspace": "admin",
+      "page_type": "workspace"
+    }
+  },
+
+  "dynamic_routes": [
+    {
+      "pattern": "/web/workspaces/{workspace}/namespaces/{namespace}/overview/{section}",
+      "description": "Workspace overview sections",
+      "variables": {
+        "workspace": ["web-app-and-api-protection", "multi-cloud-network-connect"],
+        "namespace": "user-defined",
+        "section": ["security", "performance", "summary"]
+      },
+      "example": "/web/workspaces/web-app-and-api-protection/namespaces/default/overview/security"
+    },
+    {
+      "pattern": "/web/workspaces/{workspace}/namespaces/{namespace}/manage/load_balancers/{lb_type}",
+      "description": "Load balancer list pages",
+      "variables": {
+        "workspace": ["web-app-and-api-protection"],
+        "namespace": "user-defined",
+        "lb_type": ["http_loadbalancers", "tcp_loadbalancers", "dns_loadbalancers"]
+      },
+      "example": "/web/workspaces/web-app-and-api-protection/namespaces/default/manage/load_balancers/http_loadbalancers"
+    },
+    {
+      "pattern": "/web/workspaces/{workspace}/namespaces/{namespace}/manage/{resource_type}",
+      "description": "Resource management pages",
+      "variables": {
+        "workspace": ["web-app-and-api-protection", "multi-cloud-network-connect"],
+        "namespace": "user-defined",
+        "resource_type": [
+          "origin_pools",
+          "app_firewall",
+          "service_policies",
+          "rate_limiter_policies",
+          "api_security",
+          "bot_defense",
+          "certificate_management",
+          "public_ip_addresses"
+        ]
+      },
+      "example": "/web/workspaces/web-app-and-api-protection/namespaces/default/manage/origin_pools"
+    },
+    {
+      "pattern": "/web/workspaces/{workspace}/namespaces/{namespace}/manage/{resource_type}/{action}",
+      "description": "Resource create/edit forms",
+      "variables": {
+        "action": ["create", "edit"]
+      },
+      "example": "/web/workspaces/web-app-and-api-protection/namespaces/default/manage/http_loadbalancers/create"
+    },
+    {
+      "pattern": "/web/workspaces/{workspace}/namespaces/{namespace}/manage/{resource_type}/{resource_id}",
+      "description": "Resource detail pages",
+      "variables": {
+        "resource_id": "resource-specific-name"
+      },
+      "example": "/web/workspaces/web-app-and-api-protection/namespaces/default/manage/http_loadbalancers/my-lb"
+    }
+  ],
+
+  "workspace_mapping": {
+    "waap": "/web/workspaces/web-app-and-api-protection",
+    "mcn": "/web/workspaces/multi-cloud-network-connect",
+    "mac": "/web/workspaces/multi-cloud-app-connect",
+    "dns": "/web/workspaces/dns-management",
+    "cdn": "/web/workspaces/content-delivery-network",
+    "admin": "/web/workspaces/administration",
+    "home": "/web/home"
+  },
+
+  "resource_shortcuts": {
+    "http-lb": "/web/workspaces/web-app-and-api-protection/namespaces/{namespace}/manage/load_balancers/http_loadbalancers",
+    "tcp-lb": "/web/workspaces/web-app-and-api-protection/namespaces/{namespace}/manage/load_balancers/tcp_loadbalancers",
+    "origin-pools": "/web/workspaces/web-app-and-api-protection/namespaces/{namespace}/manage/origin_pools",
+    "waf": "/web/workspaces/web-app-and-api-protection/namespaces/{namespace}/manage/app_firewall"
+  },
+
+  "crawl_coverage": {
+    "static_routes_discovered": 8,
+    "dynamic_patterns_defined": 5,
+    "workspaces_mapped": 7,
+    "needs_crawl": true,
+    "note": "Run /xc:console crawl to populate complete sitemap"
+  }
+}

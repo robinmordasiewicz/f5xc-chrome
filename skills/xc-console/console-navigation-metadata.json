@@ -1,49 +1,290 @@
 {
-  "version": "2.1.0",
+  "version": "2.2.0",
   "tenant": "nferreira.staging.volterra.us",
   "last_crawled": "2025-12-24T21:35:00Z",
+
   "deterministic_navigation": {
     "enabled": true,
-    "description": "Element refs extracted for deterministic browser automation - no guessing required",
-    "note": "Refs may change between sessions; use as primary navigation with find() as fallback"
+    "description": "Element refs and stable selectors for deterministic browser automation",
+    "note": "Refs are session-specific; stable selectors (data-testid, aria-label) work across sessions"
   },
+
+  "selector_priority": [
+    "data_testid",
+    "aria_label",
+    "text_match",
+    "css",
+    "ref"
+  ],
+
   "authentication": {
-    "method": "azure_sso",
+    "method": "multi_provider",
+    "supported": ["azure_sso", "google_sso", "okta_sso", "saml", "native"],
     "login_url": "https://nferreira.staging.volterra.us",
-    "sso_provider": "Microsoft Azure",
-    "auto_authorized": true
+    "auto_authorized": true,
+    "see_also": "./authentication-flows.md"
   },
 
   "home_page": {
     "url": "/web/home",
     "elements": {
-      "search": { "ref": "ref_2", "type": "textbox" },
-      "support": { "ref": "ref_4" },
-      "view_catalog": { "ref": "ref_6" }
+      "search": {
+        "ref": "ref_2",
+        "type": "textbox",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": "Search",
+          "text_match": null,
+          "css": "input[type='search'], input[placeholder*='Search']"
+        }
+      },
+      "support": {
+        "ref": "ref_4",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": "Support",
+          "text_match": "Support",
+          "css": null
+        }
+      },
+      "view_catalog": {
+        "ref": "ref_6",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "View Catalog",
+          "css": null
+        }
+      }
     },
     "workspace_cards": {
-      "web_app_api_protection": { "ref": "ref_7", "name": "Web App & API Protection" },
-      "multi_cloud_network_connect": { "ref": "ref_8", "name": "Multi-Cloud Network Connect" },
-      "multi_cloud_app_connect": { "ref": "ref_9", "name": "Multi-Cloud App Connect" },
-      "distributed_apps": { "ref": "ref_10", "name": "Distributed Apps" },
-      "dns_management": { "ref": "ref_11", "name": "DNS Management" },
-      "bot_defense": { "ref": "ref_12", "name": "Bot Defense" },
-      "data_intelligence": { "ref": "ref_13", "name": "Data Intelligence" },
-      "client_side_defense": { "ref": "ref_14", "name": "Client-Side Defense" },
-      "web_app_scanning": { "ref": "ref_15", "name": "Web App Scanning" },
-      "nginx_one": { "ref": "ref_16", "name": "NGINX One" },
-      "bigip_utilities": { "ref": "ref_17", "name": "BIG-IP Utilities" },
-      "content_delivery_network": { "ref": "ref_18", "name": "Content Delivery Network" },
-      "routed_ddos": { "ref": "ref_73", "name": "Routed DDoS" },
-      "observability": { "ref": "ref_76", "name": "Observability" },
-      "account_protection": { "ref": "ref_79", "name": "Account Protection" },
-      "authentication_intelligence": { "ref": "ref_82", "name": "Authentication Intelligence" },
-      "application_traffic_insight": { "ref": "ref_85", "name": "Application Traffic Insight" },
-      "delegated_access": { "ref": "ref_88", "name": "Delegated Access" },
-      "shared_configuration": { "ref": "ref_91", "name": "Shared Configuration" },
-      "audit_logs_alerts": { "ref": "ref_94", "name": "Audit Logs & Alerts" },
-      "billing": { "ref": "ref_97", "name": "Billing" },
-      "administration": { "ref": "ref_100", "name": "Administration" }
+      "web_app_api_protection": {
+        "ref": "ref_7",
+        "name": "Web App & API Protection",
+        "url": "/web/workspaces/web-app-and-api-protection",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "Web App & API Protection",
+          "css": ".workspace-card:has-text('Web App & API Protection')"
+        }
+      },
+      "multi_cloud_network_connect": {
+        "ref": "ref_8",
+        "name": "Multi-Cloud Network Connect",
+        "url": "/web/workspaces/multi-cloud-network-connect",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "Multi-Cloud Network Connect",
+          "css": null
+        }
+      },
+      "multi_cloud_app_connect": {
+        "ref": "ref_9",
+        "name": "Multi-Cloud App Connect",
+        "url": "/web/workspaces/multi-cloud-app-connect",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "Multi-Cloud App Connect",
+          "css": null
+        }
+      },
+      "distributed_apps": {
+        "ref": "ref_10",
+        "name": "Distributed Apps",
+        "url": "/web/workspaces/distributed-apps",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "Distributed Apps",
+          "css": null
+        }
+      },
+      "dns_management": {
+        "ref": "ref_11",
+        "name": "DNS Management",
+        "url": "/web/workspaces/dns-management",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "DNS Management",
+          "css": null
+        }
+      },
+      "bot_defense": {
+        "ref": "ref_12",
+        "name": "Bot Defense",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "Bot Defense",
+          "css": null
+        }
+      },
+      "data_intelligence": {
+        "ref": "ref_13",
+        "name": "Data Intelligence",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "Data Intelligence",
+          "css": null
+        }
+      },
+      "client_side_defense": {
+        "ref": "ref_14",
+        "name": "Client-Side Defense",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "Client-Side Defense",
+          "css": null
+        }
+      },
+      "web_app_scanning": {
+        "ref": "ref_15",
+        "name": "Web App Scanning",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "Web App Scanning",
+          "css": null
+        }
+      },
+      "nginx_one": {
+        "ref": "ref_16",
+        "name": "NGINX One",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "NGINX One",
+          "css": null
+        }
+      },
+      "bigip_utilities": {
+        "ref": "ref_17",
+        "name": "BIG-IP Utilities",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "BIG-IP Utilities",
+          "css": null
+        }
+      },
+      "content_delivery_network": {
+        "ref": "ref_18",
+        "name": "Content Delivery Network",
+        "url": "/web/workspaces/content-delivery-network",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "Content Delivery Network",
+          "css": null
+        }
+      },
+      "routed_ddos": {
+        "ref": "ref_73",
+        "name": "Routed DDoS",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "Routed DDoS",
+          "css": null
+        }
+      },
+      "observability": {
+        "ref": "ref_76",
+        "name": "Observability",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "Observability",
+          "css": null
+        }
+      },
+      "account_protection": {
+        "ref": "ref_79",
+        "name": "Account Protection",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "Account Protection",
+          "css": null
+        }
+      },
+      "authentication_intelligence": {
+        "ref": "ref_82",
+        "name": "Authentication Intelligence",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "Authentication Intelligence",
+          "css": null
+        }
+      },
+      "application_traffic_insight": {
+        "ref": "ref_85",
+        "name": "Application Traffic Insight",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "Application Traffic Insight",
+          "css": null
+        }
+      },
+      "delegated_access": {
+        "ref": "ref_88",
+        "name": "Delegated Access",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "Delegated Access",
+          "css": null
+        }
+      },
+      "shared_configuration": {
+        "ref": "ref_91",
+        "name": "Shared Configuration",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "Shared Configuration",
+          "css": null
+        }
+      },
+      "audit_logs_alerts": {
+        "ref": "ref_94",
+        "name": "Audit Logs & Alerts",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "Audit Logs & Alerts",
+          "css": null
+        }
+      },
+      "billing": {
+        "ref": "ref_97",
+        "name": "Billing",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "Billing",
+          "css": null
+        }
+      },
+      "administration": {
+        "ref": "ref_100",
+        "name": "Administration",
+        "url": "/web/workspaces/administration",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "Administration",
+          "css": null
+        }
+      }
     }
   },
 
@@ -52,89 +293,373 @@
     "sidebar": {
       "overview": {
         "ref": "ref_445",
-        "security": { "ref": "ref_448", "url": "/web/workspaces/web-app-and-api-protection/namespaces/default/overview/security" },
-        "performance": { "ref": "ref_450", "url": "/web/workspaces/web-app-and-api-protection/namespaces/default/overview/performance" }
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "Overview",
+          "css": null
+        },
+        "security": {
+          "ref": "ref_448",
+          "url": "/web/workspaces/web-app-and-api-protection/namespaces/default/overview/security",
+          "selectors": {
+            "data_testid": null,
+            "aria_label": null,
+            "text_match": "Security",
+            "css": null
+          }
+        },
+        "performance": {
+          "ref": "ref_450",
+          "url": "/web/workspaces/web-app-and-api-protection/namespaces/default/overview/performance",
+          "selectors": {
+            "data_testid": null,
+            "aria_label": null,
+            "text_match": "Performance",
+            "css": null
+          }
+        }
       },
       "manage": {
         "ref": "ref_453",
-        "load_balancers": { "ref": "ref_456" },
-        "cdn": { "ref": "ref_458" },
-        "bigip_virtual_servers": { "ref": "ref_460" },
-        "third_party_applications": { "ref": "ref_462" },
-        "app_firewall": { "ref": "ref_465" },
-        "service_policies": { "ref": "ref_467" },
-        "rate_limiter_policies": { "ref": "ref_469" },
-        "shared_objects": { "ref": "ref_471" },
-        "ai_ml": { "ref": "ref_473" },
-        "public_ip_addresses": { "ref": "ref_475" },
-        "alerts_management": { "ref": "ref_477" },
-        "files": { "ref": "ref_479" },
-        "api_security": { "ref": "ref_481" },
-        "reports": { "ref": "ref_483" },
-        "certificate_management": { "ref": "ref_485" },
-        "bot_defense_management": { "ref": "ref_487" },
-        "saved_filters": { "ref": "ref_490" }
+        "selectors": {
+          "data_testid": null,
+          "aria_label": null,
+          "text_match": "Manage",
+          "css": null
+        },
+        "load_balancers": {
+          "ref": "ref_456",
+          "selectors": {
+            "data_testid": null,
+            "aria_label": null,
+            "text_match": "Load Balancers",
+            "css": null
+          }
+        },
+        "cdn": {
+          "ref": "ref_458",
+          "selectors": { "text_match": "CDN" }
+        },
+        "bigip_virtual_servers": {
+          "ref": "ref_460",
+          "selectors": { "text_match": "BIG-IP Virtual Servers" }
+        },
+        "third_party_applications": {
+          "ref": "ref_462",
+          "selectors": { "text_match": "Third Party Applications" }
+        },
+        "app_firewall": {
+          "ref": "ref_465",
+          "selectors": { "text_match": "App Firewall" }
+        },
+        "service_policies": {
+          "ref": "ref_467",
+          "selectors": { "text_match": "Service Policies" }
+        },
+        "rate_limiter_policies": {
+          "ref": "ref_469",
+          "selectors": { "text_match": "Rate Limiter Policies" }
+        },
+        "shared_objects": {
+          "ref": "ref_471",
+          "selectors": { "text_match": "Shared Objects" }
+        },
+        "ai_ml": {
+          "ref": "ref_473",
+          "selectors": { "text_match": "AI/ML" }
+        },
+        "public_ip_addresses": {
+          "ref": "ref_475",
+          "selectors": { "text_match": "Public IP Addresses" }
+        },
+        "alerts_management": {
+          "ref": "ref_477",
+          "selectors": { "text_match": "Alerts Management" }
+        },
+        "files": {
+          "ref": "ref_479",
+          "selectors": { "text_match": "Files" }
+        },
+        "api_security": {
+          "ref": "ref_481",
+          "selectors": { "text_match": "API Security" }
+        },
+        "reports": {
+          "ref": "ref_483",
+          "selectors": { "text_match": "Reports" }
+        },
+        "certificate_management": {
+          "ref": "ref_485",
+          "selectors": { "text_match": "Certificate Management" }
+        },
+        "bot_defense_management": {
+          "ref": "ref_487",
+          "selectors": { "text_match": "Bot Defense Management" }
+        },
+        "saved_filters": {
+          "ref": "ref_490",
+          "selectors": { "text_match": "Saved Filters" }
+        }
       },
-      "notifications": { "ref": "ref_493" },
-      "workspace_info": { "ref": "ref_498" }
+      "notifications": {
+        "ref": "ref_493",
+        "selectors": { "text_match": "Notifications" }
+      },
+      "workspace_info": {
+        "ref": "ref_498",
+        "selectors": { "text_match": "Workspace Info" }
+      }
     }
   },
 
   "http_load_balancer_list": {
     "url": "/web/workspaces/web-app-and-api-protection/namespaces/default/manage/load_balancers/http_loadbalancers",
-    "add_button": { "ref": "ref_545", "text": "Add HTTP Load Balancer" },
-    "tech_docs_link": { "ref": "ref_541" }
+    "add_button": {
+      "ref": "ref_545",
+      "text": "Add HTTP Load Balancer",
+      "selectors": {
+        "data_testid": null,
+        "aria_label": "Add HTTP Load Balancer",
+        "text_match": "Add HTTP Load Balancer",
+        "css": "button:has-text('Add HTTP Load Balancer')"
+      }
+    },
+    "tech_docs_link": {
+      "ref": "ref_541",
+      "selectors": { "text_match": "Tech Docs" }
+    }
   },
 
   "http_load_balancer_form": {
-    "dialog": { "ref": "ref_555" },
-    "tabs": {
-      "form": { "ref": "ref_558" },
-      "documentation": { "ref": "ref_560" },
-      "json": { "ref": "ref_562" }
+    "url": "/web/workspaces/web-app-and-api-protection/namespaces/{namespace}/manage/load_balancers/http_loadbalancers/create",
+    "dialog": {
+      "ref": "ref_555",
+      "selectors": {
+        "data_testid": null,
+        "aria_label": null,
+        "css": "[role='dialog']"
+      }
     },
-    "search": { "ref": "ref_565" },
+    "tabs": {
+      "form": {
+        "ref": "ref_558",
+        "selectors": { "text_match": "Form" }
+      },
+      "documentation": {
+        "ref": "ref_560",
+        "selectors": { "text_match": "Documentation" }
+      },
+      "json": {
+        "ref": "ref_562",
+        "selectors": { "text_match": "JSON" }
+      }
+    },
+    "search": {
+      "ref": "ref_565",
+      "selectors": {
+        "data_testid": null,
+        "aria_label": "Search",
+        "css": "input[type='search']"
+      }
+    },
     "section_tabs": {
-      "metadata": { "ref": "ref_569" },
-      "domains_and_lb_type": { "ref": "ref_570" },
-      "origins": { "ref": "ref_571" },
-      "routes": { "ref": "ref_572" },
-      "web_application_firewall": { "ref": "ref_573" },
-      "bot_protection": { "ref": "ref_574" },
-      "api_protection": { "ref": "ref_575" },
-      "malware_protection": { "ref": "ref_576" },
-      "dos_settings": { "ref": "ref_577" },
-      "client_side_defense": { "ref": "ref_578" },
-      "common_security_controls": { "ref": "ref_579" },
-      "other_settings": { "ref": "ref_580" }
+      "metadata": {
+        "ref": "ref_569",
+        "selectors": { "text_match": "Metadata" }
+      },
+      "domains_and_lb_type": {
+        "ref": "ref_570",
+        "selectors": { "text_match": "Domains and LB Type" }
+      },
+      "origins": {
+        "ref": "ref_571",
+        "selectors": { "text_match": "Origins" }
+      },
+      "routes": {
+        "ref": "ref_572",
+        "selectors": { "text_match": "Routes" }
+      },
+      "web_application_firewall": {
+        "ref": "ref_573",
+        "selectors": { "text_match": "Web Application Firewall" }
+      },
+      "bot_protection": {
+        "ref": "ref_574",
+        "selectors": { "text_match": "Bot Protection" }
+      },
+      "api_protection": {
+        "ref": "ref_575",
+        "selectors": { "text_match": "API Protection" }
+      },
+      "malware_protection": {
+        "ref": "ref_576",
+        "selectors": { "text_match": "Malware Protection" }
+      },
+      "dos_settings": {
+        "ref": "ref_577",
+        "selectors": { "text_match": "DoS Settings" }
+      },
+      "client_side_defense": {
+        "ref": "ref_578",
+        "selectors": { "text_match": "Client-Side Defense" }
+      },
+      "common_security_controls": {
+        "ref": "ref_579",
+        "selectors": { "text_match": "Common Security Controls" }
+      },
+      "other_settings": {
+        "ref": "ref_580",
+        "selectors": { "text_match": "Other Settings" }
+      }
     },
     "fields": {
-      "name": { "ref": "ref_585", "type": "textbox", "required": true },
-      "add_label": { "ref": "ref_589" },
-      "description": { "ref": "ref_593", "type": "textbox" },
-      "domains_input": { "ref": "ref_616", "type": "textbox" },
-      "add_domain": { "ref": "ref_619" },
-      "load_balancer_type": { "ref": "ref_624", "type": "listbox" },
-      "http_redirect_to_https": { "ref": "ref_626", "type": "checkbox" },
-      "add_hsts_header": { "ref": "ref_630", "type": "checkbox" },
-      "https_listen_port": { "ref": "ref_640", "type": "spinbutton" },
-      "tls_security_level": { "ref": "ref_645", "type": "listbox" },
-      "mtls": { "ref": "ref_649", "type": "listbox" },
-      "add_origin_pool": { "ref": "ref_683" },
-      "waf": { "ref": "ref_695", "type": "listbox" },
-      "bot_defense": { "ref": "ref_723", "type": "listbox" },
-      "api_definition": { "ref": "ref_729", "type": "listbox" },
-      "api_discovery": { "ref": "ref_739", "type": "listbox" },
-      "mitigation_action": { "ref": "ref_764", "type": "listbox" },
-      "service_policies": { "ref": "ref_799", "type": "listbox" },
-      "ip_reputation": { "ref": "ref_803", "type": "listbox" },
-      "rate_limiting": { "ref": "ref_823", "type": "listbox" },
-      "vip_advertisement": { "ref": "ref_837", "type": "listbox" },
-      "load_balancing_algorithm": { "ref": "ref_841", "type": "listbox" }
+      "name": {
+        "ref": "ref_585",
+        "type": "textbox",
+        "required": true,
+        "selectors": {
+          "data_testid": null,
+          "aria_label": "Name",
+          "css": "input[name='metadata.name']"
+        }
+      },
+      "add_label": {
+        "ref": "ref_589",
+        "selectors": { "text_match": "Add Label" }
+      },
+      "description": {
+        "ref": "ref_593",
+        "type": "textbox",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": "Description",
+          "css": "textarea[name='description']"
+        }
+      },
+      "domains_input": {
+        "ref": "ref_616",
+        "type": "textbox",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": "Domains",
+          "css": null
+        }
+      },
+      "add_domain": {
+        "ref": "ref_619",
+        "selectors": { "text_match": "Add Domain" }
+      },
+      "load_balancer_type": {
+        "ref": "ref_624",
+        "type": "listbox",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": "Load Balancer Type",
+          "css": null
+        }
+      },
+      "http_redirect_to_https": {
+        "ref": "ref_626",
+        "type": "checkbox",
+        "selectors": { "text_match": "HTTP Redirect to HTTPS" }
+      },
+      "add_hsts_header": {
+        "ref": "ref_630",
+        "type": "checkbox",
+        "selectors": { "text_match": "Add HSTS Header" }
+      },
+      "https_listen_port": {
+        "ref": "ref_640",
+        "type": "spinbutton",
+        "selectors": { "aria_label": "HTTPS Listen Port" }
+      },
+      "tls_security_level": {
+        "ref": "ref_645",
+        "type": "listbox",
+        "selectors": { "aria_label": "TLS Security Level" }
+      },
+      "mtls": {
+        "ref": "ref_649",
+        "type": "listbox",
+        "selectors": { "aria_label": "mTLS" }
+      },
+      "add_origin_pool": {
+        "ref": "ref_683",
+        "selectors": { "text_match": "Add Origin Pool" }
+      },
+      "waf": {
+        "ref": "ref_695",
+        "type": "listbox",
+        "selectors": { "aria_label": "Web Application Firewall" }
+      },
+      "bot_defense": {
+        "ref": "ref_723",
+        "type": "listbox",
+        "selectors": { "aria_label": "Bot Defense" }
+      },
+      "api_definition": {
+        "ref": "ref_729",
+        "type": "listbox",
+        "selectors": { "aria_label": "API Definition" }
+      },
+      "api_discovery": {
+        "ref": "ref_739",
+        "type": "listbox",
+        "selectors": { "aria_label": "API Discovery" }
+      },
+      "mitigation_action": {
+        "ref": "ref_764",
+        "type": "listbox",
+        "selectors": { "aria_label": "Mitigation Action" }
+      },
+      "service_policies": {
+        "ref": "ref_799",
+        "type": "listbox",
+        "selectors": { "aria_label": "Service Policies" }
+      },
+      "ip_reputation": {
+        "ref": "ref_803",
+        "type": "listbox",
+        "selectors": { "aria_label": "IP Reputation" }
+      },
+      "rate_limiting": {
+        "ref": "ref_823",
+        "type": "listbox",
+        "selectors": { "aria_label": "Rate Limiting" }
+      },
+      "vip_advertisement": {
+        "ref": "ref_837",
+        "type": "listbox",
+        "selectors": { "aria_label": "VIP Advertisement" }
+      },
+      "load_balancing_algorithm": {
+        "ref": "ref_841",
+        "type": "listbox",
+        "selectors": { "aria_label": "Load Balancing Algorithm" }
+      }
     },
     "actions": {
-      "cancel": { "ref": "ref_855", "text": "Cancel All" },
-      "submit": { "ref": "ref_858", "text": "Add HTTP Load Balancer" }
+      "cancel": {
+        "ref": "ref_855",
+        "text": "Cancel All",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": "Cancel",
+          "text_match": "Cancel All",
+          "css": "button:has-text('Cancel')"
+        }
+      },
+      "submit": {
+        "ref": "ref_858",
+        "text": "Add HTTP Load Balancer",
+        "selectors": {
+          "data_testid": null,
+          "aria_label": "Submit",
+          "text_match": "Add HTTP Load Balancer",
+          "css": "button[type='submit']:has-text('Add HTTP Load Balancer')"
+        }
+      }
     }
   },
 
@@ -144,6 +669,9 @@
     "total_refs": 150,
     "workspaces_discovered": 22,
     "sidebar_items": 18,
-    "form_fields": 25
+    "form_fields": 25,
+    "elements_with_stable_selectors": 0,
+    "selector_coverage_percentage": 0,
+    "needs_crawl_for_selectors": true
   }
 }

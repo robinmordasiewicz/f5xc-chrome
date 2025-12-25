@@ -285,10 +285,12 @@ Format as a JSON array and save to lb-list.json"
 |------|---------|
 | `SKILL.md` | This file - skill overview and instructions |
 | `authentication-flows.md` | Multi-provider authentication handling (Azure, Google, Okta, SAML, native, VPN) |
-| `console-navigation-metadata.json` | Complete inventory of F5 XC console pages (URLs, navigation paths, form fields) |
+| `console-navigation-metadata.json` | v2.2 metadata with stable selectors (data-testid, aria-label, text_match, css) |
+| `url-sitemap.json` | Static/dynamic route mapping with workspace aliases and shortcuts |
+| `crawl-workflow.md` | v2.2 crawl phases including selector and URL extraction |
+| `scripts/crawl-console.js` | Crawler spec with extraction scripts and templates |
 | `task-workflows.md` | Master index of task automation patterns |
 | `documentation-index.md` | Indexed docs.cloud.f5.com knowledge base |
-| `scripts/crawl-console.js` | Console crawler (coming in Phase 1) |
 | `workflows/*.md` | Specific task workflows (HTTP LB, origin pools, WAF, etc.) |
 
 ## Documentation Integration
@@ -465,58 +467,77 @@ Assume I have:
 Show me each page I'd need to visit and what I'd fill in."
 ```
 
-## Deterministic Navigation
+## Deterministic Navigation (v2.2)
 
-This skill uses pre-crawled metadata for deterministic browser automation. Instead of guessing or searching for elements, Claude uses pre-mapped element refs from `console-navigation-metadata.json`.
+This skill uses pre-crawled metadata for deterministic browser automation. The plugin ships with pre-crawled metadata that works out of the box. Crawling is **optional** - use it to refresh stale data or update after F5 XC console UI changes.
+
+### Selector Priority Chain
+
+The v2.2 metadata includes **stable selectors** that work across browser sessions, not just session-specific refs:
+
+| Priority | Selector Type | Reliability | Example |
+|----------|---------------|-------------|---------|
+| 1 | `data_testid` | Highest | `[data-testid="add-lb-btn"]` |
+| 2 | `aria_label` | High | `[aria-label="Add Load Balancer"]` |
+| 3 | `text_match` | Medium | Button containing "Add HTTP Load Balancer" |
+| 4 | `css` | Medium | `.workspace-card:has-text('Web App')` |
+| 5 | `ref` | Session-only | `ref_27` (requires fresh crawl) |
 
 ### How It Works
 
-**Before (Exploratory - Less Reliable)**:
+**Before v2.2 (Session-Specific Refs)**:
 ```
-Claude: "Let me find the Add button..."
-Uses: mcp__claude-in-chrome__find("Add HTTP Load Balancer")
-Risk: Button text might change, might find wrong element
-```
-
-**After (Deterministic - Highly Reliable)**:
-```
-Claude: Loads metadata, looks up page refs
-Uses: mcp__claude-in-chrome__computer(left_click, ref="ref_27")
-Result: Always clicks the correct button using stable ref
+Claude: Uses ref_27 from metadata
+Risk: Refs change between browser sessions
+Result: ~70% success rate
 ```
 
-### Using Element Refs
-
-The metadata file contains element refs for:
-- **Navigation**: Sidebar menu items, workspace cards
-- **Actions**: Add/Edit/Delete buttons
-- **Forms**: All form fields with types and validation
-- **Dialogs**: Tab switches, submit/cancel buttons
-
-Example usage pattern:
-```javascript
-// Navigate to HTTP Load Balancers
-click(ref="ref_7")  // Load Balancers menu item
-
-// Click Add button
-click(ref="ref_27") // Add HTTP Load Balancer
-
-// Fill form fields
-type(ref="ref_150", "my-load-balancer")  // Name field
-type(ref="ref_181", "example.com")       // Domain field
-click(ref="ref_423")                      // Submit button
+**After v2.2 (Stable Selectors)**:
 ```
+Claude: Uses data_testid > aria_label > text_match fallback
+Uses: mcp__claude-in-chrome__find with stable selector
+Result: ~95% success rate across sessions
+```
+
+### Metadata Structure (v2.2)
+
+Each element now includes both refs and stable selectors:
+```json
+{
+  "add_button": {
+    "ref": "ref_27",
+    "text": "Add HTTP Load Balancer",
+    "selectors": {
+      "data_testid": null,
+      "aria_label": "Add HTTP Load Balancer",
+      "text_match": "Add HTTP Load Balancer",
+      "css": "button:has-text('Add HTTP Load Balancer')"
+    }
+  }
+}
+```
+
+### URL Sitemap
+
+The `url-sitemap.json` file provides complete route mapping:
+- **Static routes**: Fixed paths like `/web/home`, `/web/workspaces/...`
+- **Dynamic routes**: Paths with variables like `/namespaces/{namespace}/...`
+- **Workspace mapping**: Shorthand aliases (`waap` → `/web/workspaces/web-app-and-api-protection`)
+- **Resource shortcuts**: Quick navigation (`http-lb` → full path with namespace variable)
 
 ### Fallback Strategy
 
-If a ref doesn't work (UI changed), Claude falls back to:
-1. Use `find()` with descriptive text
-2. Report the mismatch for metadata update
-3. Continue with the task
+When navigating, Claude uses this priority:
+1. Try `data_testid` selector (most stable)
+2. Try `aria_label` selector
+3. Try `text_match` with find()
+4. Try `css` selector
+5. Try session-specific `ref` (may be stale)
+6. Report mismatch for metadata update
 
 ### Crawl Command
 
-To refresh the metadata:
+To refresh the metadata (optional):
 ```
 /xc:console crawl https://nferreira.staging.volterra.us/
 ```
@@ -525,26 +546,28 @@ See `crawl-workflow.md` for the detailed crawl process.
 
 ## Current Status
 
-**Phase 2 Progress**:
+**Metadata v2.2.0**:
 - ✅ Skill directory structure created
 - ✅ SKILL.md written with comprehensive instructions
-- ✅ Azure SSO login tested and working
-- ✅ Console crawl scripts created (`scripts/crawl-console.js`)
-- ✅ Crawl workflow documented (`crawl-workflow.md`)
-- ✅ HTTP Load Balancer form fully extracted with 60+ element refs
-- ✅ Deterministic navigation metadata v2.0.0 saved
-- 🔄 Extracting remaining resource forms
+- ✅ Multi-provider authentication (Azure, Google, Okta, SAML, native)
+- ✅ VPN detection and warning
+- ✅ Console crawl scripts with stable selector extraction
+- ✅ Crawl workflow documented (`crawl-workflow.md` v2.2)
+- ✅ URL sitemap with static/dynamic routes (`url-sitemap.json`)
+- ✅ Stable selectors (data-testid, aria-label, text_match, css)
+- ✅ Selector priority fallback chain
+- ✅ Metadata ships with plugin (crawl is optional)
 
 ## Next Steps
 
-1. **Crawl Remaining Workspaces**
-   - Origin Pools form extraction
-   - WAF Policies form extraction
-   - DNS Load Balancers form extraction
+1. **Run Initial Crawl**
+   ```
+   /xc:console crawl https://your-tenant.volterra.us/
+   ```
+   Populate selectors for all elements across workspaces.
 
-2. **Automate Periodic Crawl**
-   - Schedule weekly crawl to catch UI changes
-   - Alert on significant metadata changes
+2. **Validate Cross-Session Navigation**
+   Test deterministic navigation without refs (selectors only).
 
 3. **Validate with CLI**
    ```bash

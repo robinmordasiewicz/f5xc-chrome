@@ -146,13 +146,14 @@
 // ============================================================================
 
 const METADATA_TEMPLATE = {
-  version: "2.0.0",
+  version: "2.2.0",
   tenant: "",
   last_crawled: "",
   crawl_duration_seconds: 0,
+  selector_priority: ["data_testid", "aria_label", "text_match", "css", "ref"],
 
   workspaces: {
-    // Populated during crawl
+    // Populated during crawl with selectors
   },
 
   pages: {
@@ -162,27 +163,100 @@ const METADATA_TEMPLATE = {
     //   url: "/web/path",
     //   navigation_path: ["Home", "Workspace", "Section", "Page"],
     //   elements: {
-    //     add_button: { ref: "ref_X", text: "Add Resource", type: "button" },
-    //     // ... other elements
+    //     add_button: {
+    //       ref: "ref_X",
+    //       text: "Add Resource",
+    //       type: "button",
+    //       selectors: { data_testid, aria_label, text_match, css }
+    //     },
     //   },
-    //   table: {
-    //     columns: ["Name", "Status", "..."],
-    //     row_actions: ["Edit", "Delete", "..."]
-    //   },
-    //   form: {
-    //     // Only if "Add" button exists
-    //     sections: ["Basic", "Advanced", "..."],
-    //     fields: [
-    //       { name: "metadata.name", label: "Name", type: "text", required: true, ref: "ref_Y" }
-    //     ],
-    //     submit_button: { ref: "ref_Z", text: "Save and Exit" },
-    //     cancel_button: { ref: "ref_W", text: "Cancel" }
-    //   }
+    //   table: { columns, row_actions },
+    //   form: { sections, fields, submit_button, cancel_button }
     // }
   },
 
   navigation_tree: {
     // Hierarchical structure for quick lookup
+  }
+};
+
+// ============================================================================
+// SELECTOR EXTRACTION SCRIPTS (v2.2)
+// ============================================================================
+
+/**
+ * JavaScript to extract stable selectors from DOM elements.
+ * Execute via mcp__claude-in-chrome__javascript_tool
+ */
+const SELECTOR_EXTRACTION_SCRIPT = `
+const elements = document.querySelectorAll('[data-testid], [aria-label], button, input, select, a');
+const selectors = [];
+
+elements.forEach((el) => {
+  const selector = {
+    tagName: el.tagName.toLowerCase(),
+    data_testid: el.getAttribute('data-testid'),
+    aria_label: el.getAttribute('aria-label'),
+    text_content: el.textContent?.trim().substring(0, 50),
+    id: el.id || null,
+    name: el.getAttribute('name'),
+    role: el.getAttribute('role')
+  };
+
+  if (selector.data_testid || selector.aria_label || selector.id || selector.name) {
+    selectors.push(selector);
+  }
+});
+
+JSON.stringify(selectors, null, 2);
+`;
+
+/**
+ * JavaScript to extract navigation URLs for sitemap.
+ * Execute via mcp__claude-in-chrome__javascript_tool
+ */
+const URL_EXTRACTION_SCRIPT = `
+const links = document.querySelectorAll('nav a[href], .sidebar a[href], [role="navigation"] a[href]');
+const urls = [];
+
+links.forEach(link => {
+  const href = link.getAttribute('href');
+  if (href && href.startsWith('/web/')) {
+    urls.push({
+      url: href,
+      text: link.textContent?.trim(),
+      aria_label: link.getAttribute('aria-label')
+    });
+  }
+});
+
+JSON.stringify(urls, null, 2);
+`;
+
+// ============================================================================
+// URL SITEMAP TEMPLATE (v2.2)
+// ============================================================================
+
+const URL_SITEMAP_TEMPLATE = {
+  version: "2.2.0",
+  tenant: "",
+  last_crawled: null,
+  description: "Complete URL sitemap for F5 XC console deterministic navigation",
+
+  static_routes: {
+    // "/web/home": { title, description, page_type }
+  },
+
+  dynamic_routes: [
+    // { pattern, description, variables, example }
+  ],
+
+  workspace_mapping: {
+    // shorthand: full_path
+  },
+
+  resource_shortcuts: {
+    // alias: template_url
   }
 };
 
@@ -249,9 +323,12 @@ const KNOWN_WORKSPACES = [
 
 // Export for reference (this is documentation, not executable code)
 export const CRAWL_SPEC = {
+  version: "2.2.0",
   phases: [
     "initialization",
     "home_extraction",
+    "selector_extraction",   // NEW: Extract stable selectors (data-testid, aria-label)
+    "url_mapping",           // NEW: Build URL sitemap
     "workspace_crawl",
     "page_crawl",
     "form_extraction"
@@ -261,9 +338,14 @@ export const CRAWL_SPEC = {
     "mcp__claude-in-chrome__navigate",
     "mcp__claude-in-chrome__read_page",
     "mcp__claude-in-chrome__computer",
+    "mcp__claude-in-chrome__javascript_tool",  // NEW: For selector/URL extraction
     "mcp__claude-in-chrome__find"
   ],
-  output_file: "console-navigation-metadata.json"
+  output_files: {
+    metadata: "console-navigation-metadata.json",
+    sitemap: "url-sitemap.json"
+  },
+  selector_priority: ["data_testid", "aria_label", "text_match", "css", "ref"]
 };
 
 console.log("F5 XC Console Crawler Specification");
