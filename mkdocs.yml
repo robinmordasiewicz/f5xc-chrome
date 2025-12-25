@@ -1,0 +1,86 @@
+site_name: F5 XC Chrome Plugin
+site_description: Chrome browser automation for F5 Distributed Cloud console
+site_author: Robin Mordasiewicz
+site_url: https://robinmordasiewicz.github.io/f5xc-chrome/
+
+repo_name: robinmordasiewicz/f5xc-chrome
+repo_url: https://github.com/robinmordasiewicz/f5xc-chrome
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: deep purple
+      accent: amber
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: deep purple
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search
+  - macros:
+      module_name: docs/macros
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/robinmordasiewicz
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+  - admonition
+  - tables
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - Quick Start: getting-started/quickstart.md
+      - Authentication: getting-started/authentication.md
+  - Features:
+      - Navigation: features/navigation.md
+      - Workflows: features/workflows.md
+      - Crawling: features/crawling.md
+  - Reference:
+      - Commands: reference/commands.md
+      - Manifest: reference/manifest.md
+      - API: reference/api.md
+  - Metadata:
+      - Console Metadata: metadata/console.md
+      - URL Sitemap: metadata/sitemap.md
+      - Selectors: metadata/selectors.md
