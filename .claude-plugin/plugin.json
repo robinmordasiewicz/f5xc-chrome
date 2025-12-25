@@ -1,14 +1,102 @@
 {
   "name": "xc",
+  "display_name": "F5 XC Chrome Automation",
   "version": "0.6.0",
+  "tagline": "Automate F5 Distributed Cloud console with browser automation",
   "description": "Chrome browser automation for F5 Distributed Cloud console - navigate, crawl, and automate XC GUI operations",
+  "long_description": "This Claude Code plugin provides comprehensive browser automation for the F5 Distributed Cloud (XC) web console. Using the Claude in Chrome extension, it enables automated navigation, form filling, data extraction, and workflow execution.\n\n## Key Capabilities\n\n- **Multi-Provider Authentication** - Supports Azure SSO, Google, Okta, SAML, and native login with automatic session detection\n- **Deterministic Navigation** - Pre-crawled stable selectors (data-testid, aria-label) for reliable automation across sessions\n- **Form Automation** - Create HTTP/TCP load balancers, origin pools, WAF policies, and more\n- **Console Crawling** - Extract and refresh navigation metadata from live console\n- **23 Pre-built Workflows** - Common F5 XC tasks ready to execute\n\n## Use Cases\n\n- Automate repetitive console tasks\n- Create resources faster than manual clicking\n- Extract configuration data from the console\n- Test console functionality\n- Learn F5 XC console structure",
   "author": {
     "name": "Robin Mordasiewicz",
-    "url": "https://github.com/robinmordasiewicz"
+    "url": "https://github.com/robinmordasiewicz",
+    "email": "robin@mordasiewicz.com"
   },
   "repository": "https://github.com/robinmordasiewicz/f5xc-chrome",
+  "homepage": "https://robinmordasiewicz.github.io/f5xc-chrome/",
   "license": "MIT",
-  "keywords": ["f5", "xc", "distributed-cloud", "chrome", "console", "automation", "browser"],
+  "keywords": ["f5", "xc", "distributed-cloud", "chrome", "console", "automation", "browser", "waap", "load-balancer", "waf"],
+  "categories": ["automation", "browser", "cloud", "security", "devops"],
+  "platforms": ["claude-code", "chrome"],
+  "icon": "https://raw.githubusercontent.com/robinmordasiewicz/f5xc-chrome/main/assets/icon.png",
+  "banner": "https://raw.githubusercontent.com/robinmordasiewicz/f5xc-chrome/main/assets/banner.png",
+  "screenshots": [
+    {
+      "url": "https://raw.githubusercontent.com/robinmordasiewicz/f5xc-chrome/main/assets/screenshots/home.png",
+      "caption": "F5 XC Console Home Page"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/robinmordasiewicz/f5xc-chrome/main/assets/screenshots/waap.png",
+      "caption": "Web App & API Protection Workspace"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/robinmordasiewicz/f5xc-chrome/main/assets/screenshots/http-lb-form.png",
+      "caption": "HTTP Load Balancer Creation Form"
+    }
+  ],
+  "features": [
+    {
+      "title": "Multi-Provider SSO",
+      "description": "Automatic detection and handling of Azure, Google, Okta, SAML, and native authentication",
+      "icon": "lock"
+    },
+    {
+      "title": "Deterministic Navigation",
+      "description": "Pre-crawled stable selectors ensure reliable automation across browser sessions",
+      "icon": "compass"
+    },
+    {
+      "title": "23 Pre-built Workflows",
+      "description": "Ready-to-use workflows for load balancers, WAF policies, origin pools, and more",
+      "icon": "workflow"
+    },
+    {
+      "title": "Console Crawling",
+      "description": "Extract and refresh navigation metadata from live F5 XC console",
+      "icon": "search"
+    },
+    {
+      "title": "Real-time Feedback",
+      "description": "Watch Claude navigate and interact with the console in your browser",
+      "icon": "eye"
+    }
+  ],
+  "prerequisites": [
+    {
+      "name": "Claude in Chrome Extension",
+      "description": "Install from Chrome Web Store",
+      "url": "https://chrome.google.com/webstore",
+      "required": true
+    },
+    {
+      "name": "F5 XC Tenant Access",
+      "description": "Valid credentials for an F5 Distributed Cloud tenant",
+      "required": true
+    }
+  ],
+  "installation": {
+    "steps": [
+      "Install Claude in Chrome extension from Chrome Web Store",
+      "Clone: git clone https://github.com/robinmordasiewicz/f5xc-chrome.git",
+      "Install: claude plugin install ./f5xc-chrome",
+      "Launch: claude --chrome"
+    ],
+    "quick_start": "/xc:console login https://your-tenant.console.ves.volterra.io"
+  },
+  "compatibility": {
+    "min_claude_code_version": "1.0.0",
+    "min_chrome_version": "120",
+    "tested_on": ["macOS", "Windows", "Linux"]
+  },
+  "support": {
+    "issues": "https://github.com/robinmordasiewicz/f5xc-chrome/issues",
+    "discussions": "https://github.com/robinmordasiewicz/f5xc-chrome/discussions"
+  },
+  "maintainers": [
+    {
+      "name": "Robin Mordasiewicz",
+      "github": "robinmordasiewicz",
+      "role": "author"
+    }
+  ],
   "skills": "./skills/",
   "commands": "./commands/"
 }

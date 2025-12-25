@@ -76,6 +76,31 @@ def get_workflows(workflows_dir: Path) -> list:
     return workflows
 
 
+def get_changelog(root_dir: Path, limit: int = 5) -> list:
+    """Extract recent changelog entries."""
+    changelog_path = root_dir / "CHANGELOG.md"
+    if not changelog_path.exists():
+        return []
+
+    content = changelog_path.read_text(encoding="utf-8")
+    entries = []
+    current_entry = None
+
+    for line in content.split("\n"):
+        if line.startswith("## "):
+            if current_entry and len(entries) < limit:
+                entries.append(current_entry)
+            version = line.replace("## ", "").strip()
+            current_entry = {"version": version, "changes": []}
+        elif current_entry and line.startswith("- "):
+            current_entry["changes"].append(line[2:].strip())
+
+    if current_entry and len(entries) < limit:
+        entries.append(current_entry)
+
+    return entries
+
+
 def get_git_info() -> dict:
     """Extract git repository information."""
     import subprocess
@@ -112,31 +137,61 @@ def generate_manifest(root_dir: Path) -> dict:
     skills = get_skills(root_dir / "skills")
     workflows_dir = root_dir / "skills" / "xc-console" / "workflows"
     workflows = get_workflows(workflows_dir)
+    changelog = get_changelog(root_dir)
 
     # Git info
     git_info = get_git_info()
 
     # Build manifest
     manifest = {
-        "$schema": "https://f5xc-chrome.github.io/schema/manifest-v1.json",
+        "$schema": "https://robinmordasiewicz.github.io/f5xc-chrome/schema/manifest-v1.json",
         "manifest_version": "1.0.0",
         "generated_at": datetime.now(timezone.utc).isoformat(),
-        # Plugin identity
+
+        # Plugin identity (enriched)
         "plugin": {
             "name": plugin_json.get("name", "xc"),
+            "display_name": plugin_json.get("display_name", plugin_json.get("name", "xc")),
             "version": plugin_json.get("version", "0.0.0"),
+            "tagline": plugin_json.get("tagline", ""),
             "description": plugin_json.get("description", ""),
+            "long_description": plugin_json.get("long_description", ""),
             "author": plugin_json.get("author", {}),
             "license": plugin_json.get("license", "MIT"),
             "repository": plugin_json.get("repository", ""),
+            "homepage": plugin_json.get("homepage", ""),
             "keywords": plugin_json.get("keywords", []),
+            "categories": plugin_json.get("categories", []),
+            "platforms": plugin_json.get("platforms", []),
         },
+
+        # Marketing/Display
+        "display": {
+            "icon": plugin_json.get("icon", ""),
+            "banner": plugin_json.get("banner", ""),
+            "screenshots": plugin_json.get("screenshots", []),
+            "features": plugin_json.get("features", []),
+        },
+
+        # Installation
+        "installation": plugin_json.get("installation", {}),
+        "prerequisites": plugin_json.get("prerequisites", []),
+        "compatibility": plugin_json.get("compatibility", {}),
+
+        # Support
+        "support": plugin_json.get("support", {}),
+        "maintainers": plugin_json.get("maintainers", []),
+
         # Build info
         "build": {
             "commit": git_info.get("commit"),
             "branch": git_info.get("branch"),
             "tag": git_info.get("tag"),
         },
+
+        # Changelog
+        "changelog": changelog,
+
         # Console metadata summary
         "console_metadata": {
             "version": nav_metadata.get("version", "unknown"),
@@ -158,6 +213,7 @@ def generate_manifest(root_dir: Path) -> dict:
                 ),
             },
         },
+
         # URL sitemap summary
         "url_sitemap": {
             "version": url_sitemap.get("version", "unknown"),
@@ -167,10 +223,13 @@ def generate_manifest(root_dir: Path) -> dict:
             "static_route_count": len(url_sitemap.get("static_routes", {})),
             "dynamic_pattern_count": len(url_sitemap.get("dynamic_routes", [])),
         },
+
         # Available skills
         "skills": skills,
+
         # Available workflows
         "workflows": workflows,
+
         # MCP tools used
         "mcp_tools": [
             "mcp__claude-in-chrome__tabs_context_mcp",
@@ -182,6 +241,7 @@ def generate_manifest(root_dir: Path) -> dict:
             "mcp__claude-in-chrome__get_page_text",
             "mcp__claude-in-chrome__javascript_tool",
         ],
+
         # Commands
         "commands": [
             {
@@ -189,20 +249,22 @@ def generate_manifest(root_dir: Path) -> dict:
                 "alias": "xc:console",
                 "description": "F5 XC console automation",
                 "subcommands": [
-                    "login",
-                    "crawl",
-                    "nav",
-                    "create",
-                    "status",
+                    {"name": "login", "description": "Authenticate to tenant"},
+                    {"name": "crawl", "description": "Refresh navigation metadata"},
+                    {"name": "nav", "description": "Navigate to workspace/page"},
+                    {"name": "create", "description": "Start resource creation"},
+                    {"name": "status", "description": "Show connection status"},
                 ],
             }
         ],
+
         # Documentation URLs
         "documentation": {
-            "plugin_docs": f"https://robinmordasiewicz.github.io/f5xc-chrome/",
+            "plugin_docs": plugin_json.get("homepage", "https://robinmordasiewicz.github.io/f5xc-chrome/"),
             "api_reference": "https://docs.cloud.f5.com/docs/api",
             "f5xc_docs": "https://docs.cloud.f5.com/",
         },
+
         # Related plugins
         "ecosystem": [
             {
@@ -253,6 +315,9 @@ def main():
     with open(docs_data_dir / "plugin.json", "w", encoding="utf-8") as f:
         json.dump(manifest["plugin"], f, indent=2)
 
+    with open(docs_data_dir / "display.json", "w", encoding="utf-8") as f:
+        json.dump(manifest["display"], f, indent=2)
+
     with open(docs_data_dir / "console_metadata.json", "w", encoding="utf-8") as f:
         json.dump(manifest["console_metadata"], f, indent=2)
 
@@ -261,6 +326,13 @@ def main():
 
     with open(docs_data_dir / "workflows.json", "w", encoding="utf-8") as f:
         json.dump(manifest["workflows"], f, indent=2)
+
+    with open(docs_data_dir / "installation.json", "w", encoding="utf-8") as f:
+        json.dump({
+            "installation": manifest["installation"],
+            "prerequisites": manifest["prerequisites"],
+            "compatibility": manifest["compatibility"],
+        }, f, indent=2)
 
     print(f"Generated data files in: {docs_data_dir}")
 
