@@ -285,10 +285,14 @@ Format as a JSON array and save to lb-list.json"
 |------|---------|
 | `SKILL.md` | This file - skill overview and instructions |
 | `authentication-flows.md` | Multi-provider authentication handling (Azure, Google, Okta, SAML, native, VPN) |
-| `console-navigation-metadata.json` | v2.2 metadata with stable selectors (data-testid, aria-label, text_match, css) |
+| `console-navigation-metadata.json` | v2.3 metadata with stable selectors (data-testid, aria-label, text_match, css) |
 | `url-sitemap.json` | Static/dynamic route mapping with workspace aliases and shortcuts |
-| `crawl-workflow.md` | v2.2 crawl phases including selector and URL extraction |
+| `crawl-workflow.md` | v2.3 crawl phases including selector, URL, and state detection |
+| `detection-patterns.json` | Generalized RBAC, subscription, and module detection patterns |
 | `scripts/crawl-console.js` | Crawler spec with extraction scripts and templates |
+| `scripts/detect-permissions.js` | Runtime RBAC permission detection script |
+| `scripts/detect-subscription.js` | Subscription tier and feature detection script |
+| `scripts/detect-modules.js` | Module initialization state detection script |
 | `task-workflows.md` | Master index of task automation patterns |
 | `documentation-index.md` | Indexed docs.cloud.f5.com knowledge base |
 | `workflows/*.md` | Specific task workflows (HTTP LB, origin pools, WAF, etc.) |
@@ -544,19 +548,118 @@ To refresh the metadata (optional):
 
 See `crawl-workflow.md` for the detailed crawl process.
 
+## State Detection Capabilities (v2.3)
+
+This skill includes runtime detection scripts for discovering tenant state:
+
+### RBAC Permission Detection
+
+Detect read-only vs editable permissions at runtime:
+
+```bash
+# Claude automatically detects permission state when navigating
+/xc:console navigate to HTTP Load Balancers in namespace p-ashworth
+
+# Returns permission state:
+# - canEdit: false
+# - canDelete: false
+# - canCreate: false
+# - viewOnly: true
+# - lockedActions: ["Add", "Edit Configuration", "Clone Object", "Delete"]
+```
+
+**Detection Patterns:**
+| Pattern | Indicator | Meaning |
+|---------|-----------|---------|
+| `generic "Locked"` as button child | RBAC lock indicator | Action requires higher permission |
+| `generic "View"` badge in dialog | Read-only mode | Configuration is view-only |
+| Tooltip with "permission denied" | Access denied | User lacks required role |
+
+**Script**: `scripts/detect-permissions.js`
+
+### Subscription Tier Detection
+
+Detect Standard vs Advanced subscription features:
+
+```bash
+# Claude scans workspace cards for subscription badges
+/xc:console check subscription tier
+
+# Returns subscription state:
+# - tier: "standard" | "advanced" | "enterprise"
+# - badges: ["Limited Availability", "New", "Early Access"]
+# - gatedFeatures: ["API Discovery", "Bot Defense Advanced"]
+```
+
+**Badge Types:**
+| Badge | Meaning | Access |
+|-------|---------|--------|
+| `Limited Availability` | Preview release | May require approval |
+| `New` | Recently added | Generally available |
+| `Early Access` | Beta feature | Opt-in required |
+| `Upgrade` | Tier gated | Requires subscription upgrade |
+
+**Script**: `scripts/detect-subscription.js`
+
+### Module Initialization Detection
+
+Detect which workspaces/modules need initialization:
+
+```bash
+# Claude checks workspace About page for service status
+/xc:console check module status for web-app-scanning
+
+# Returns module state:
+# - initialized: true
+# - status: "enabled"
+# - action_available: "Explore"
+```
+
+**Status Indicators:**
+| Text | Button | Status |
+|------|--------|--------|
+| "This service is enabled." | "Visit Service" | Enabled |
+| "This service is not enabled." | "Enable Service" | Needs init |
+| Table status: "● Enabled" | "Explore" | Active |
+| Table status: "Disabled" | "Enable" | Inactive |
+
+**Script**: `scripts/detect-modules.js`
+
+### Detection Patterns File
+
+All detection patterns are documented in `detection-patterns.json`:
+- No PII or tenant-specific data
+- Generalized patterns that work across any F5 XC tenant
+- Machine-readable format for automated detection
+
+### Usage in Workflows
+
+Claude automatically uses state detection when:
+1. Navigating to resource lists (checks RBAC)
+2. Opening forms (checks if Add/Edit buttons are available)
+3. Entering workspaces (checks initialization state)
+4. Scanning home page (checks subscription badges)
+
+This enables **conditional workflow execution** - Claude adapts its automation based on detected permissions and features.
+
 ## Current Status
 
-**Metadata v2.2.0**:
+**Metadata v2.3.0** (State Detection):
 - ✅ Skill directory structure created
 - ✅ SKILL.md written with comprehensive instructions
 - ✅ Multi-provider authentication (Azure, Google, Okta, SAML, native)
 - ✅ VPN detection and warning
 - ✅ Console crawl scripts with stable selector extraction
-- ✅ Crawl workflow documented (`crawl-workflow.md` v2.2)
+- ✅ Crawl workflow documented (`crawl-workflow.md` v2.3)
 - ✅ URL sitemap with static/dynamic routes (`url-sitemap.json`)
 - ✅ Stable selectors (data-testid, aria-label, text_match, css)
 - ✅ Selector priority fallback chain
 - ✅ Metadata ships with plugin (crawl is optional)
+- ✅ **RBAC permission detection** (`scripts/detect-permissions.js`)
+- ✅ **Subscription tier detection** (`scripts/detect-subscription.js`)
+- ✅ **Module initialization detection** (`scripts/detect-modules.js`)
+- ✅ **Detection patterns file** (`detection-patterns.json`)
+- ✅ **Crawl phases 7-10** for state detection workflow
 
 ## Next Steps
 

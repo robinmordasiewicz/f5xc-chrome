@@ -1,0 +1,225 @@
+{
+  "version": "1.0.0",
+  "description": "Generalized detection patterns for F5 XC Console state detection - No PII stored",
+  "last_updated": "2025-12-25",
+
+  "rbac_detection": {
+    "description": "Role-Based Access Control permission patterns",
+
+    "locked_button_pattern": {
+      "description": "Locked indicator as first child of button/tab element",
+      "structure": {
+        "parent": "tab|button",
+        "children": [
+          { "type": "generic", "text": "Locked", "position": "first" },
+          { "type": "generic", "text": "<action_label>", "position": "second" }
+        ]
+      },
+      "detection_logic": "If first child of button/tab is generic with text 'Locked', action is RBAC-restricted"
+    },
+
+    "locked_action_menu_pattern": {
+      "description": "Locked indicator as sibling to action in menu options",
+      "structure": {
+        "parent": "option|listitem",
+        "children": [
+          { "type": "generic", "text": "Locked", "optional": true },
+          { "type": "generic", "text": "<action_name>" }
+        ]
+      },
+      "detection_logic": "If option contains both 'Locked' generic and action generic, action is RBAC-restricted"
+    },
+
+    "view_mode_badge_pattern": {
+      "description": "View badge indicating read-only mode in configuration dialogs",
+      "structure": {
+        "parent": "region",
+        "children": [
+          { "type": "generic", "text": "View", "position": "first" },
+          { "type": "generic", "text": "<object_type>" },
+          { "type": "generic", "text": "<object_name>" }
+        ]
+      },
+      "detection_logic": "If region first child is generic with text 'View', configuration is read-only"
+    },
+
+    "permission_denied_tooltip_pattern": {
+      "description": "Tooltip showing permission denial message",
+      "structure": {
+        "element": "tooltip",
+        "text_patterns": [
+          "You cannot access this feature with your current role",
+          "Contact your Administrator",
+          "permission denied",
+          "not authorized"
+        ]
+      },
+      "detection_logic": "Tooltip containing permission keywords indicates RBAC restriction"
+    },
+
+    "locked_indicators": {
+      "disabled_attributes": ["disabled", "aria-disabled=\"true\""],
+      "css_classes": ["disabled", "locked", "readonly", "ves-disabled"],
+      "tooltip_keywords": ["permission denied", "read-only", "not authorized", "contact administrator"]
+    },
+
+    "permission_matrix_example": {
+      "read_only_namespace": {
+        "available_actions": ["Manage Configuration", "Show Status", "Show Child Objects"],
+        "locked_actions": ["Add", "Clone Object", "Delete", "Edit Configuration"]
+      }
+    }
+  },
+
+  "subscription_detection": {
+    "description": "Subscription tier and feature availability patterns",
+
+    "workspace_card_badges": {
+      "description": "Badge indicators on workspace cards in home page",
+      "badge_types": {
+        "limited_availability": {
+          "text": "Limited Availability",
+          "meaning": "Feature in limited/preview release",
+          "access": "May require subscription upgrade or approval"
+        },
+        "new": {
+          "text": "New",
+          "meaning": "Recently added feature",
+          "access": "Generally available"
+        },
+        "early_access": {
+          "text": "Early Access",
+          "meaning": "Preview/beta feature",
+          "access": "May require opt-in or approval"
+        },
+        "upgrade": {
+          "text": "Upgrade",
+          "meaning": "Feature requires subscription upgrade",
+          "access": "Requires higher tier subscription"
+        }
+      },
+      "structure": {
+        "parent": "link",
+        "pattern": [
+          { "type": "generic", "text": "<badge_text>", "optional": true },
+          { "type": "generic", "text": "filters active", "optional": true },
+          { "type": "generic", "text": "<workspace_name>" },
+          { "type": "generic", "text": "<workspace_description>" }
+        ]
+      },
+      "detection_logic": "Scan link children for badge text patterns before workspace name"
+    },
+
+    "workspace_header_badge": {
+      "description": "Badge shown under workspace title when inside workspace",
+      "structure": {
+        "location": "Under workspace title in sidebar",
+        "element": "generic",
+        "text_patterns": ["Limited Availability", "New", "Early Access"]
+      }
+    },
+
+    "upgrade_prompt_patterns": {
+      "description": "Indicators that feature requires subscription upgrade",
+      "text_patterns": [
+        "Upgrade",
+        "Contact Sales",
+        "Not available in your plan",
+        "Requires Advanced subscription",
+        "Premium feature"
+      ],
+      "element_types": ["button", "link", "generic"]
+    },
+
+    "advanced_features_indicators": {
+      "api_discovery": {
+        "feature": "API Discovery",
+        "advanced_indicator": "Enable API Discovery prompt in HTTP LB form"
+      },
+      "behavioral_bot_mitigation": {
+        "feature": "Behavioral Bot Mitigation",
+        "advanced_indicator": "Bot Defense Advanced options"
+      },
+      "l7_ddos_protection": {
+        "feature": "L7 DDoS Protection",
+        "advanced_indicator": "DDoS Settings with advanced mitigation options"
+      },
+      "client_side_defense": {
+        "feature": "Client-Side Defense",
+        "badge": "Limited Availability"
+      }
+    }
+  },
+
+  "module_initialization": {
+    "description": "Module/workspace initialization state patterns",
+
+    "workspace_about_page": {
+      "description": "Workspace Info > About page shows service status",
+      "url_pattern": "/web/workspaces/{workspace}/workspace-info/about",
+
+      "enabled_indicators": {
+        "status_text": "This service is enabled.",
+        "button_text": "Visit Service",
+        "table_status": "Enabled",
+        "table_action": "Explore"
+      },
+
+      "disabled_indicators": {
+        "status_text": "This service is not enabled.",
+        "button_text": "Enable Service",
+        "table_status": "Disabled",
+        "table_action": "Enable"
+      }
+    },
+
+    "service_status_table": {
+      "description": "Workspace Services table showing module status",
+      "columns": ["Name", "Description", "Tech Docs", "Status", "Action"],
+      "status_values": {
+        "enabled": {
+          "indicator": "green dot",
+          "text": "Enabled",
+          "action_button": "Explore"
+        },
+        "disabled": {
+          "indicator": "gray dot or none",
+          "text": "Disabled",
+          "action_button": "Enable"
+        }
+      }
+    },
+
+    "initialization_required_patterns": {
+      "description": "Patterns indicating module needs initialization",
+      "text_patterns": [
+        "Enable Service",
+        "Initialize",
+        "Get Started",
+        "Set Up",
+        "Not configured",
+        "This service is not enabled"
+      ],
+      "empty_state_patterns": [
+        "No data available",
+        "Get started by",
+        "Enable this service to"
+      ]
+    },
+
+    "modules_to_check": [
+      "client-side-defense",
+      "web-app-scanning",
+      "bot-defense",
+      "data-intelligence",
+      "account-protection",
+      "authentication-intelligence"
+    ]
+  },
+
+  "detection_scripts": {
+    "permissions": "scripts/detect-permissions.js",
+    "subscription": "scripts/detect-subscription.js",
+    "modules": "scripts/detect-modules.js"
+  }
+}

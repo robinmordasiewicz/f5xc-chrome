@@ -480,6 +480,221 @@ Write complete JSON to:
 
 ---
 
+## Phase 7: Permission State Detection (RBAC)
+
+Detect user permissions to understand what actions are available vs restricted.
+
+### Step 7.1: Navigate to a Resource List Page
+
+```
+Tool: mcp__claude-in-chrome__navigate
+Parameters: { tabId: [tabId], url: "[tenant-url]/web/workspaces/web-app-and-api-protection/namespaces/[namespace]/manage/load_balancers/http_loadbalancers" }
+```
+
+### Step 7.2: Execute Permission Detection Script
+
+```
+Tool: mcp__claude-in-chrome__javascript_tool
+Parameters: {
+  tabId: [tabId],
+  action: "javascript_exec",
+  text: [contents of scripts/detect-permissions.js]
+}
+```
+
+### Step 7.3: Analyze Action Menu for RBAC
+
+Click on an item's action menu (three dots):
+```
+Tool: mcp__claude-in-chrome__computer
+Parameters: { action: "left_click", ref: "[action_button_ref]", tabId: [tabId] }
+```
+
+Check for "Locked" indicators:
+- **Pattern 1**: `generic "Locked"` as first child of option
+- **Pattern 2**: `tooltip` with permission denial message
+
+### Step 7.4: Test Configuration View Mode
+
+Click "Manage Configuration" and check:
+- Look for `generic "View"` badge in dialog header
+- Check if "Edit Configuration" button has `generic "Locked"` sibling
+- Verify form fields are read-only
+
+### Step 7.5: Record RBAC State
+
+```json
+{
+  "rbac_state": {
+    "namespace": "[namespace]",
+    "permissions": {
+      "canEdit": false,
+      "canDelete": false,
+      "canCreate": false,
+      "canClone": false,
+      "viewOnly": true
+    },
+    "lockedActions": ["Add", "Edit Configuration", "Clone Object", "Delete"],
+    "availableActions": ["Manage Configuration", "Show Status", "Show Child Objects"],
+    "indicators": [
+      { "type": "locked_button", "action": "Edit Configuration" },
+      { "type": "view_badge", "location": "dialog" }
+    ]
+  }
+}
+```
+
+---
+
+## Phase 8: Subscription Feature Detection
+
+Detect subscription tier and feature availability based on badges and UI indicators.
+
+### Step 8.1: Navigate to Home Page
+
+```
+Tool: mcp__claude-in-chrome__navigate
+Parameters: { tabId: [tabId], url: "[tenant-url]/web/home" }
+```
+
+### Step 8.2: Execute Subscription Detection Script
+
+```
+Tool: mcp__claude-in-chrome__javascript_tool
+Parameters: {
+  tabId: [tabId],
+  action: "javascript_exec",
+  text: [contents of scripts/detect-subscription.js]
+}
+```
+
+### Step 8.3: Scan Workspace Cards for Badges
+
+Read page and look for badge patterns:
+- `generic "Limited Availability"` - Feature in limited release
+- `generic "New"` - Recently added feature
+- `generic "Early Access"` - Preview/beta feature
+- `generic "Upgrade"` - Requires subscription upgrade
+
+### Step 8.4: Check for Upgrade Prompts
+
+Search page for:
+- "Upgrade" buttons
+- "Contact Sales" links
+- "Not available in your plan" text
+- "Requires Advanced subscription" warnings
+
+### Step 8.5: Record Subscription State
+
+```json
+{
+  "subscription_state": {
+    "tier": "standard|advanced|enterprise|unknown",
+    "badges_found": [
+      { "badge": "Limited Availability", "workspace": "Client-Side Defense" },
+      { "badge": "New", "workspace": "BIG-IP Utilities" },
+      { "badge": "Early Access", "workspace": "BIG-IP APM" }
+    ],
+    "gated_features": ["API Discovery", "Bot Defense Advanced"],
+    "available_features": ["Web App Scanning", "Bot Defense Standard"],
+    "upgrade_prompts": []
+  }
+}
+```
+
+---
+
+## Phase 9: Module Initialization Detection
+
+Detect which modules/workspaces need initialization or are already enabled.
+
+### Step 9.1: Navigate to Workspace About Page
+
+For each workspace to check:
+```
+Tool: mcp__claude-in-chrome__navigate
+Parameters: { tabId: [tabId], url: "[tenant-url]/web/workspaces/[workspace]/workspace-info/about" }
+```
+
+### Step 9.2: Execute Module Detection Script
+
+```
+Tool: mcp__claude-in-chrome__javascript_tool
+Parameters: {
+  tabId: [tabId],
+  action: "javascript_exec",
+  text: [contents of scripts/detect-modules.js]
+}
+```
+
+### Step 9.3: Check Service Status Indicators
+
+Look for:
+- `"This service is enabled."` → Module is active
+- `"This service is not enabled."` → Module needs initialization
+- `button "Visit Service"` → Enabled
+- `button "Enable Service"` → Needs initialization
+
+### Step 9.4: Check Workspace Services Table
+
+Parse the "Workspace Services" table:
+- **Status column**: `● Enabled` (green) or `Disabled`
+- **Action column**: `Explore` (enabled) or `Enable` (needs init)
+
+### Step 9.5: Record Module States
+
+```json
+{
+  "module_states": {
+    "web-app-scanning": {
+      "initialized": true,
+      "status": "enabled",
+      "action_available": "Explore"
+    },
+    "client-side-defense": {
+      "initialized": true,
+      "status": "enabled",
+      "badges": ["Limited Availability"]
+    },
+    "data-intelligence": {
+      "initialized": false,
+      "status": "disabled",
+      "action_available": "Enable"
+    }
+  }
+}
+```
+
+---
+
+## Phase 10: Compile State Detection Report
+
+Combine all detection results into a comprehensive state report.
+
+### Step 10.1: Merge Detection Results
+
+```json
+{
+  "detection_report": {
+    "timestamp": "ISO-8601",
+    "tenant": "[tenant-url]",
+    "rbac": { ... },
+    "subscription": { ... },
+    "modules": { ... }
+  }
+}
+```
+
+### Step 10.2: Generate Conditional Logic
+
+Based on detected states, determine:
+- Which forms/buttons should be available
+- Which workspaces can be accessed
+- What features require upgrade
+- Which modules need enabling first
+
+---
+
 ## Post-Crawl Validation
 
 After crawl completes:
@@ -488,3 +703,6 @@ After crawl completes:
 2. **Check form fields** - ensure required fields captured
 3. **Test deterministic nav** - try navigating using refs only
 4. **Compare with previous** - note any changes from last crawl
+5. **Validate RBAC detection** - test permission detection on read-only namespace
+6. **Validate subscription detection** - confirm badge patterns match
+7. **Validate module detection** - verify enabled/disabled states
