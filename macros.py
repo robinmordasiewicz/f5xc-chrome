@@ -1,5 +1,5 @@
 """
-MkDocs Macros for f5xc-chrome documentation.
+MkDocs Macros for f5xc-console documentation.
 
 Loads manifest data and provides template functions for dynamic content.
 """
