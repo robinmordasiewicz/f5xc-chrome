@@ -1,0 +1,27 @@
+{
+  "$schema": "https://anthropic.com/claude-code/mcp.schema.json",
+  "mcpServers": {
+    "claude-in-chrome": {
+      "required": true,
+      "description": "Chrome browser automation for F5 XC console operations",
+      "homepage": "https://chromewebstore.google.com/detail/claude-in-chrome",
+      "installInstructions": "Install the 'Claude in Chrome' extension from Chrome Web Store, then run 'claude --chrome' to verify connection",
+      "capabilities": [
+        "browser_navigation",
+        "page_interaction",
+        "form_filling",
+        "screenshot_capture",
+        "element_discovery"
+      ],
+      "tools": [
+        "mcp__claude-in-chrome__tabs_context_mcp",
+        "mcp__claude-in-chrome__navigate",
+        "mcp__claude-in-chrome__read_page",
+        "mcp__claude-in-chrome__computer",
+        "mcp__claude-in-chrome__find",
+        "mcp__claude-in-chrome__form_input",
+        "mcp__claude-in-chrome__get_page_text"
+      ]
+    }
+  }
+}
