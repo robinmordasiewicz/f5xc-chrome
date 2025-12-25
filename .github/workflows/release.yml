@@ -151,3 +151,12 @@ jobs:
           generate_release_notes: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Notify marketplace of new release
+        if: steps.bump.outputs.skip != 'true'
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.MARKETPLACE_TOKEN }}
+          repository: robinmordasiewicz/f5-distributed-cloud-marketplace
+          event-type: plugin-release
+          client-payload: '{"plugin": "f5xc-console", "version": "${{ steps.bump.outputs.new_version }}"}'
