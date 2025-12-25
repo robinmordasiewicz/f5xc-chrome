@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Mock F5 XC console responses for testing",
+  "fixtures": {
+    "login_page": {
+      "url_pattern": "https://*.console.ves.volterra.io/",
+      "page_elements": {
+        "email_input": {
+          "selector": "input[type='email']",
+          "ref_id": "ref_email"
+        },
+        "password_input": {
+          "selector": "input[type='password']",
+          "ref_id": "ref_password"
+        },
+        "login_button": {
+          "selector": "button[type='submit']",
+          "ref_id": "ref_login"
+        }
+      }
+    },
+    "dashboard": {
+      "url_pattern": "https://*.console.ves.volterra.io/web/workspaces/",
+      "page_elements": {
+        "namespace_selector": {
+          "selector": "[data-testid='namespace-selector']",
+          "ref_id": "ref_ns"
+        },
+        "sidebar_menu": {
+          "selector": "nav[role='navigation']",
+          "ref_id": "ref_nav"
+        }
+      }
+    },
+    "http_lb_list": {
+      "url_pattern": "*/load_balancers/http_loadbalancers",
+      "page_elements": {
+        "add_button": {
+          "selector": "button:contains('Add HTTP Load Balancer')",
+          "ref_id": "ref_add_lb"
+        },
+        "lb_table": {
+          "selector": "table[data-testid='lb-table']",
+          "ref_id": "ref_lb_list"
+        }
+      }
+    },
+    "http_lb_form": {
+      "url_pattern": "*/load_balancers/http_loadbalancers/create",
+      "page_elements": {
+        "name_input": {
+          "selector": "input[name='metadata.name']",
+          "ref_id": "ref_lb_name"
+        },
+        "domains_input": {
+          "selector": "input[name='spec.domains']",
+          "ref_id": "ref_domains"
+        },
+        "origin_pool_select": {
+          "selector": "[data-testid='origin-pool-select']",
+          "ref_id": "ref_origin"
+        },
+        "save_button": {
+          "selector": "button:contains('Save and Exit')",
+          "ref_id": "ref_save"
+        }
+      }
+    }
+  },
+  "expected_responses": {
+    "successful_login": {
+      "redirect_to": "/web/workspaces/",
+      "contains_text": "Welcome"
+    },
+    "successful_lb_create": {
+      "notification": "Load balancer created successfully",
+      "redirect_to": "/load_balancers/http_loadbalancers"
+    }
+  }
+}
