@@ -1,6 +1,6 @@
 {
   "name": "xc",
-  "display_name": "F5 XC Chrome Automation",
+  "display_name": "F5 XC Console Automation",
   "version": "0.9.0",
   "tagline": "Automate F5 Distributed Cloud console with browser automation",
   "description": "Chrome browser automation for F5 Distributed Cloud console - navigate, crawl, and automate XC GUI operations",
@@ -10,25 +10,25 @@
     "url": "https://github.com/robinmordasiewicz",
     "email": "robin@mordasiewicz.com"
   },
-  "repository": "https://github.com/robinmordasiewicz/f5xc-chrome",
-  "homepage": "https://robinmordasiewicz.github.io/f5xc-chrome/",
+  "repository": "https://github.com/robinmordasiewicz/f5xc-console",
+  "homepage": "https://robinmordasiewicz.github.io/f5xc-console/",
   "license": "MIT",
   "keywords": ["f5", "xc", "distributed-cloud", "chrome", "console", "automation", "browser", "waap", "load-balancer", "waf"],
   "categories": ["automation", "browser", "cloud", "security", "devops"],
   "platforms": ["claude-code", "chrome"],
-  "icon": "https://raw.githubusercontent.com/robinmordasiewicz/f5xc-chrome/main/assets/icon.png",
-  "banner": "https://raw.githubusercontent.com/robinmordasiewicz/f5xc-chrome/main/assets/banner.png",
+  "icon": "https://raw.githubusercontent.com/robinmordasiewicz/f5xc-console/main/assets/icon.png",
+  "banner": "https://raw.githubusercontent.com/robinmordasiewicz/f5xc-console/main/assets/banner.png",
   "screenshots": [
     {
-      "url": "https://raw.githubusercontent.com/robinmordasiewicz/f5xc-chrome/main/assets/screenshots/home.png",
+      "url": "https://raw.githubusercontent.com/robinmordasiewicz/f5xc-console/main/assets/screenshots/home.png",
       "caption": "F5 XC Console Home Page"
     },
     {
-      "url": "https://raw.githubusercontent.com/robinmordasiewicz/f5xc-chrome/main/assets/screenshots/waap.png",
+      "url": "https://raw.githubusercontent.com/robinmordasiewicz/f5xc-console/main/assets/screenshots/waap.png",
       "caption": "Web App & API Protection Workspace"
     },
     {
-      "url": "https://raw.githubusercontent.com/robinmordasiewicz/f5xc-chrome/main/assets/screenshots/http-lb-form.png",
+      "url": "https://raw.githubusercontent.com/robinmordasiewicz/f5xc-console/main/assets/screenshots/http-lb-form.png",
       "caption": "HTTP Load Balancer Creation Form"
     }
   ],
@@ -75,8 +75,8 @@
   "installation": {
     "steps": [
       "Install Claude in Chrome extension from Chrome Web Store",
-      "Clone: git clone https://github.com/robinmordasiewicz/f5xc-chrome.git",
-      "Install: claude plugin install ./f5xc-chrome",
+      "Clone: git clone https://github.com/robinmordasiewicz/f5xc-console.git",
+      "Install: claude plugin install ./f5xc-console",
       "Launch: claude --chrome"
     ],
     "quick_start": "/xc:console login https://your-tenant.console.ves.volterra.io"
@@ -87,8 +87,8 @@
     "tested_on": ["macOS", "Windows", "Linux"]
   },
   "support": {
-    "issues": "https://github.com/robinmordasiewicz/f5xc-chrome/issues",
-    "discussions": "https://github.com/robinmordasiewicz/f5xc-chrome/discussions"
+    "issues": "https://github.com/robinmordasiewicz/f5xc-console/issues",
+    "discussions": "https://github.com/robinmordasiewicz/f5xc-console/discussions"
   },
   "maintainers": [
     {

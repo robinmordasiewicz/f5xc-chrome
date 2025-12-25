@@ -266,10 +266,10 @@ xc-console/
 
 ## :material-link-variant: Related Resources
 
-- [:material-github: Plugin Repository](https://github.com/robinmordasiewicz/f5xc-chrome)
+- [:material-github: Plugin Repository](https://github.com/robinmordasiewicz/f5xc-console)
 - [:material-book-open-variant: Full Documentation]({{ plugin.docs_url }})
-- [:material-bug: Report Issue](https://github.com/robinmordasiewicz/f5xc-chrome/issues)
-- [:material-lightbulb: Request Feature](https://github.com/robinmordasiewicz/f5xc-chrome/issues/new)
+- [:material-bug: Report Issue](https://github.com/robinmordasiewicz/f5xc-console/issues)
+- [:material-lightbulb: Request Feature](https://github.com/robinmordasiewicz/f5xc-console/issues/new)
 
 ---
 

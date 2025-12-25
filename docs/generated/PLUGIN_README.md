@@ -19,7 +19,7 @@
 
 # xc
 
-[![Version](https://img.shields.io/badge/version-0.5.1-blue?style=for-the-badge)](https://github.com/robinmordasiewicz/f5xc-chrome/releases)
+[![Version](https://img.shields.io/badge/version-0.5.1-blue?style=for-the-badge)](https://github.com/robinmordasiewicz/f5xc-console/releases)
 [![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-Plugin-purple?style=for-the-badge)](https://claude.com/claude-code)
 
@@ -90,13 +90,13 @@ export OPTIONAL_VAR="default-value"
 === "Direct Install"
 
     ```bash
-    /plugin install robinmordasiewicz/f5xc-chrome
+    /plugin install robinmordasiewicz/f5xc-console
     ```
 
 === "Local Development"
 
     ```bash
-    git clone https://github.com/robinmordasiewicz/f5xc-chrome.git
+    git clone https://github.com/robinmordasiewicz/f5xc-console.git
     cd xc
     /plugin install .
     ```
@@ -273,7 +273,7 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ```bash
 # Development setup
-git clone https://github.com/robinmordasiewicz/f5xc-chrome.git
+git clone https://github.com/robinmordasiewicz/f5xc-console.git
 cd xc
 # Make changes and submit PR
 ```
@@ -286,7 +286,7 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) for deta
 
 <div align="center">
 
-**[Report Issue](https://github.com/robinmordasiewicz/f5xc-chrome/issues)** | **[Request Feature](https://github.com/robinmordasiewicz/f5xc-chrome/issues/new)** | **[Documentation](https://github.com/robinmordasiewicz/f5xc-chrome#readme)**
+**[Report Issue](https://github.com/robinmordasiewicz/f5xc-console/issues)** | **[Request Feature](https://github.com/robinmordasiewicz/f5xc-console/issues/new)** | **[Documentation](https://github.com/robinmordasiewicz/f5xc-console#readme)**
 
 Made with :heart: by [Robin Mordasiewicz](https://github.com/robinmordasiewicz)
 

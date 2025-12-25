@@ -7,8 +7,8 @@ and use the documentation templates for consistent, beautiful documentation.
 
 ```bash
 # Clone the repository
-git clone https://github.com/robinmordasiewicz/f5xc-chrome.git
-cd f5xc-chrome
+git clone https://github.com/robinmordasiewicz/f5xc-console.git
+cd f5xc-console
 
 # Create a feature branch
 git checkout -b feature/your-feature-name
@@ -82,7 +82,7 @@ cp templates/SKILL_DOC_TEMPLATE.md skills/my-skill/SKILL.md
 | `{{ plugin.version }}` | `plugin.json → version` | `0.5.1` |
 | `{{ plugin.description }}` | `plugin.json → description` | `Chrome browser automation...` |
 | `{{ plugin.license }}` | `plugin.json → license` | `MIT` |
-| `{{ plugin.repo }}` | `plugin.json → repository` | `robinmordasiewicz/f5xc-chrome` |
+| `{{ plugin.repo }}` | `plugin.json → repository` | `robinmordasiewicz/f5xc-console` |
 | `{{ plugin.author.name }}` | `plugin.json → author.name` | `Robin Mordasiewicz` |
 | `{{ plugin.author.url }}` | `plugin.json → author.url` | `https://github.com/...` |
 
@@ -235,7 +235,7 @@ refactor: code restructuring
 
 ## Questions?
 
-- :material-github: [Open an Issue](https://github.com/robinmordasiewicz/f5xc-chrome/issues)
+- :material-github: [Open an Issue](https://github.com/robinmordasiewicz/f5xc-console/issues)
 - :material-message: Start a Discussion
 
 ## License

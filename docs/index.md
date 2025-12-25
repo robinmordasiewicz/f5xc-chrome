@@ -35,10 +35,10 @@ This Claude Code plugin provides browser automation capabilities for the F5 Dist
 
 | Plugin | Command | Purpose |
 |--------|---------|---------|
-| **f5xc-chrome** | `/xc:console` | Browser/console automation |
+| **f5xc-console** | `/xc:console` | Browser/console automation |
 | f5xc-cli | `/xc:cli` | CLI operations (f5xcctl) |
 | f5xc-terraform | `/xc:tf` | Infrastructure as Code |
 
 ## License
 
-MIT License - see [LICENSE](https://github.com/robinmordasiewicz/f5xc-chrome/blob/main/LICENSE) for details.
+MIT License - see [LICENSE](https://github.com/robinmordasiewicz/f5xc-console/blob/main/LICENSE) for details.

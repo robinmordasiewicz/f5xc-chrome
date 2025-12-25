@@ -25,17 +25,17 @@ claude --chrome
 
 ```bash
 # Clone repository
-git clone https://github.com/robinmordasiewicz/f5xc-chrome.git
+git clone https://github.com/robinmordasiewicz/f5xc-console.git
 
 # Install as Claude Code plugin
-claude plugin install ./f5xc-chrome
+claude plugin install ./f5xc-console
 ```
 
 ### Direct Usage
 
 ```bash
 # Use directly without installing
-claude --plugin-dir /path/to/f5xc-chrome
+claude --plugin-dir /path/to/f5xc-console
 ```
 
 ## Verify Installation

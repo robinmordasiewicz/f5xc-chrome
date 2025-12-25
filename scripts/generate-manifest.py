@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Manifest Generator for f5xc-chrome Plugin
+Manifest Generator for f5xc-console Plugin
 
 Generates a rich manifest.json from source files for downstream consumption.
 This is the source of truth for machine-readable plugin metadata.
@@ -144,7 +144,7 @@ def generate_manifest(root_dir: Path) -> dict:
 
     # Build manifest
     manifest = {
-        "$schema": "https://robinmordasiewicz.github.io/f5xc-chrome/schema/manifest-v1.json",
+        "$schema": "https://robinmordasiewicz.github.io/f5xc-console/schema/manifest-v1.json",
         "manifest_version": "1.0.0",
         "generated_at": datetime.now(timezone.utc).isoformat(),
 
@@ -260,7 +260,7 @@ def generate_manifest(root_dir: Path) -> dict:
 
         # Documentation URLs
         "documentation": {
-            "plugin_docs": plugin_json.get("homepage", "https://robinmordasiewicz.github.io/f5xc-chrome/"),
+            "plugin_docs": plugin_json.get("homepage", "https://robinmordasiewicz.github.io/f5xc-console/"),
             "api_reference": "https://docs.cloud.f5.com/docs/api",
             "f5xc_docs": "https://docs.cloud.f5.com/",
         },

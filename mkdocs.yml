@@ -1,10 +1,10 @@
 site_name: F5 XC Chrome Plugin
 site_description: Chrome browser automation for F5 Distributed Cloud console
 site_author: Robin Mordasiewicz
-site_url: https://robinmordasiewicz.github.io/f5xc-chrome/
+site_url: https://robinmordasiewicz.github.io/f5xc-console/
 
-repo_name: robinmordasiewicz/f5xc-chrome
-repo_url: https://github.com/robinmordasiewicz/f5xc-chrome
+repo_name: robinmordasiewicz/f5xc-console
+repo_url: https://github.com/robinmordasiewicz/f5xc-console
 edit_uri: edit/main/docs/
 
 theme:

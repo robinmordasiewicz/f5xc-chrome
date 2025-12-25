@@ -1,4 +1,4 @@
-# f5xc-chrome
+# f5xc-console
 
 Chrome browser automation for F5 Distributed Cloud console - navigate, crawl, and automate XC GUI operations.
 
@@ -30,13 +30,13 @@ This Claude Code plugin provides browser automation capabilities for the F5 Dist
 
 ```bash
 # Clone repository
-git clone https://github.com/robinmordasiewicz/f5xc-chrome.git
+git clone https://github.com/robinmordasiewicz/f5xc-console.git
 
 # Install as Claude Code plugin
-claude plugin install ./f5xc-chrome
+claude plugin install ./f5xc-console
 
 # Or use directly
-claude --plugin-dir /path/to/f5xc-chrome
+claude --plugin-dir /path/to/f5xc-console
 ```
 
 ## Usage
@@ -81,7 +81,7 @@ claude --chrome
 ## Plugin Structure
 
 ```
-f5xc-chrome/
+f5xc-console/
 ├── .claude-plugin/
 │   └── plugin.json          # Plugin manifest
 ├── skills/
@@ -103,7 +103,7 @@ This plugin is part of the F5 XC automation ecosystem:
 
 | Plugin | Commands | Purpose |
 |--------|----------|---------|
-| **f5xc-chrome** | `/xc:console` | Browser/console automation |
+| **f5xc-console** | `/xc:console` | Browser/console automation |
 | f5xc-cli | `/xc:cli` | CLI operations (f5xcctl) |
 | f5xc-terraform | `/xc:tf` | Infrastructure as Code |
 | f5xc-docs | `/xc:docs` | Documentation lookups |

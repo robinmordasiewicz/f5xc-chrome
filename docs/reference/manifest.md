@@ -24,7 +24,7 @@ This aggregates:
 
 ```json
 {
-  "$schema": "https://f5xc-chrome.github.io/schema/manifest-v1.json",
+  "$schema": "https://f5xc-console.github.io/schema/manifest-v1.json",
   "manifest_version": "1.0.0",
   "generated_at": "2025-12-24T00:00:00Z",
 
@@ -89,7 +89,7 @@ The manifest data is available through macros:
 import json
 from urllib.request import urlopen
 
-manifest_url = "https://robinmordasiewicz.github.io/f5xc-chrome/data/manifest.json"
+manifest_url = "https://robinmordasiewicz.github.io/f5xc-console/data/manifest.json"
 manifest = json.loads(urlopen(manifest_url).read())
 
 print(f"Plugin version: {manifest['plugin']['version']}")

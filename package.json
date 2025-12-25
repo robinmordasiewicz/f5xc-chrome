@@ -27,11 +27,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/robinmordasiewicz/f5xc-chrome.git"
+    "url": "git+https://github.com/robinmordasiewicz/f5xc-console.git"
   },
-  "homepage": "https://robinmordasiewicz.github.io/f5xc-chrome/",
+  "homepage": "https://robinmordasiewicz.github.io/f5xc-console/",
   "bugs": {
-    "url": "https://github.com/robinmordasiewicz/f5xc-chrome/issues"
+    "url": "https://github.com/robinmordasiewicz/f5xc-console/issues"
   },
   "files": [
     ".claude-plugin/**/*",
