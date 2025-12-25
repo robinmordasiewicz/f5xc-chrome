@@ -1,5 +1,5 @@
 {
-  "name": "claude-plugin-f5xc-chrome",
+  "name": "@robinmordasiewicz/f5xc-console",
   "version": "0.6.0",
   "description": "Chrome browser automation for F5 Distributed Cloud console - navigate, crawl, and automate XC GUI operations",
   "keywords": [

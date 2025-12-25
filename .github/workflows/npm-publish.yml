@@ -90,12 +90,12 @@ jobs:
           cat >> $GITHUB_STEP_SUMMARY << EOF
           ## npm Publish Summary
 
-          - **Package**: claude-plugin-f5xc-chrome
+          - **Package**: @robinmordasiewicz/f5xc-console
           - **Version**: ${VERSION}
-          - **Registry**: https://www.npmjs.com/package/claude-plugin-f5xc-chrome
+          - **Registry**: https://www.npmjs.com/package/@robinmordasiewicz/f5xc-console
 
           ### Installation
           \`\`\`bash
-          claude plugin add claude-plugin-f5xc-chrome
+          npm install @robinmordasiewicz/f5xc-console
           \`\`\`
           EOF
