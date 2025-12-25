@@ -1,6 +1,6 @@
 ---
 name: xc-console
-description: Automate F5 Distributed Cloud web console operations through browser automation using mcp__claude-in-chrome MCP tools. Automatically handles Azure SSO authentication, detecting session expiry and navigating login flows. Use when creating HTTP/TCP load balancers, origin pools, WAF policies, deploying cloud sites (AWS/Azure/GCP), managing DNS zones, configuring service policies, or executing any F5 XC GUI-based tasks. Triggers on: F5 XC console, GUI automation, browser automation, login, SSO, authenticate, tenant management, visual configuration, Web App and API Protection, WAAP.
+description: Automate F5 Distributed Cloud web console operations through browser automation using mcp__claude-in-chrome MCP tools. Handles multi-provider authentication (Azure SSO, Google, Okta, SAML, native username/password), detecting session expiry and navigating login flows. Warns when VPN is required. Use when creating HTTP/TCP load balancers, origin pools, WAF policies, deploying cloud sites (AWS/Azure/GCP), managing DNS zones, configuring service policies, or executing any F5 XC GUI-based tasks. Triggers on: F5 XC console, GUI automation, browser automation, login, SSO, authenticate, tenant management, visual configuration, Web App and API Protection, WAAP.
 allowed_args: true
 ---
 
@@ -12,11 +12,12 @@ Expert in automating F5 Distributed Cloud web console operations through browser
 
 This skill uses the `mcp__claude-in-chrome__*` MCP tools which integrate with the Claude in Chrome browser extension. These tools provide:
 
-- ✅ Works with your existing browser session (preserves Azure SSO authentication)
+- ✅ Works with your existing browser session (preserves authentication)
 - ✅ Provides real-time visual feedback (watch Claude navigate in real time)
 - ✅ Uses natural language instructions (no low-level scripting required)
 - ✅ Automatically handles existing login state and cookies
-- ✅ **Automatic SSO authentication** - detects session expiry and navigates login flows
+- ✅ **Multi-provider authentication** - detects Azure SSO, Google, Okta, SAML, and native login
+- ✅ **VPN detection** - warns when tenant requires VPN access
 
 ### MCP Tools Available
 | Tool | Purpose |
@@ -55,48 +56,59 @@ export F5XC_API_URL="https://nferreira.staging.volterra.us"
 export F5XC_API_TOKEN='2SiwIzdXcUTV9Kk/wURCJO+NPV8='
 ```
 
-### 3. Azure SSO Authentication
-You should already be logged into the F5 XC tenant in your Chrome browser. The skill leverages your existing session, but can also handle SSO automatically if session expires.
+### 3. Authentication
+You should already be logged into the F5 XC tenant in your Chrome browser. The skill leverages your existing session and handles authentication automatically if session expires.
 
-## SSO Authentication Handling
+## Multi-Provider Authentication
 
-This skill automatically handles Azure SSO authentication when session expires:
+This skill automatically detects and handles multiple authentication methods:
+
+| Auth Type | URL Pattern | Claude Can Automate? |
+|-----------|-------------|---------------------|
+| Native U/P | `login*.volterra.us` | ❌ User enters creds |
+| Azure SSO | `login.microsoftonline.com` | ⚠️ Only if cached |
+| Google SSO | `accounts.google.com` | ⚠️ Only if cached |
+| Okta SSO | `*.okta.com` | ⚠️ Only if cached |
+| Generic SAML | `/saml/`, `/sso/` | ⚠️ Only if cached |
+| Already Logged In | `/web/workspaces/` | ✅ Yes |
+| Connection Failed | timeout/error | ❌ Warn about VPN |
 
 ### Detection Triggers
 The skill detects login requirements when:
-- URL redirects to `login.volterra.us` or `login.microsoftonline.com`
+- URL redirects to login page (`login*.volterra.us`, `login.microsoftonline.com`, `accounts.google.com`, `*.okta.com`)
 - Page contains "Sign in", "Go to login", or "Session expired" messages
-- Login form or SSO button is visible
+- Connection times out (may require VPN)
 
 ### Auto-Flow Sequence
 ```
 1. Navigate to F5 XC tenant URL
-2. Check for login page indicators using mcp__claude-in-chrome__read_page
-3. If login detected:
-   a. Find SSO button using mcp__claude-in-chrome__find
-   b. Click SSO button using mcp__claude-in-chrome__computer
-   c. Wait for Microsoft redirect
-   d. If browser has cached Azure session → auto-completes
-   e. If manual login needed → inform user, wait for confirmation
-4. Verify F5 XC console loaded (look for workspace cards)
-5. Continue with original navigation task
+2. Wait for page load (detect connection failures → warn about VPN)
+3. Check URL and page content using mcp__claude-in-chrome__read_page
+4. Identify authentication type:
+   a. Native login → Inform user to enter credentials, wait
+   b. SSO redirect → Find SSO button, click, wait for provider
+   c. Already logged in → Skip to step 6
+5. Handle SSO provider:
+   - If cached session → auto-redirect back
+   - If credentials needed → inform user, wait for confirmation
+6. Verify F5 XC console loaded (look for workspace cards)
+7. Continue with original navigation task
 ```
 
-### SSO Handling Example
+### Login Example
 ```
-/xc:console login https://nferreira.staging.volterra.us/ and navigate to Web App and API Protection
+/xc:console login https://nferreira.staging.volterra.us/ and navigate to WAAP
 
 # Claude will:
 # 1. Get browser context with tabs_context_mcp
 # 2. Navigate to tenant URL
-# 3. Detect if session expired (read_page for login indicators)
-# 4. Click SSO button if needed
-# 5. Wait for authentication to complete
-# 6. Navigate to Web App and API Protection workspace
-# 7. Take screenshot to confirm
+# 3. Detect auth type (native, SSO, or already logged in)
+# 4. Handle accordingly (inform user or auto-complete)
+# 5. Navigate to Web App and API Protection workspace
+# 6. Take screenshot to confirm
 ```
 
-See `./sso-authentication-flow.md` for detailed workflow steps.
+See `./authentication-flows.md` for detailed workflow steps.
 
 ## Quick Start
 
@@ -167,9 +179,10 @@ Save the results as a JSON array."
 
 ### Session Management
 - Automatically uses existing Chrome session
-- Preserves authentication state (Azure SSO)
-- Handles session expiry gracefully
-- Provides error messages when re-authentication needed
+- Preserves authentication state across providers (Azure, Google, Okta, SAML)
+- Handles session expiry with automatic auth type detection
+- Warns when VPN connection is required
+- Provides clear messages when manual authentication needed
 
 ## Common Workflows
 
@@ -271,8 +284,8 @@ Format as a JSON array and save to lb-list.json"
 | File | Purpose |
 |------|---------|
 | `SKILL.md` | This file - skill overview and instructions |
+| `authentication-flows.md` | Multi-provider authentication handling (Azure, Google, Okta, SAML, native, VPN) |
 | `console-navigation-metadata.json` | Complete inventory of F5 XC console pages (URLs, navigation paths, form fields) |
-| `login-workflows.md` | Azure SSO login patterns and session management |
 | `task-workflows.md` | Master index of task automation patterns |
 | `documentation-index.md` | Indexed docs.cloud.f5.com knowledge base |
 | `scripts/crawl-console.js` | Console crawler (coming in Phase 1) |
@@ -373,12 +386,13 @@ claude --chrome
 ```
 
 ### Session Expired
-When Claude says session expired:
+When Claude detects session expiry:
 ```bash
-# The console will automatically try to redirect to Azure SSO
-# If you're already logged in: automatic redirect works
-# If not: you may need to manually log in to Azure
-# Then tell Claude to continue
+# Claude will identify the authentication type:
+# - Native login (username/password): You'll be asked to enter credentials
+# - SSO (Azure, Google, Okta): Claude attempts auto-login if cached
+# - Connection timeout: Claude warns about VPN requirement
+# After authenticating, tell Claude to continue
 ```
 
 ### Form Fields Not Found
@@ -404,9 +418,10 @@ Explore the page and find the 'Create' or 'Add' button, then click it."
 ## Security & Permissions
 
 This skill operates within your existing Chrome browser session, so:
-- ✅ Uses your existing Azure SSO login (no re-authentication needed)
+- ✅ Uses your existing SSO login (Azure, Google, Okta - no re-authentication if cached)
 - ✅ Respects your browser's cookie storage and session state
 - ✅ Cannot access other browser tabs or extensions
+- ✅ Never enters credentials on your behalf (security policy)
 - ⚠️ Can only interact with pages you have permission to access
 - ⚠️ Should only be used with trusted instructions (avoid pasting untrusted prompts)
 

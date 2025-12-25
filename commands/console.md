@@ -17,7 +17,7 @@ Automate F5 Distributed Cloud web console operations using Chrome browser automa
 ## Actions
 
 ### login
-Authenticate to F5 XC tenant via Azure SSO.
+Authenticate to F5 XC tenant (supports Azure SSO, Google, Okta, SAML, native login).
 
 ```
 /xc:console login <tenant-url>
@@ -30,9 +30,16 @@ Authenticate to F5 XC tenant via Azure SSO.
 
 **Workflow:**
 1. Get browser tab context
-2. Navigate to tenant URL
-3. Detect if login required (check for SSO button, login form)
-4. If login needed: click SSO button, wait for Azure redirect
+2. Navigate to tenant URL (detect connection failures → warn about VPN)
+3. Identify authentication type based on URL pattern:
+   - `login*.volterra.us` → Native login (user enters credentials)
+   - `login.microsoftonline.com` → Azure SSO
+   - `accounts.google.com` → Google SSO
+   - `*.okta.com` → Okta SSO
+   - `/saml/`, `/sso/` → Generic SAML
+4. Handle authentication:
+   - Cached session → auto-complete
+   - Credentials needed → inform user, wait for confirmation
 5. Verify console home page loaded (workspace cards visible)
 6. Take screenshot to confirm
 
@@ -119,13 +126,15 @@ Show current browser state and connection status.
 
 1. **Claude in Chrome Extension** - Install from Chrome Web Store
 2. **Chrome Connection** - Run `claude --chrome` or enable in settings
-3. **Azure SSO** - Must have F5 XC tenant access via Azure AD
+3. **F5 XC Tenant Access** - Via SSO (Azure, Google, Okta, SAML) or native login
+4. **VPN** (if required) - Some tenants require VPN access
 
 ## Skill Reference
 
 This command uses the `xc-console` skill which provides:
 - Pre-crawled navigation metadata for deterministic automation
-- Azure SSO authentication handling
+- Multi-provider authentication handling (Azure, Google, Okta, SAML, native)
+- VPN requirement detection
 - Form field mapping for all major resource types
 
 See `skills/xc-console/SKILL.md` for detailed documentation.

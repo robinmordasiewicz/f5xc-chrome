@@ -33,9 +33,9 @@ Tool: mcp__claude-in-chrome__computer
 Parameters: { action: "wait", duration: 3, tabId: [tabId] }
 ```
 
-### Step 1.4: Handle SSO if Needed
+### Step 1.4: Handle Authentication if Needed
 Check URL - if redirected to login:
-- Follow `./sso-authentication-flow.md`
+- Follow `./authentication-flows.md`
 - Return here after authenticated
 
 ### Step 1.5: Verify Home Page

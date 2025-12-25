@@ -30,7 +30,7 @@
  * 3. Wait for page load:
  *    mcp__claude-in-chrome__computer({ action: "wait", duration: 3, tabId })
  *
- * 4. Check for login/SSO (see sso-authentication-flow.md if needed)
+ * 4. Check for login/SSO (see authentication-flows.md if needed)
  */
 
 /**
