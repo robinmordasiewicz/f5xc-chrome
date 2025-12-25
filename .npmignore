@@ -1,0 +1,42 @@
+# Development and build files
+@docs/
+docs/
+templates/
+scripts/
+.github/
+
+# Documentation build
+mkdocs.yml
+requirements-docs.txt
+manifest.json
+
+# Git and IDE
+.git/
+.gitignore
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
+*.test.js
+*.spec.js
+__tests__/
+coverage/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Contributing docs (keep README, LICENSE, CHANGELOG)
+CONTRIBUTING.md

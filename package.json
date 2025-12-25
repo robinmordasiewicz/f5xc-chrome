@@ -1,0 +1,72 @@
+{
+  "name": "claude-plugin-f5xc-chrome",
+  "version": "0.6.0",
+  "description": "Chrome browser automation for F5 Distributed Cloud console - navigate, crawl, and automate XC GUI operations",
+  "keywords": [
+    "claude-code",
+    "claude-plugin",
+    "agent-skills",
+    "skills",
+    "f5",
+    "xc",
+    "distributed-cloud",
+    "chrome",
+    "console",
+    "automation",
+    "browser",
+    "waap",
+    "load-balancer",
+    "waf",
+    "mcp"
+  ],
+  "author": {
+    "name": "Robin Mordasiewicz",
+    "email": "robin@mordasiewicz.com",
+    "url": "https://github.com/robinmordasiewicz"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robinmordasiewicz/f5xc-chrome.git"
+  },
+  "homepage": "https://robinmordasiewicz.github.io/f5xc-chrome/",
+  "bugs": {
+    "url": "https://github.com/robinmordasiewicz/f5xc-chrome/issues"
+  },
+  "files": [
+    ".claude-plugin/**/*",
+    "skills/**/*",
+    "commands/**/*",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "prepublishOnly": "npm run validate",
+    "validate": "node -e \"const p = require('./.claude-plugin/plugin.json'); console.log('Plugin valid:', p.name, 'v' + p.version);\"",
+    "version:sync": "node -e \"const fs = require('fs'); const pkg = require('./package.json'); const plugin = require('./.claude-plugin/plugin.json'); plugin.version = pkg.version; fs.writeFileSync('./.claude-plugin/plugin.json', JSON.stringify(plugin, null, 2) + '\\n');\""
+  },
+  "claude-plugin": {
+    "name": "xc",
+    "type": "chrome-automation",
+    "marketplace": true,
+    "skills": [
+      "xc-console"
+    ],
+    "commands": [
+      "console"
+    ],
+    "requires": {
+      "mcp": [
+        "claude-in-chrome"
+      ]
+    }
+  }
+}

@@ -1,0 +1,99 @@
+name: Publish to npm
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (do not publish)'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+
+      - name: Sync version from release tag
+        if: github.event_name == 'release'
+        run: |
+          VERSION="${{ github.event.release.tag_name }}"
+          VERSION="${VERSION#v}"
+          echo "Syncing version to $VERSION"
+          npm version "$VERSION" --no-git-tag-version --allow-same-version
+
+      - name: Validate plugin structure
+        run: |
+          echo "Validating Claude Code plugin structure..."
+
+          # Check required files exist
+          if [ ! -f ".claude-plugin/plugin.json" ]; then
+            echo "ERROR: .claude-plugin/plugin.json not found"
+            exit 1
+          fi
+
+          if [ ! -d "skills" ]; then
+            echo "ERROR: skills/ directory not found"
+            exit 1
+          fi
+
+          # Validate plugin.json
+          node -e "
+            const plugin = require('./.claude-plugin/plugin.json');
+            const pkg = require('./package.json');
+
+            console.log('Plugin name:', plugin.name);
+            console.log('Plugin version:', plugin.version);
+            console.log('Package version:', pkg.version);
+
+            if (!plugin.name) throw new Error('plugin.name is required');
+            if (!plugin.description) throw new Error('plugin.description is required');
+
+            console.log('Plugin validation passed!');
+          "
+
+      - name: Check package contents
+        run: |
+          echo "Package contents:"
+          npm pack --dry-run 2>&1 | head -50
+
+      - name: Publish to npm (dry run)
+        if: ${{ inputs.dry_run == 'true' }}
+        run: npm publish --dry-run
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish to npm
+        if: ${{ inputs.dry_run != 'true' }}
+        run: npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Summary
+        run: |
+          echo "## npm Publish Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Package**: claude-plugin-f5xc-chrome" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: $(node -p \"require('./package.json').version\")" >> $GITHUB_STEP_SUMMARY
+          echo "- **Registry**: https://www.npmjs.com/package/claude-plugin-f5xc-chrome" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Installation" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "claude plugin add claude-plugin-f5xc-chrome" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
