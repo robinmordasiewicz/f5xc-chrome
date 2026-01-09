@@ -1,16 +1,16 @@
 ---
 name: xc-console
-description: Automate F5 Distributed Cloud web console operations through browser automation using mcp__claude-in-chrome MCP tools. Handles multi-provider authentication (Azure SSO, Google, Okta, SAML, native username/password), detecting session expiry and navigating login flows. Warns when VPN is required. Use when creating HTTP/TCP load balancers, origin pools, WAF policies, deploying cloud sites (AWS/Azure/GCP), managing DNS zones, configuring service policies, or executing any F5 XC GUI-based tasks. Triggers on: F5 XC console, GUI automation, browser automation, login, SSO, authenticate, tenant management, visual configuration, Web App and API Protection, WAAP.
+description: Automate F5 Distributed Cloud web console operations through browser automation using mcp__chrome-devtools MCP tools. Handles multi-provider authentication (Azure SSO, Google, Okta, SAML, native username/password), detecting session expiry and navigating login flows. Warns when VPN is required. Use when creating HTTP/TCP load balancers, origin pools, WAF policies, deploying cloud sites (AWS/Azure/GCP), managing DNS zones, configuring service policies, or executing any F5 XC GUI-based tasks. Triggers on: F5 XC console, GUI automation, browser automation, login, SSO, authenticate, tenant management, visual configuration, Web App and API Protection, WAAP.
 allowed_args: true
 ---
 
 # F5 Distributed Cloud Console Automation Skill
 
-Expert in automating F5 Distributed Cloud web console operations through browser automation using the `mcp__claude-in-chrome` MCP tools.
+Expert in automating F5 Distributed Cloud web console operations through browser automation using the `mcp__chrome-devtools` MCP tools.
 
 ## Overview
 
-This skill uses the `mcp__claude-in-chrome__*` MCP tools which integrate with the Claude in Chrome browser extension. These tools provide:
+This skill uses the `mcp__chrome-devtools__*` MCP tools which provide Chrome browser automation. These tools provide:
 
 - ✅ Works with your existing browser session (preserves authentication)
 - ✅ Provides real-time visual feedback (watch Claude navigate in real time)
@@ -22,31 +22,28 @@ This skill uses the `mcp__claude-in-chrome__*` MCP tools which integrate with th
 ### MCP Tools Available
 | Tool | Purpose |
 |------|---------|
-| `mcp__claude-in-chrome__tabs_context_mcp` | Get browser tab context |
-| `mcp__claude-in-chrome__navigate` | Navigate to URLs |
-| `mcp__claude-in-chrome__read_page` | Read page elements and structure |
-| `mcp__claude-in-chrome__computer` | Click, type, screenshot, scroll |
-| `mcp__claude-in-chrome__find` | Find elements by description |
-| `mcp__claude-in-chrome__form_input` | Fill form fields |
-| `mcp__claude-in-chrome__get_page_text` | Extract page text content |
+| `mcp__chrome-devtools__list_pages` | List open browser pages |
+| `mcp__chrome-devtools__select_page` | Select a page for interaction |
+| `mcp__chrome-devtools__navigate_page` | Navigate to URLs |
+| `mcp__chrome-devtools__take_snapshot` | Read page elements (accessibility tree) |
+| `mcp__chrome-devtools__click` | Click elements |
+| `mcp__chrome-devtools__fill` | Fill text inputs |
+| `mcp__chrome-devtools__fill_form` | Fill multiple form fields |
+| `mcp__chrome-devtools__take_screenshot` | Capture page screenshots |
+| `mcp__chrome-devtools__hover` | Hover over elements |
+| `mcp__chrome-devtools__press_key` | Press keyboard keys |
 
 ## Prerequisites
 
 Before using this skill, ensure you have:
 
-### 1. Claude in Chrome Extension
-Install from Chrome Web Store and verify connection:
+### 1. Chrome DevTools MCP Server
+The Chrome DevTools MCP server is configured in `.mcp.json` and starts automatically:
 ```bash
-# Visit Chrome Web Store and install "Claude in Chrome" extension
-# Pin the extension to your toolbar for easy access
+# Verify MCP server is available:
+npx -y @anthropic/mcp-server-chrome-devtools@latest
 
-# Then verify the connection works:
-claude --chrome
-
-# In the Claude Code prompt, run:
-/chrome
-
-# You should see the connection status and options to enable by default
+# The server provides browser automation tools
 ```
 
 ### 2. F5 XC API Credentials (for validation)
@@ -83,7 +80,7 @@ The skill detects login requirements when:
 ```
 1. Navigate to F5 XC tenant URL
 2. Wait for page load (detect connection failures → warn about VPN)
-3. Check URL and page content using mcp__claude-in-chrome__read_page
+3. Check URL and page content using mcp__chrome-devtools__take_snapshot
 4. Identify authentication type:
    a. Native login → Inform user to enter credentials, wait
    b. SSO redirect → Find SSO button, click, wait for provider
@@ -114,22 +111,22 @@ See `./authentication-flows.md` for detailed workflow steps.
 
 ### Basic Navigation
 ```bash
-# Launch Claude Code with Chrome integration
-claude --chrome
+# Launch Claude Code (Chrome DevTools MCP starts automatically)
+claude
 
 # Then provide natural language instructions:
 "Navigate to https://nferreira.staging.volterra.us and tell me what you see on the home page"
 
 # Claude will:
-# 1. Navigate to the URL
+# 1. Navigate to the URL using mcp__chrome-devtools__navigate_page
 # 2. Wait for page to load
-# 3. Take a screenshot
+# 3. Take a snapshot using mcp__chrome-devtools__take_snapshot
 # 4. Describe what it sees
 ```
 
 ### Form Filling
 ```bash
-claude --chrome
+claude
 
 "Navigate to the HTTP Load Balancers page at https://nferreira.staging.volterra.us.
 Then click the 'Add HTTP Load Balancer' button.
@@ -143,7 +140,7 @@ But stop before submitting - I want to review first."
 
 ### Data Extraction
 ```bash
-claude --chrome
+claude
 
 "Navigate to the HTTP Load Balancers list page.
 Extract all load balancer names, their namespaces, and domains.
@@ -189,7 +186,7 @@ Save the results as a JSON array."
 ### Workflow 1: Create HTTP Load Balancer
 
 ```bash
-claude --chrome
+claude
 
 "I want to create an HTTP load balancer in F5 XC.
 
@@ -210,7 +207,7 @@ Don't submit yet - just show me the form filled in."
 ### Workflow 2: Explore Console Structure
 
 ```bash
-claude --chrome
+claude
 
 "Help me inventory the F5 Distributed Cloud console.
 
@@ -229,7 +226,7 @@ Organize the results as a hierarchical list."
 
 ```bash
 # First, use the console to create something
-claude --chrome
+claude
 
 "Navigate to HTTP Load Balancers page and create a new LB named 'cli-test' in 'default' namespace.
 Don't submit yet - just tell me the form is ready."
@@ -244,7 +241,7 @@ f5xcctl configuration list http_loadbalancer -n default
 
 ### Taking Screenshots for Reference
 ```bash
-claude --chrome
+claude
 
 "Navigate to the HTTP Load Balancers creation form and take a screenshot.
 Save it so I can see the exact form layout and field names."
@@ -256,7 +253,7 @@ When Claude encounters a login page, CAPTCHA, or other security challenge:
 - You manually handle the authentication (log in, solve CAPTCHA)
 - Tell Claude to continue with the task
 ```bash
-claude --chrome
+claude
 
 "Try to navigate to https://nferreira.staging.volterra.us"
 
@@ -267,7 +264,7 @@ claude --chrome
 
 ### Extracting Structured Data
 ```bash
-claude --chrome
+claude
 
 "Navigate to the HTTP Load Balancers list page.
 For each load balancer shown, extract:
@@ -335,7 +332,7 @@ Use Terraform to deploy the same resources as code:
 # ❌ "Create a complete load balancer with origin pool, health checks, and WAF policy"
 
 # ✅ Do this in phases:
-claude --chrome
+claude
 # Phase 1: "Create origin pool named backend-pool"
 
 # Phase 2: "Create HTTP LB named my-app pointing to backend-pool"
@@ -345,7 +342,7 @@ claude --chrome
 
 ### 2. Take Screenshots for Reference
 ```bash
-claude --chrome
+claude
 
 "Take screenshots of these pages and save them:
 1. HTTP Load Balancers list page
@@ -376,19 +373,16 @@ f5xcctl configuration list http_loadbalancer --all-namespaces --output-format js
 
 ## Troubleshooting
 
-### Chrome Extension Not Connected
+### Chrome DevTools MCP Not Available
 ```bash
-# 1. Verify extension is installed:
-echo "Check Chrome Web Store for 'Claude in Chrome'"
+# 1. Verify MCP server is configured in .mcp.json:
+cat .mcp.json
 
-# 2. Verify connection:
-claude --chrome
-/chrome
+# 2. Test the server manually:
+npx -y @anthropic/mcp-server-chrome-devtools@latest
 
-# 3. If not connected, reload the extension:
-# - Go to chrome://extensions
-# - Find "Claude in Chrome"
-# - Click the reload icon
+# 3. Check Claude Code MCP status:
+# The server should start automatically when needed
 ```
 
 ### Session Expired
@@ -440,7 +434,7 @@ For sensitive operations:
 
 ### Debugging Claude's Navigation
 ```bash
-claude --chrome
+claude
 
 "I notice you took a wrong turn. Let me help.
 Take a screenshot and describe what page you're on.
@@ -449,7 +443,7 @@ Then tell me what button or link you see that matches 'HTTP Load Balancers'."
 
 ### Understanding Form Structure
 ```bash
-claude --chrome
+claude
 
 "Navigate to the form page and analyze its structure.
 For each form field, tell me:
@@ -461,7 +455,7 @@ For each form field, tell me:
 
 ### Learning Console Workflows
 ```bash
-claude --chrome
+claude
 
 "Walk me through the steps to create an HTTP load balancer from scratch.
 Assume I have:
@@ -499,7 +493,7 @@ Result: ~70% success rate
 **After v2.2 (Stable Selectors)**:
 ```
 Claude: Uses data_testid > aria_label > text_match fallback
-Uses: mcp__claude-in-chrome__find with stable selector
+Uses: mcp__chrome-devtools__click with stable selector from snapshot
 Result: ~95% success rate across sessions
 ```
 
