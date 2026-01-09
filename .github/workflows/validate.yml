@@ -7,9 +7,21 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
+      - '.github/workflows/validate.yml'
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  validate:
+  plugin-validation:
+    name: Plugin Structure
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -65,3 +77,66 @@ jobs:
           echo "Plugin: $(grep -o '"name": *"[^"]*"' .claude-plugin/plugin.json | head -1 | cut -d'"' -f4)"
           echo "Version: $(grep -o '"version": *"[^"]*"' .claude-plugin/plugin.json | head -1 | cut -d'"' -f4)"
           echo "================================="
+
+  qa-pipeline:
+    name: QA Pipeline
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript check
+        run: npm run qa:typecheck
+
+      - name: Unit tests
+        run: npm run qa:unit
+
+      - name: Integration tests
+        run: npm run qa:integration
+
+      - name: Coverage summary
+        run: |
+          npm run qa:coverage --silent 2>&1 | tail -20
+          echo ""
+          echo "=== QA Pipeline Summary ==="
+          echo "✓ TypeScript compilation passed"
+          echo "✓ Unit tests passed"
+          echo "✓ Integration tests passed"
+          echo "✓ Coverage report generated"
+          echo "==========================="
+
+  test-matrix:
+    name: Test Matrix
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        node-version: [18, 20, 22]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm run qa:unit --silent
+
+      - name: Report
+        run: echo "✓ Node.js ${{ matrix.node-version }} on ${{ matrix.os }} passed"

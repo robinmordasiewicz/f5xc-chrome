@@ -84,3 +84,8 @@ nav:
       - Console Metadata: metadata/console.md
       - URL Sitemap: metadata/sitemap.md
       - Selectors: metadata/selectors.md
+  - Development:
+      - Architecture: development/architecture.md
+      - Testing: development/testing.md
+      - CI/CD: development/ci-cd.md
+      - Contributing: development/contributing.md

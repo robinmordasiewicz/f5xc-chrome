@@ -7,10 +7,12 @@ on:
     paths:
       - 'docs/**'
       - 'mkdocs.yml'
+      - 'requirements-docs.txt'
       - 'scripts/generate-manifest.py'
       - '.claude-plugin/**'
       - 'skills/**/console-navigation-metadata.json'
       - 'skills/**/url-sitemap.json'
+      - 'tests/README.md'
       - '.github/workflows/docs.yml'
   workflow_dispatch:
 

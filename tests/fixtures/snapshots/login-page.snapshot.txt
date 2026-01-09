@@ -1,0 +1,17 @@
+- URL: https://tenant.console.ves.volterra.io/
+- Title: Sign In - F5 Distributed Cloud
+
+[1] main ""
+  [2] heading "Sign In to F5 Distributed Cloud"
+  [3] img "F5 Logo"
+  [4] form ""
+    [5] group "Credentials"
+      [6] textbox "Email" placeholder="Enter your email address"
+      [7] textbox "Password" placeholder="Enter your password"
+    [8] button "Sign In"
+    [9] link "Forgot Password?" href="/forgot-password"
+    [10] separator ""
+    [11] button "Sign In with Azure SSO" href="/auth/azure"
+    [12] button "Sign In with Okta" href="/auth/okta"
+  [13] link "Contact Support" href="https://support.f5.com"
+  [14] text "Version 24.3.1"

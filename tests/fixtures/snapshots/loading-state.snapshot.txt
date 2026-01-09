@@ -1,0 +1,13 @@
+- URL: https://tenant.console.ves.volterra.io/web/workspaces/web-app-and-api-protection/namespaces/production/load_balancers/http_loadbalancers
+- Title: Loading... - F5 Distributed Cloud
+
+[1] navigation "Main Navigation"
+  [2] img "F5 Logo"
+  [3] link "Dashboard" href="/web/workspaces"
+  [4] button "User Menu" value="admin@acmecorp.com"
+
+[5] main ""
+  [6] region "Loading"
+    [7] progressbar "Loading content" value="indeterminate"
+    [8] text "Loading HTTP Load Balancers..."
+    [9] text "Please wait while we fetch your resources."
