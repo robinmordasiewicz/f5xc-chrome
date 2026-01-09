@@ -91,7 +91,7 @@
     ],
     "requires": {
       "mcp": [
-        "claude-in-chrome"
+        "chrome-devtools"
       ]
     }
   }

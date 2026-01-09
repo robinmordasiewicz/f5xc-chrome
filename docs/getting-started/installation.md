@@ -2,16 +2,15 @@
 
 ## Prerequisites
 
-### 1. Claude in Chrome Extension
+### 1. Chrome DevTools MCP Server
 
-Install from the Chrome Web Store and verify connection:
+This plugin uses the Chrome DevTools MCP server for browser automation. The server is configured in `.mcp.json` and starts automatically when needed.
 
 ```bash
-# Visit Chrome Web Store and install "Claude in Chrome" extension
-# Pin the extension to your toolbar for easy access
+# Verify the MCP server works:
+npx -y @anthropic/mcp-server-chrome-devtools@latest
 
-# Verify connection
-claude --chrome
+# The server will start automatically with Claude Code
 ```
 
 ### 2. F5 XC Tenant Access
@@ -41,11 +40,27 @@ claude --plugin-dir /path/to/f5xc-console
 ## Verify Installation
 
 ```bash
-# Start Claude Code with Chrome integration
-claude --chrome
+# Start Claude Code (Chrome DevTools MCP starts automatically)
+claude
 
 # Check plugin is loaded
 /xc:console status
+```
+
+## MCP Configuration
+
+The `.mcp.json` file configures the Chrome DevTools MCP server:
+
+```json
+{
+  "$schema": "https://anthropic.com/claude-code/mcp.schema.json",
+  "mcpServers": {
+    "chrome-devtools": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-server-chrome-devtools@latest"]
+    }
+  }
+}
 ```
 
 ## Environment Variables (Optional)
