@@ -1,7 +1,7 @@
 {
-  "version": "2.2.0",
-  "tenant": "nferreira.staging.volterra.us",
-  "last_crawled": "2025-12-25T02:45:00Z",
+  "version": "2.3.0",
+  "tenant": "f5-amer-ent.console.ves.volterra.io",
+  "last_crawled": "2026-01-09T02:45:00Z",
   "description": "Complete URL sitemap for F5 XC console deterministic navigation",
 
   "static_routes": {
@@ -119,6 +119,96 @@
       "title": "Audit Logs & Alerts",
       "workspace": "audit_logs",
       "page_type": "workspace"
+    },
+    "/web/workspaces/administration/tenant-settings/tenant-overview": {
+      "title": "Tenant Overview",
+      "workspace": "administration",
+      "section": "tenant_settings",
+      "page_type": "admin_page"
+    },
+    "/web/workspaces/administration/tenant-settings/login-options": {
+      "title": "Login Options",
+      "workspace": "administration",
+      "section": "tenant_settings",
+      "page_type": "admin_page"
+    },
+    "/web/workspaces/administration/tenant-settings/public_ip": {
+      "title": "Public IP Addresses",
+      "workspace": "administration",
+      "section": "tenant_settings",
+      "page_type": "admin_page"
+    },
+    "/web/workspaces/administration/tenant-settings/quotas": {
+      "title": "Quotas",
+      "workspace": "administration",
+      "section": "tenant_settings",
+      "page_type": "admin_page"
+    },
+    "/web/workspaces/administration/personal-management/account-settings": {
+      "title": "My Account",
+      "workspace": "administration",
+      "section": "personal_management",
+      "page_type": "admin_page"
+    },
+    "/web/workspaces/administration/personal-management/namespaces": {
+      "title": "My Namespaces",
+      "workspace": "administration",
+      "section": "personal_management",
+      "page_type": "admin_page"
+    },
+    "/web/workspaces/administration/personal-management/api_credentials": {
+      "title": "Credentials",
+      "workspace": "administration",
+      "section": "personal_management",
+      "page_type": "admin_page"
+    },
+    "/web/workspaces/administration/iam/users": {
+      "title": "Users",
+      "workspace": "administration",
+      "section": "iam",
+      "page_type": "admin_page"
+    },
+    "/web/workspaces/administration/iam/groups": {
+      "title": "Groups",
+      "workspace": "administration",
+      "section": "iam",
+      "page_type": "admin_page"
+    },
+    "/web/workspaces/administration/iam/roles": {
+      "title": "Roles",
+      "workspace": "administration",
+      "section": "iam",
+      "page_type": "admin_page"
+    },
+    "/web/workspaces/administration/iam/tenant_access": {
+      "title": "Tenant Access",
+      "workspace": "administration",
+      "section": "iam",
+      "page_type": "admin_page"
+    },
+    "/web/workspaces/administration/iam/api_groups": {
+      "title": "API Groups",
+      "workspace": "administration",
+      "section": "iam",
+      "page_type": "admin_page"
+    },
+    "/web/workspaces/administration/iam/service_credentials": {
+      "title": "Service Credentials",
+      "workspace": "administration",
+      "section": "iam",
+      "page_type": "admin_page"
+    },
+    "/web/workspaces/administration/support/get_help": {
+      "title": "Get Help",
+      "workspace": "administration",
+      "section": "support",
+      "page_type": "admin_page"
+    },
+    "/web/workspaces/administration/support/requests": {
+      "title": "Requests",
+      "workspace": "administration",
+      "section": "support",
+      "page_type": "admin_page"
     }
   },
 
@@ -215,6 +305,24 @@
         "ai_type": ["app_settings"]
       },
       "example": "/web/workspaces/web-app-and-api-protection/namespaces/default/manage/ai_ml/app_settings"
+    },
+    {
+      "pattern": "/web/workspaces/administration/{section}/{page}",
+      "description": "Administration workspace pages",
+      "variables": {
+        "section": ["tenant-settings", "personal-management", "iam", "support"],
+        "page": ["tenant-overview", "login-options", "public_ip", "quotas", "account-settings", "namespaces", "api_credentials", "users", "groups", "roles", "tenant_access", "api_groups", "service_credentials", "get_help", "requests"]
+      },
+      "example": "/web/workspaces/administration/iam/users"
+    },
+    {
+      "pattern": "/web/workspaces/administration/{section}/{page}/create",
+      "description": "Administration resource creation forms",
+      "variables": {
+        "section": ["iam", "personal-management"],
+        "page": ["users", "groups", "api_credentials", "service_credentials"]
+      },
+      "example": "/web/workspaces/administration/iam/users/create"
     }
   ],
 
@@ -253,18 +361,32 @@
     "service-policies": "/web/workspaces/web-app-and-api-protection/namespaces/{namespace}/manage/service_policies/service_policies",
     "rate-limiters": "/web/workspaces/web-app-and-api-protection/namespaces/{namespace}/manage/rate_limiter_policies",
     "security": "/web/workspaces/web-app-and-api-protection/namespaces/{namespace}/overview/security",
-    "performance": "/web/workspaces/web-app-and-api-protection/namespaces/{namespace}/overview/performance"
+    "performance": "/web/workspaces/web-app-and-api-protection/namespaces/{namespace}/overview/performance",
+    "admin-users": "/web/workspaces/administration/iam/users",
+    "admin-groups": "/web/workspaces/administration/iam/groups",
+    "admin-roles": "/web/workspaces/administration/iam/roles",
+    "admin-credentials": "/web/workspaces/administration/personal-management/api_credentials",
+    "admin-service-credentials": "/web/workspaces/administration/iam/service_credentials",
+    "admin-quotas": "/web/workspaces/administration/tenant-settings/quotas",
+    "admin-tenant": "/web/workspaces/administration/tenant-settings/tenant-overview",
+    "admin-namespaces": "/web/workspaces/administration/personal-management/namespaces"
   },
 
   "crawl_coverage": {
-    "static_routes_discovered": 23,
-    "dynamic_patterns_defined": 9,
+    "static_routes_discovered": 38,
+    "dynamic_patterns_defined": 11,
     "workspaces_mapped": 21,
-    "shortcuts_defined": 10,
+    "shortcuts_defined": 18,
     "waap_complete": true,
+    "administration_complete": true,
     "mcn_complete": false,
     "dns_complete": false,
     "needs_full_crawl": true,
-    "note": "WAAP workspace fully crawled. Run /xc:console crawl to complete other workspaces."
+    "selector_coverage": {
+      "administration": "100%",
+      "waap": "partial",
+      "overall": "85%"
+    },
+    "note": "WAAP and Administration workspaces fully crawled with deterministic selectors. Run /xc:console crawl to complete other workspaces."
   }
 }

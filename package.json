@@ -1,6 +1,6 @@
 {
   "name": "@robinmordasiewicz/f5xc-console",
-  "version": "0.10.1",
+  "version": "0.12.0",
   "description": "Chrome browser automation for F5 Distributed Cloud console - navigate, crawl, and automate XC GUI operations",
   "keywords": [
     "claude-code",
@@ -51,7 +51,33 @@
   "scripts": {
     "prepublishOnly": "npm run validate",
     "validate": "node -e \"const p = require('./.claude-plugin/plugin.json'); console.log('Plugin valid:', p.name, 'v' + p.version);\"",
-    "version:sync": "node -e \"const fs = require('fs'); const pkg = require('./package.json'); const plugin = require('./.claude-plugin/plugin.json'); plugin.version = pkg.version; fs.writeFileSync('./.claude-plugin/plugin.json', JSON.stringify(plugin, null, 2) + '\\n');\""
+    "version:sync": "node -e \"const fs = require('fs'); const pkg = require('./package.json'); const plugin = require('./.claude-plugin/plugin.json'); plugin.version = pkg.version; fs.writeFileSync('./.claude-plugin/plugin.json', JSON.stringify(plugin, null, 2) + '\\n');\"",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:unit": "jest --config tests/config/jest.config.ts",
+    "test:integration": "playwright test --project=integration",
+    "test:uat": "playwright test --project=uat",
+    "test:smoke": "npm run test:unit && playwright test --grep @smoke",
+    "test:security": "playwright test --grep @security",
+    "test:nightly": "npm run test:unit && npm run test:integration && playwright test --project=uat --grep @nightly",
+    "test:all": "npm run test:unit && npm run test:integration && npm run test:uat",
+    "qa": "npm run qa:typecheck && npm run qa:unit && npm run qa:integration && npm run qa:coverage",
+    "qa:typecheck": "tsc --noEmit",
+    "qa:unit": "jest --config tests/config/jest.config.ts --testPathPattern=tests/unit",
+    "qa:integration": "jest --config tests/config/jest.config.ts --testPathPattern=tests/integration",
+    "qa:coverage": "jest --config tests/config/jest.config.ts --coverage --coverageReporters=text-summary --testPathPattern=tests/unit",
+    "qa:uat": "playwright test --project=uat",
+    "qa:full": "npm run qa && npm run qa:uat",
+    "qa:report": "npx ts-node scripts/generate-qa-report.ts",
+    "qa:pipeline": "npx ts-node scripts/qa-pipeline.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.0"
   },
   "claude-plugin": {
     "name": "xc",

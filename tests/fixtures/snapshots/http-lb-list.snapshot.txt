@@ -1,0 +1,58 @@
+- URL: https://tenant.console.ves.volterra.io/web/workspaces/web-app-and-api-protection/namespaces/production/load_balancers/http_loadbalancers
+- Title: HTTP Load Balancers - F5 Distributed Cloud
+
+[1] navigation "Main Navigation"
+  [2] img "F5 Logo"
+  [3] button "Tenant Selector" value="acmecorp-tenant"
+  [4] link "Dashboard" href="/web/workspaces"
+  [5] button "User Menu" value="admin@acmecorp.com"
+
+[6] navigation "Sidebar"
+  [7] link "Overview" href="/web/workspaces/web-app-and-api-protection/overview"
+  [8] link "Load Balancers" href="/web/workspaces/web-app-and-api-protection/load_balancers" selected
+    [9] link "HTTP Load Balancers" href="/web/workspaces/web-app-and-api-protection/load_balancers/http_loadbalancers" selected
+    [10] link "TCP Load Balancers" href="/web/workspaces/web-app-and-api-protection/load_balancers/tcp_loadbalancers"
+  [11] link "Origin Pools" href="/web/workspaces/web-app-and-api-protection/origin_pools"
+  [12] link "WAF" href="/web/workspaces/web-app-and-api-protection/waf"
+  [13] link "Service Policies" href="/web/workspaces/web-app-and-api-protection/service_policies"
+
+[14] main ""
+  [15] heading "HTTP Load Balancers"
+  [16] region "Namespace Selection"
+    [17] combobox "Namespace" value="production" expanded="false"
+      [18] option "production" selected
+      [19] option "staging"
+      [20] option "development"
+  [21] toolbar ""
+    [22] button "Add HTTP Load Balancer"
+    [23] button "Refresh"
+    [24] searchbox "Search load balancers" placeholder="Search by name..."
+  [25] table "Load Balancer List"
+    [26] rowgroup "Header"
+      [27] row ""
+        [28] columnheader "Name"
+        [29] columnheader "Domains"
+        [30] columnheader "Origin Pools"
+        [31] columnheader "Status"
+        [32] columnheader "Actions"
+    [33] rowgroup "Body"
+      [34] row ""
+        [35] cell "web-frontend"
+        [36] cell "www.acmecorp.com, api.acmecorp.com"
+        [37] cell "backend-servers"
+        [38] cell "Active"
+        [39] cell ""
+          [40] button "Edit" href="/web/workspaces/web-app-and-api-protection/namespaces/production/load_balancers/http_loadbalancers/web-frontend/edit"
+          [41] button "Delete"
+      [42] row ""
+        [43] cell "api-gateway"
+        [44] cell "api.acmecorp.com"
+        [45] cell "api-backends"
+        [46] cell "Active"
+        [47] cell ""
+          [48] button "Edit" href="/web/workspaces/web-app-and-api-protection/namespaces/production/load_balancers/http_loadbalancers/api-gateway/edit"
+          [49] button "Delete"
+  [50] navigation "Pagination"
+    [51] button "Previous" disabled
+    [52] text "Page 1 of 1"
+    [53] button "Next" disabled

@@ -32,3 +32,13 @@ Thumbs.db
 
 # Generated manifest (built from source files)
 manifest.json
+
+# Test coverage output
+coverage/
+
+# Local MCP/tool state
+.playwright-mcp/
+.serena/
+
+# Build output
+site/

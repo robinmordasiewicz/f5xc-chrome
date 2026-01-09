@@ -1,0 +1,24 @@
+- URL: https://tenant.console.ves.volterra.io/web/workspaces/web-app-and-api-protection/namespaces/restricted/load_balancers/http_loadbalancers
+- Title: Access Denied - F5 Distributed Cloud
+
+[1] navigation "Main Navigation"
+  [2] img "F5 Logo"
+  [3] link "Dashboard" href="/web/workspaces"
+  [4] button "User Menu" value="viewer@acmecorp.com"
+
+[5] main ""
+  [6] alert "Access Denied"
+    [7] img "Warning Icon"
+    [8] heading "Permission Denied"
+    [9] text "You do not have permission to access this resource."
+    [10] text "Required permission: ves-io-http-loadbalancer/write"
+    [11] text "Your role: Viewer"
+    [12] group "Actions"
+      [13] button "Request Access"
+      [14] button "Contact Administrator"
+      [15] link "Return to Dashboard" href="/web/workspaces"
+
+[16] complementary "Help"
+  [17] heading "Need Help?"
+  [18] text "Contact your administrator to request access to this resource."
+  [19] link "View RBAC Documentation" href="https://docs.cloud.f5.com/docs/rbac"

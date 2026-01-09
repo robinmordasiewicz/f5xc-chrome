@@ -1,6 +1,8 @@
-# F5 XC Console Crawl Workflow (v2.2)
+# F5 XC Console Crawl Workflow (v2.3)
 
 This document defines the step-by-step workflow for Claude to crawl the F5 XC console and generate deterministic navigation metadata with stable selectors.
+
+> **v2.3 Update**: Enhanced selector extraction strategy since F5 XC UI does not use `data-testid` attributes. Now prioritizes `name`, `aria-label`, `text_match`, and CSS role+text patterns.
 
 ## Overview
 
@@ -111,43 +113,77 @@ Expected cards:
 
 For each element identified, extract stable selectors that work across browser sessions.
 
+> **Important**: F5 XC UI does NOT use `data-testid` attributes. The extraction script below focuses on attributes that ARE present in the F5 XC console.
+
 ### Step 2B.1: Execute JavaScript to Extract Element Attributes
 
 ```
-Tool: mcp__claude-in-chrome__javascript_tool
+Tool: mcp__chrome-devtools__evaluate_script (or mcp__playwright__browser_evaluate)
 Parameters: {
-  tabId: [tabId],
-  text: `
-    const elements = document.querySelectorAll('[data-testid], [aria-label], button, input, select, a');
-    const selectors = [];
+  function: `() => {
+    // Enhanced selector extraction for F5 XC console
+    // Priority: name > aria-label > role+text > tag+text
 
-    elements.forEach((el) => {
-      const selector = {
-        tagName: el.tagName.toLowerCase(),
-        data_testid: el.getAttribute('data-testid'),
-        aria_label: el.getAttribute('aria-label'),
-        text_content: el.textContent?.trim().substring(0, 50),
-        id: el.id || null,
-        name: el.getAttribute('name'),
-        role: el.getAttribute('role')
-      };
+    function buildDeterministicSelector(el) {
+      // 1. Name attribute (highest reliability for form fields)
+      const name = el.getAttribute('name');
+      if (name) return { type: 'name', selector: '[name="' + name + '"]' };
 
-      if (selector.data_testid || selector.aria_label || selector.id || selector.name) {
-        selectors.push(selector);
+      // 2. Aria-label (high reliability)
+      const ariaLabel = el.getAttribute('aria-label');
+      if (ariaLabel) return { type: 'aria_label', selector: '[aria-label="' + ariaLabel + '"]' };
+
+      // 3. Role + text combination
+      const role = el.getAttribute('role');
+      const text = el.textContent?.trim().substring(0, 50);
+      if (role && text) return { type: 'role_text', selector: '[role="' + role + '"]:has-text("' + text + '")' };
+
+      // 4. Tag + text (fallback)
+      if (text && text.length < 40) {
+        return { type: 'tag_text', selector: el.tagName.toLowerCase() + ':has-text("' + text + '")' };
+      }
+
+      // 5. Placeholder for inputs
+      const placeholder = el.getAttribute('placeholder');
+      if (placeholder) return { type: 'placeholder', selector: '[placeholder="' + placeholder + '"]' };
+
+      return null;
+    }
+
+    const elements = document.querySelectorAll('button, input, select, textarea, [role="button"], [role="link"], [role="menuitem"], [role="tab"], [role="listbox"], a[href^="/"]');
+    const results = [];
+
+    elements.forEach((el, index) => {
+      const selectorInfo = buildDeterministicSelector(el);
+      if (selectorInfo) {
+        results.push({
+          index: index,
+          tagName: el.tagName.toLowerCase(),
+          role: el.getAttribute('role'),
+          aria_label: el.getAttribute('aria-label'),
+          name: el.getAttribute('name'),
+          type: el.getAttribute('type'),
+          text_content: el.textContent?.trim().substring(0, 100),
+          placeholder: el.getAttribute('placeholder'),
+          href: el.getAttribute('href'),
+          deterministic_selector: selectorInfo.selector,
+          selector_type: selectorInfo.type,
+          is_visible: el.offsetParent !== null
+        });
       }
     });
 
-    JSON.stringify(selectors, null, 2);
-  `
+    return JSON.stringify(results, null, 2);
+  }`
 }
 ```
 
 ### Step 2B.2: Map Selectors to Element Refs
 
-For each element from `read_page`:
-1. Match by position/role to extracted selectors
+For each element from `read_page` or `take_snapshot`:
+1. Match by position, role, and text to extracted selectors
 2. Combine ref with stable selector data
-3. Build fallback chain: `data_testid > aria_label > text_match > css > ref`
+3. Build fallback chain: `name > aria_label > text_match > role_text > css > ref`
 
 ### Step 2B.3: Update Metadata with Selectors
 
@@ -157,14 +193,26 @@ For each element from `read_page`:
     "ref": "ref_7",
     "name": "Web App & API Protection",
     "selectors": {
-      "data_testid": null,
+      "name": null,
       "aria_label": null,
       "text_match": "Web App & API Protection",
-      "css": ".workspace-card:has-text('Web App')"
-    }
+      "css": "[role='link']:has-text('Web App & API Protection')"
+    },
+    "deterministic_selector": "[role='link']:has-text('Web App & API Protection')"
   }
 }
 ```
+
+### Selector Priority Matrix
+
+| Priority | Type | Reliability | Example |
+|----------|------|-------------|---------|
+| 1 | `name` | Very High | `[name="metadata.name"]` |
+| 2 | `aria-label` | High | `[aria-label="Add User"]` |
+| 3 | `role+text` | Medium-High | `[role="button"]:has-text("Save")` |
+| 4 | `tag+text` | Medium | `button:has-text("Add")` |
+| 5 | `placeholder` | Medium | `[placeholder="Enter name"]` |
+| 6 | `ref` | Low | `ref_45` (session-specific) |
 
 ---
 

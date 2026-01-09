@@ -1,7 +1,7 @@
 {
-  "version": "2.2.0",
-  "tenant": "nferreira.staging.volterra.us",
-  "last_crawled": "2025-12-24T21:35:00Z",
+  "version": "2.3.0",
+  "tenant": "f5-amer-ent.console.ves.volterra.io",
+  "last_crawled": "2026-01-09T02:45:00Z",
 
   "deterministic_navigation": {
     "enabled": true,
@@ -10,9 +10,11 @@
   },
 
   "selector_priority": [
-    "data_testid",
+    "name",
     "aria_label",
+    "href_path",
     "text_match",
+    "placeholder",
     "css",
     "ref"
   ],
@@ -663,15 +665,299 @@
     }
   },
 
+  "administration_workspace": {
+    "url": "/web/workspaces/administration",
+    "description": "Administration workspace for tenant management, IAM, and support",
+    "sidebar": {
+      "tenant_settings": {
+        "section_name": "Tenant Settings",
+        "items": {
+          "tenant_overview": {
+            "label": "Tenant Overview",
+            "url": "/web/workspaces/administration/tenant-settings/tenant-overview",
+            "selectors": {
+              "href_path": "a[href*=\"tenant-settings/tenant-overview\"]",
+              "text_match": "Tenant Overview"
+            }
+          },
+          "login_options": {
+            "label": "Login Options",
+            "url": "/web/workspaces/administration/tenant-settings/login-options",
+            "selectors": {
+              "href_path": "a[href*=\"tenant-settings/login-options\"]",
+              "text_match": "Login Options"
+            }
+          },
+          "public_ip_addresses": {
+            "label": "Public IP Addresses",
+            "url": "/web/workspaces/administration/tenant-settings/public_ip",
+            "selectors": {
+              "href_path": "a[href*=\"tenant-settings/public_ip\"]",
+              "text_match": "Public IP Addresses"
+            }
+          },
+          "quotas": {
+            "label": "Quotas",
+            "url": "/web/workspaces/administration/tenant-settings/quotas",
+            "selectors": {
+              "href_path": "a[href*=\"tenant-settings/quotas\"]",
+              "text_match": "Quotas"
+            }
+          }
+        }
+      },
+      "personal_management": {
+        "section_name": "Personal Management",
+        "items": {
+          "my_account": {
+            "label": "My Account",
+            "url": "/web/workspaces/administration/personal-management/account-settings",
+            "selectors": {
+              "href_path": "a[href*=\"personal-management/account-settings\"]",
+              "text_match": "My Account"
+            }
+          },
+          "my_namespaces": {
+            "label": "My Namespaces",
+            "url": "/web/workspaces/administration/personal-management/namespaces",
+            "selectors": {
+              "href_path": "a[href*=\"personal-management/namespaces\"]",
+              "text_match": "My Namespaces"
+            }
+          },
+          "credentials": {
+            "label": "Credentials",
+            "url": "/web/workspaces/administration/personal-management/api_credentials",
+            "selectors": {
+              "href_path": "a[href*=\"personal-management/api_credentials\"]",
+              "text_match": "Credentials"
+            }
+          }
+        }
+      },
+      "iam": {
+        "section_name": "IAM",
+        "items": {
+          "users": {
+            "label": "Users",
+            "url": "/web/workspaces/administration/iam/users",
+            "selectors": {
+              "href_path": "a[href*=\"iam/users\"]",
+              "text_match": "Users"
+            }
+          },
+          "groups": {
+            "label": "Groups",
+            "url": "/web/workspaces/administration/iam/groups",
+            "selectors": {
+              "href_path": "a[href*=\"iam/groups\"]",
+              "text_match": "Groups"
+            }
+          },
+          "roles": {
+            "label": "Roles",
+            "url": "/web/workspaces/administration/iam/roles",
+            "selectors": {
+              "href_path": "a[href*=\"iam/roles\"]",
+              "text_match": "Roles"
+            }
+          },
+          "tenant_access": {
+            "label": "Tenant Access",
+            "url": "/web/workspaces/administration/iam/tenant_access",
+            "selectors": {
+              "href_path": "a[href*=\"iam/tenant_access\"]",
+              "text_match": "Tenant Access"
+            }
+          },
+          "api_groups": {
+            "label": "API Groups",
+            "url": "/web/workspaces/administration/iam/api_groups",
+            "selectors": {
+              "href_path": "a[href*=\"iam/api_groups\"]",
+              "text_match": "API Groups"
+            }
+          },
+          "service_credentials": {
+            "label": "Service Credentials",
+            "url": "/web/workspaces/administration/iam/service_credentials",
+            "selectors": {
+              "href_path": "a[href*=\"iam/service_credentials\"]",
+              "text_match": "Service Credentials"
+            }
+          }
+        }
+      },
+      "support": {
+        "section_name": "Support",
+        "items": {
+          "get_help": {
+            "label": "Get Help",
+            "url": "/web/workspaces/administration/support/get_help",
+            "selectors": {
+              "href_path": "a[href*=\"support/get_help\"]",
+              "text_match": "Get Help"
+            }
+          },
+          "requests": {
+            "label": "Requests",
+            "url": "/web/workspaces/administration/support/requests",
+            "selectors": {
+              "href_path": "a[href*=\"support/requests\"]",
+              "text_match": "Requests"
+            }
+          }
+        }
+      }
+    },
+    "pages": {
+      "users": {
+        "url": "/web/workspaces/administration/iam/users",
+        "title": "Users - IAM | Administration",
+        "elements": {
+          "add_button": {
+            "text": "Add User",
+            "selectors": {
+              "text_match": ":has-text(\"Add User\")",
+              "css": "button:has-text('Add User')"
+            },
+            "note": "May be locked based on RBAC permissions"
+          },
+          "refresh_button": {
+            "text": "Refresh",
+            "selectors": {
+              "text_match": ":has-text(\"Refresh\")"
+            }
+          },
+          "help_button": {
+            "selectors": {
+              "aria_label": "[aria-label=\"Help\"]"
+            }
+          },
+          "search": {
+            "type": "textbox",
+            "selectors": {
+              "placeholder": "[placeholder=\"Search\"]",
+              "css": "input[type='search']"
+            }
+          }
+        },
+        "table": {
+          "columns": ["User ID", "Type", "User Name", "Namespaces", "Groups", "Last Login", "Status", "Actions"],
+          "pagination": {
+            "page_sizes": [10, 50, 100],
+            "selectors": {
+              "page_size_dropdown": "[aria-label=\"Page size\"]"
+            }
+          }
+        }
+      },
+      "credentials": {
+        "url": "/web/workspaces/administration/personal-management/api_credentials",
+        "title": "Credentials - Personal Management | Administration",
+        "elements": {
+          "add_button": {
+            "text": "Add Credentials",
+            "selectors": {
+              "text_match": ":has-text(\"Add Credentials\")",
+              "css": "button:has-text('Add Credentials')"
+            }
+          },
+          "refresh_button": {
+            "text": "Refresh",
+            "selectors": {
+              "text_match": ":has-text(\"Refresh\")"
+            }
+          },
+          "help_button": {
+            "selectors": {
+              "aria_label": "[aria-label=\"Help\"]"
+            }
+          },
+          "search": {
+            "type": "textbox",
+            "selectors": {
+              "placeholder": "[placeholder=\"Search\"]"
+            }
+          }
+        },
+        "table": {
+          "columns": ["Name", "Type", "Created By", "Creation Date", "Expiry Date", "Actions"]
+        }
+      },
+      "groups": {
+        "url": "/web/workspaces/administration/iam/groups",
+        "title": "Groups - IAM | Administration",
+        "elements": {
+          "add_button": {
+            "text": "Add Group",
+            "selectors": {
+              "text_match": ":has-text(\"Add Group\")",
+              "css": "button:has-text('Add Group')"
+            }
+          },
+          "search": {
+            "type": "textbox",
+            "selectors": {
+              "placeholder": "[placeholder=\"Search\"]"
+            }
+          }
+        }
+      },
+      "roles": {
+        "url": "/web/workspaces/administration/iam/roles",
+        "title": "Roles - IAM | Administration",
+        "elements": {
+          "search": {
+            "type": "textbox",
+            "selectors": {
+              "placeholder": "[placeholder=\"Search\"]"
+            }
+          }
+        },
+        "note": "Roles are typically read-only system-defined"
+      },
+      "service_credentials": {
+        "url": "/web/workspaces/administration/iam/service_credentials",
+        "title": "Service Credentials - IAM | Administration",
+        "elements": {
+          "add_button": {
+            "text": "Add Service Credentials",
+            "selectors": {
+              "text_match": ":has-text(\"Add Service Credentials\")",
+              "css": "button:has-text('Add Service Credentials')"
+            }
+          },
+          "search": {
+            "type": "textbox",
+            "selectors": {
+              "placeholder": "[placeholder=\"Search\"]"
+            }
+          }
+        }
+      },
+      "quotas": {
+        "url": "/web/workspaces/administration/tenant-settings/quotas",
+        "title": "Quotas - Tenant Settings | Administration",
+        "note": "Displays resource quotas and usage"
+      }
+    }
+  },
+
   "crawl_summary": {
-    "pages_crawled": 3,
+    "pages_crawled": 5,
     "forms_extracted": 1,
     "total_refs": 150,
     "workspaces_discovered": 22,
-    "sidebar_items": 18,
+    "workspaces_crawled": ["waap", "administration"],
+    "sidebar_items": 33,
     "form_fields": 25,
-    "elements_with_stable_selectors": 0,
-    "selector_coverage_percentage": 0,
-    "needs_crawl_for_selectors": true
+    "administration_pages": 15,
+    "administration_sections": 4,
+    "elements_with_stable_selectors": 35,
+    "selector_coverage_percentage": 85,
+    "selector_types_used": ["href_path", "text_match", "aria_label", "placeholder", "css"],
+    "needs_crawl_for_selectors": false,
+    "remaining_workspaces": ["mcn", "dns", "cdn", "bot_defense", "data_intelligence", "client_side_defense", "web_app_scanning", "nginx_one", "bigip_utilities", "routed_ddos", "observability", "account_protection", "authentication_intelligence", "application_traffic_insight", "delegated_access", "shared_configuration", "audit_logs_alerts", "billing", "distributed_apps", "multi_cloud_app_connect"]
   }
 }
