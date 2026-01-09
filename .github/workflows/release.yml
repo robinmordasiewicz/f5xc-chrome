@@ -11,11 +11,15 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    # Skip if this is a release commit (prevents infinite loop)
+    if: "!startsWith(github.event.head_commit.message, 'chore: release v')"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          # Use PAT to bypass branch protection
+          token: ${{ secrets.RELEASE_TOKEN }}
 
       - name: Get latest tag
         id: get_tag
@@ -47,6 +51,7 @@ jobs:
           # Check for no new commits
           if [ -z "$COMMITS" ]; then
             echo "skip=true" >> $GITHUB_OUTPUT
+            echo "No new commits since last tag"
             exit 0
           fi
 
@@ -72,15 +77,27 @@ jobs:
           echo "bump_type=$BUMP_TYPE" >> $GITHUB_OUTPUT
           echo "New version: $NEW_VERSION ($BUMP_TYPE)"
 
-      - name: Update version in plugin.json
+      - name: Check if tag exists
         if: steps.bump.outputs.skip != 'true'
+        id: check_tag
+        run: |
+          NEW_VERSION="${{ steps.bump.outputs.new_version }}"
+          if git rev-parse "v$NEW_VERSION" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Tag v$NEW_VERSION already exists, skipping release"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Update version in plugin.json
+        if: steps.bump.outputs.skip != 'true' && steps.check_tag.outputs.exists != 'true'
         run: |
           NEW_VERSION="${{ steps.bump.outputs.new_version }}"
           sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"$NEW_VERSION\"/" .claude-plugin/plugin.json
           cat .claude-plugin/plugin.json
 
       - name: Update version in CHANGELOG.md
-        if: steps.bump.outputs.skip != 'true'
+        if: steps.bump.outputs.skip != 'true' && steps.check_tag.outputs.exists != 'true'
         run: |
           NEW_VERSION="${{ steps.bump.outputs.new_version }}"
           DATE=$(date +%Y-%m-%d)
@@ -100,8 +117,8 @@ jobs:
           sed -i "/^## \[/i\\
           $ENTRY" CHANGELOG.md 2>/dev/null || true
 
-      - name: Commit version bump
-        if: steps.bump.outputs.skip != 'true'
+      - name: Commit and push release
+        if: steps.bump.outputs.skip != 'true' && steps.check_tag.outputs.exists != 'true'
         run: |
           NEW_VERSION="${{ steps.bump.outputs.new_version }}"
           git config user.name "github-actions[bot]"
@@ -111,14 +128,14 @@ jobs:
           git push
 
       - name: Create and push tag
-        if: steps.bump.outputs.skip != 'true'
+        if: steps.bump.outputs.skip != 'true' && steps.check_tag.outputs.exists != 'true'
         run: |
           NEW_VERSION="${{ steps.bump.outputs.new_version }}"
           git tag "v${NEW_VERSION}"
           git push origin "v${NEW_VERSION}"
 
       - name: Generate release notes
-        if: steps.bump.outputs.skip != 'true'
+        if: steps.bump.outputs.skip != 'true' && steps.check_tag.outputs.exists != 'true'
         id: notes
         run: |
           LATEST_TAG="${{ steps.get_tag.outputs.latest_tag }}"
@@ -142,7 +159,7 @@ jobs:
           echo '```' >> release_notes.md
 
       - name: Create GitHub Release
-        if: steps.bump.outputs.skip != 'true'
+        if: steps.bump.outputs.skip != 'true' && steps.check_tag.outputs.exists != 'true'
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ steps.bump.outputs.new_version }}
@@ -153,10 +170,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Notify marketplace of new release
-        if: steps.bump.outputs.skip != 'true'
+        if: steps.bump.outputs.skip != 'true' && steps.check_tag.outputs.exists != 'true'
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.MARKETPLACE_TOKEN }}
           repository: robinmordasiewicz/f5-distributed-cloud-marketplace
           event-type: plugin-release
-          client-payload: '{"plugin": "f5xc-console", "version": "${{ steps.bump.outputs.new_version }}"}'
+          client-payload: '{"plugin": "f5xc-console", "version": "v${{ steps.bump.outputs.new_version }}"}'
