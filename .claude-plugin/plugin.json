@@ -1,7 +1,7 @@
 {
   "name": "xc",
   "display_name": "F5 XC Console Automation",
-  "version": "0.14.1",
+  "version": "0.14.2",
   "tagline": "Automate F5 Distributed Cloud console with browser automation",
   "description": "Chrome browser automation for F5 Distributed Cloud console - navigate, crawl, and automate XC GUI operations",
   "long_description": "This Claude Code plugin provides comprehensive browser automation for the F5 Distributed Cloud (XC) web console. Using the Claude in Chrome extension, it enables automated navigation, form filling, data extraction, and workflow execution.\n\n## Key Capabilities\n\n- **Multi-Provider Authentication** - Supports Azure SSO, Google, Okta, SAML, and native login with automatic session detection\n- **Deterministic Navigation** - Pre-crawled stable selectors (data-testid, aria-label) for reliable automation across sessions\n- **Form Automation** - Create HTTP/TCP load balancers, origin pools, WAF policies, and more\n- **Console Crawling** - Extract and refresh navigation metadata from live console\n- **23 Pre-built Workflows** - Common F5 XC tasks ready to execute\n\n## Use Cases\n\n- Automate repetitive console tasks\n- Create resources faster than manual clicking\n- Extract configuration data from the console\n- Test console functionality\n- Learn F5 XC console structure",
