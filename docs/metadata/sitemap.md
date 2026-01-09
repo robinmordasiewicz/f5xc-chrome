@@ -104,6 +104,7 @@ Variables:
 
 ### Direct Navigation
 
+{% raw %}
 ```python
 sitemap = load_json("url-sitemap.json")
 
@@ -114,9 +115,11 @@ waap_path = sitemap["workspace_mapping"]["waap"]
 # Use resource shortcut (with namespace)
 http_lb_path = sitemap["resource_shortcuts"]["http-lb"].replace("{namespace}", "default")
 ```
+{% endraw %}
 
 ### Building Dynamic URLs
 
+{% raw %}
 ```python
 def build_url(pattern: str, **kwargs) -> str:
     url = pattern
@@ -132,3 +135,4 @@ url = build_url(
     lb_type="http_loadbalancers"
 )
 ```
+{% endraw %}
