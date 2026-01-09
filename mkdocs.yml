@@ -46,6 +46,10 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/robinmordasiewicz
 
+extra_javascript:
+  - https://unpkg.com/mermaid@10/dist/mermaid.min.js
+  - javascripts/mermaid-init.js
+
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
