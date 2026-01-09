@@ -20,7 +20,7 @@ Result: ~70% success rate
 
 ```
 Claude: Uses data_testid > aria_label > text_match fallback
-Uses: mcp__claude-in-chrome__find with stable selector
+Uses: mcp__chrome-devtools__take_snapshot with stable selector
 Result: ~95% success rate across sessions
 ```
 

@@ -1,7 +1,7 @@
 /**
  * F5 XC Console - RBAC Permission Detection Script
  *
- * Execute via mcp__claude-in-chrome__javascript_tool
+ * Execute via mcp__chrome-devtools__javascript_tool
  * Detects read-only vs editable permissions based on DOM patterns
  *
  * Returns: { canEdit, canDelete, canCreate, canClone, viewOnly, indicators }

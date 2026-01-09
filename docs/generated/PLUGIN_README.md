@@ -19,7 +19,7 @@
 
 # xc
 
-[![Version](https://img.shields.io/badge/version-0.5.1-blue?style=for-the-badge)](https://github.com/robinmordasiewicz/f5xc-console/releases)
+[![Version](https://img.shields.io/badge/version-0.12.0-blue?style=for-the-badge)](https://github.com/robinmordasiewicz/f5xc-console/releases)
 [![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-Plugin-purple?style=for-the-badge)](https://claude.com/claude-code)
 
@@ -131,14 +131,14 @@ export OPTIONAL_VAR="default-value"
 
 ### `xc-console`
 
-> Automate F5 Distributed Cloud web console operations through browser automation using mcp__claude-in-chrome MCP tools. Handles multi-provider authentication (Azure SSO, Google, Okta, SAML, native username/password), detecting session expiry and navigating login flows. Warns when VPN is required. Use when creating HTTP/TCP load balancers, origin pools, WAF policies, deploying cloud sites (AWS/Azure/GCP), managing DNS zones, configuring service policies, or executing any F5 XC GUI-based tasks. Triggers on: F5 XC console, GUI automation, browser automation, login, SSO, authenticate, tenant management, visual configuration, Web App and API Protection, WAAP.
+> Automate F5 Distributed Cloud web console operations through browser automation using mcp__chrome-devtools MCP tools. Handles multi-provider authentication (Azure SSO, Google, Okta, SAML, native username/password), detecting session expiry and navigating login flows. Warns when VPN is required. Use when creating HTTP/TCP load balancers, origin pools, WAF policies, deploying cloud sites (AWS/Azure/GCP), managing DNS zones, configuring service policies, or executing any F5 XC GUI-based tasks. Triggers on: F5 XC console, GUI automation, browser automation, login, SSO, authenticate, tenant management, visual configuration, Web App and API Protection, WAAP.
 
 ??? info "Skill Metadata"
     | Field | Value |
     |:------|:------|
     | **Triggers** | keyword1, keyword2, keyword3 |
     | **MCP Tools** | `tool1`, `tool2`, `tool3` |
-    | **Version** | 0.5.1 |
+    | **Version** | 0.12.0 |
 
 #### Capabilities
 
@@ -263,7 +263,7 @@ skills/xc-console/
 ??? abstract "Version History"
     | Version | Date | Changes |
     |:--------|:-----|:--------|
-    | `0.5.1` | 2025-12-24 | Current release |
+    | `0.12.0` | 2025-12-24 | Current release |
     | `0.2.0` | 2025-01-01 | Added feature X |
     | `0.1.0` | 2024-12-01 | Initial release |
 

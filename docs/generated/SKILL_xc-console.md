@@ -15,7 +15,7 @@
 # - Icons and emojis
 # ============================================================================
 name: xc-console
-description: Automate F5 Distributed Cloud web console operations through browser automation using mcp__claude-in-chrome MCP tools. Handles multi-provider authentication (Azure SSO, Google, Okta, SAML, native username/password), detecting session expiry and navigating login flows. Warns when VPN is required. Use when creating HTTP/TCP load balancers, origin pools, WAF policies, deploying cloud sites (AWS/Azure/GCP), managing DNS zones, configuring service policies, or executing any F5 XC GUI-based tasks. Triggers on: F5 XC console, GUI automation, browser automation, login, SSO, authenticate, tenant management, visual configuration, Web App and API Protection, WAAP.
+description: Automate F5 Distributed Cloud web console operations through browser automation using mcp__chrome-devtools MCP tools. Handles multi-provider authentication (Azure SSO, Google, Okta, SAML, native username/password), detecting session expiry and navigating login flows. Warns when VPN is required. Use when creating HTTP/TCP load balancers, origin pools, WAF policies, deploying cloud sites (AWS/Azure/GCP), managing DNS zones, configuring service policies, or executing any F5 XC GUI-based tasks. Triggers on: F5 XC console, GUI automation, browser automation, login, SSO, authenticate, tenant management, visual configuration, Web App and API Protection, WAAP.
 allowed_args: true
 ---
 
@@ -27,7 +27,7 @@ allowed_args: true
 [![Metadata](https://img.shields.io/badge/metadata-v2.2.0-green?style=flat-square)]()
 [![Status](https://img.shields.io/badge/status-active-brightgreen?style=flat-square)]()
 
-**Automate F5 Distributed Cloud web console operations through browser automation using mcp__claude-in-chrome MCP tools. Handles multi-provider authentication (Azure SSO, Google, Okta, SAML, native username/password), detecting session expiry and navigating login flows. Warns when VPN is required. Use when creating HTTP/TCP load balancers, origin pools, WAF policies, deploying cloud sites (AWS/Azure/GCP), managing DNS zones, configuring service policies, or executing any F5 XC GUI-based tasks. Triggers on: F5 XC console, GUI automation, browser automation, login, SSO, authenticate, tenant management, visual configuration, Web App and API Protection, WAAP.**
+**Automate F5 Distributed Cloud web console operations through browser automation using mcp__chrome-devtools MCP tools. Handles multi-provider authentication (Azure SSO, Google, Okta, SAML, native username/password), detecting session expiry and navigating login flows. Warns when VPN is required. Use when creating HTTP/TCP load balancers, origin pools, WAF policies, deploying cloud sites (AWS/Azure/GCP), managing DNS zones, configuring service policies, or executing any F5 XC GUI-based tasks. Triggers on: F5 XC console, GUI automation, browser automation, login, SSO, authenticate, tenant management, visual configuration, Web App and API Protection, WAAP.**
 
 </div>
 
@@ -40,7 +40,7 @@ Concise overview of what this skill does and when Claude should use it.
 Remember: Claude is smart - only include non-obvious procedural knowledge.
 -->
 
-Automate F5 Distributed Cloud web console operations through browser automation using mcp__claude-in-chrome MCP tools. Handles multi-provider authentication (Azure SSO, Google, Okta, SAML, native username/password), detecting session expiry and navigating login flows. Warns when VPN is required. Use when creating HTTP/TCP load balancers, origin pools, WAF policies, deploying cloud sites (AWS/Azure/GCP), managing DNS zones, configuring service policies, or executing any F5 XC GUI-based tasks. Triggers on: F5 XC console, GUI automation, browser automation, login, SSO, authenticate, tenant management, visual configuration, Web App and API Protection, WAAP.
+Automate F5 Distributed Cloud web console operations through browser automation using mcp__chrome-devtools MCP tools. Handles multi-provider authentication (Azure SSO, Google, Okta, SAML, native username/password), detecting session expiry and navigating login flows. Warns when VPN is required. Use when creating HTTP/TCP load balancers, origin pools, WAF policies, deploying cloud sites (AWS/Azure/GCP), managing DNS zones, configuring service policies, or executing any F5 XC GUI-based tasks. Triggers on: F5 XC console, GUI automation, browser automation, login, SSO, authenticate, tenant management, visual configuration, Web App and API Protection, WAAP.
 
 !!! abstract "Trigger Keywords"
     {{ skill.triggers | join(", ") }}
@@ -73,15 +73,15 @@ This skill leverages the following MCP tools:
 
 | Tool | Purpose | Required |
 |:-----|:--------|:--------:|
-| `mcp__claude-in-chrome` | Primary interaction | :white_check_mark: |
-| `mcp__claude-in-chrome__*` | Secondary function | :white_check_mark: |
-| `mcp__claude-in-chrome__tabs_context_mcp` | Optional enhancement | :x: |
+| `mcp__chrome-devtools` | Primary interaction | :white_check_mark: |
+| `mcp__chrome-devtools__*` | Secondary function | :white_check_mark: |
+| `mcp__chrome-devtools__tabs_context_mcp` | Optional enhancement | :x: |
 
 ??? info "Tool Reference"
     ```
-    mcp__claude-in-chrome      - Description of what it does
-    mcp__claude-in-chrome__*      - Description of what it does
-    mcp__claude-in-chrome__tabs_context_mcp      - Description of what it does
+    mcp__chrome-devtools      - Description of what it does
+    mcp__chrome-devtools__*      - Description of what it does
+    mcp__chrome-devtools__tabs_context_mcp      - Description of what it does
     ```
 
 ## :material-navigation: Navigation Metadata

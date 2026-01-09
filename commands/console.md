@@ -1,7 +1,7 @@
 ---
 description: F5 Distributed Cloud console automation via Chrome browser
 argument-hint: [action] [url/target]
-allowed-tools: mcp__claude-in-chrome__*, Read, Write, Glob, Grep
+allowed-tools: mcp__chrome-devtools__*, Read, Write, Glob, Grep
 ---
 
 # F5 XC Console Automation Command
@@ -124,8 +124,8 @@ Show current browser state and connection status.
 
 ## Prerequisites
 
-1. **Claude in Chrome Extension** - Install from Chrome Web Store
-2. **Chrome Connection** - Run `claude --chrome` or enable in settings
+1. **Chrome DevTools MCP Server** - Configured via `.mcp.json`
+2. **Chrome Browser** - Chrome must be installed
 3. **F5 XC Tenant Access** - Via SSO (Azure, Google, Okta, SAML) or native login
 4. **VPN** (if required) - Some tenants require VPN access
 
