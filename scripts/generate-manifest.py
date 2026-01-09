@@ -232,14 +232,13 @@ def generate_manifest(root_dir: Path) -> dict:
 
         # MCP tools used
         "mcp_tools": [
-            "mcp__claude-in-chrome__tabs_context_mcp",
-            "mcp__claude-in-chrome__navigate",
-            "mcp__claude-in-chrome__read_page",
-            "mcp__claude-in-chrome__computer",
-            "mcp__claude-in-chrome__find",
-            "mcp__claude-in-chrome__form_input",
-            "mcp__claude-in-chrome__get_page_text",
-            "mcp__claude-in-chrome__javascript_tool",
+            "mcp__chrome-devtools__list_pages",
+            "mcp__chrome-devtools__navigate_page",
+            "mcp__chrome-devtools__take_snapshot",
+            "mcp__chrome-devtools__click",
+            "mcp__chrome-devtools__fill",
+            "mcp__chrome-devtools__take_screenshot",
+            "mcp__chrome-devtools__evaluate_script",
         ],
 
         # Commands

@@ -1,7 +1,7 @@
 /**
  * F5 XC Console - Subscription Tier Detection Script
  *
- * Execute via mcp__claude-in-chrome__javascript_tool
+ * Execute via mcp__chrome-devtools__javascript_tool
  * Detects subscription tier based on feature availability and badges
  *
  * Returns: { tier, badges, gatedFeatures, upgradePrompts }

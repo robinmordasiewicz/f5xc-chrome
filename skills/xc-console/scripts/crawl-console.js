@@ -7,7 +7,7 @@
  *
  * Note: This script is NOT run directly via Node.js. Instead, it serves
  * as a reference implementation that Claude follows when executing the
- * crawl workflow using mcp__claude-in-chrome__* tools.
+ * crawl workflow using mcp__chrome-devtools__* tools.
  *
  * Usage: /f5xc-console crawl https://tenant.volterra.us/
  */
@@ -22,13 +22,13 @@
  * Claude should execute these MCP tool calls:
  *
  * 1. Get browser context:
- *    mcp__claude-in-chrome__tabs_context_mcp({ createIfEmpty: true })
+ *    mcp__chrome-devtools__tabs_context_mcp({ createIfEmpty: true })
  *
  * 2. Navigate to tenant home:
- *    mcp__claude-in-chrome__navigate({ tabId, url: tenantUrl })
+ *    mcp__chrome-devtools__navigate({ tabId, url: tenantUrl })
  *
  * 3. Wait for page load:
- *    mcp__claude-in-chrome__computer({ action: "wait", duration: 3, tabId })
+ *    mcp__chrome-devtools__computer({ action: "wait", duration: 3, tabId })
  *
  * 4. Check for login/SSO (see authentication-flows.md if needed)
  */
@@ -39,7 +39,7 @@
  * On the home page, extract workspace cards:
  *
  * 1. Read page structure:
- *    mcp__claude-in-chrome__read_page({ tabId, filter: "interactive" })
+ *    mcp__chrome-devtools__read_page({ tabId, filter: "interactive" })
  *
  * 2. For each workspace card, record:
  *    - Card title (e.g., "Web App & API Protection")
@@ -67,13 +67,13 @@
  * For each workspace:
  *
  * 1. Click workspace card:
- *    mcp__claude-in-chrome__computer({ action: "left_click", ref: cardRef, tabId })
+ *    mcp__chrome-devtools__computer({ action: "left_click", ref: cardRef, tabId })
  *
  * 2. Wait for workspace to load:
- *    mcp__claude-in-chrome__computer({ action: "wait", duration: 2, tabId })
+ *    mcp__chrome-devtools__computer({ action: "wait", duration: 2, tabId })
  *
  * 3. Extract sidebar navigation:
- *    mcp__claude-in-chrome__read_page({ tabId })
+ *    mcp__chrome-devtools__read_page({ tabId })
  *    - Look for navigation menu items
  *    - Record section headers (Overview, Manage, etc.)
  *    - Record menu items with their refs
@@ -81,7 +81,7 @@
  * 4. For each menu item, crawl the page (see Phase 4)
  *
  * 5. Return to home:
- *    mcp__claude-in-chrome__navigate({ tabId, url: "/web/home" })
+ *    mcp__chrome-devtools__navigate({ tabId, url: "/web/home" })
  */
 
 /**
@@ -92,7 +92,7 @@
  * 1. Navigate to the page (click menu item or direct URL)
  *
  * 2. Extract page metadata:
- *    mcp__claude-in-chrome__read_page({ tabId })
+ *    mcp__chrome-devtools__read_page({ tabId })
  *
  *    Record:
  *    - Page title
@@ -104,7 +104,7 @@
  * 3. If page has "Add" button, extract form structure (see Phase 5)
  *
  * 4. Take screenshot for visual reference:
- *    mcp__claude-in-chrome__computer({ action: "screenshot", tabId })
+ *    mcp__chrome-devtools__computer({ action: "screenshot", tabId })
  */
 
 /**
@@ -113,19 +113,19 @@
  * For resource creation forms:
  *
  * 1. Click "Add" button:
- *    mcp__claude-in-chrome__computer({ action: "left_click", ref: addButtonRef, tabId })
+ *    mcp__chrome-devtools__computer({ action: "left_click", ref: addButtonRef, tabId })
  *
  * 2. Wait for form to load:
- *    mcp__claude-in-chrome__computer({ action: "wait", duration: 2, tabId })
+ *    mcp__chrome-devtools__computer({ action: "wait", duration: 2, tabId })
  *
  * 3. Extract form sections (tabs/steps):
- *    mcp__claude-in-chrome__read_page({ tabId })
+ *    mcp__chrome-devtools__read_page({ tabId })
  *    - Look for tab navigation
  *    - Record section names
  *
  * 4. For each section, extract fields:
  *    - Click section tab
- *    - mcp__claude-in-chrome__read_page({ tabId })
+ *    - mcp__chrome-devtools__read_page({ tabId })
  *    - For each field, record:
  *      - Field name (from label)
  *      - Field ref
@@ -138,7 +138,7 @@
  * 5. Record submit/cancel buttons
  *
  * 6. Cancel form (don't submit):
- *    mcp__claude-in-chrome__computer({ action: "left_click", ref: cancelButtonRef, tabId })
+ *    mcp__chrome-devtools__computer({ action: "left_click", ref: cancelButtonRef, tabId })
  */
 
 // ============================================================================
@@ -186,7 +186,7 @@ const METADATA_TEMPLATE = {
 
 /**
  * JavaScript to extract stable selectors from DOM elements.
- * Execute via mcp__claude-in-chrome__javascript_tool
+ * Execute via mcp__chrome-devtools__javascript_tool
  */
 const SELECTOR_EXTRACTION_SCRIPT = `
 const elements = document.querySelectorAll('[data-testid], [aria-label], button, input, select, a');
@@ -213,7 +213,7 @@ JSON.stringify(selectors, null, 2);
 
 /**
  * JavaScript to extract navigation URLs for sitemap.
- * Execute via mcp__claude-in-chrome__javascript_tool
+ * Execute via mcp__chrome-devtools__javascript_tool
  */
 const URL_EXTRACTION_SCRIPT = `
 const links = document.querySelectorAll('nav a[href], .sidebar a[href], [role="navigation"] a[href]');
@@ -334,12 +334,12 @@ export const CRAWL_SPEC = {
     "form_extraction"
   ],
   tools_used: [
-    "mcp__claude-in-chrome__tabs_context_mcp",
-    "mcp__claude-in-chrome__navigate",
-    "mcp__claude-in-chrome__read_page",
-    "mcp__claude-in-chrome__computer",
-    "mcp__claude-in-chrome__javascript_tool",  // NEW: For selector/URL extraction
-    "mcp__claude-in-chrome__find"
+    "mcp__chrome-devtools__tabs_context_mcp",
+    "mcp__chrome-devtools__navigate",
+    "mcp__chrome-devtools__read_page",
+    "mcp__chrome-devtools__computer",
+    "mcp__chrome-devtools__javascript_tool",  // NEW: For selector/URL extraction
+    "mcp__chrome-devtools__find"
   ],
   output_files: {
     metadata: "console-navigation-metadata.json",

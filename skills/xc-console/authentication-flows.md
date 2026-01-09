@@ -1,6 +1,6 @@
 # Authentication Flows for F5 Distributed Cloud
 
-This document describes multi-provider authentication handling using `mcp__claude-in-chrome` MCP tools.
+This document describes multi-provider authentication handling using `mcp__chrome-devtools` MCP tools.
 
 ## Overview
 
@@ -25,13 +25,13 @@ F5 XC tenants can be configured with different authentication methods. This skil
 Navigate to tenant URL and detect connection issues:
 
 ```
-Tool: mcp__claude-in-chrome__navigate
+Tool: mcp__chrome-devtools__navigate
 Parameters:
   tabId: [current tab ID]
   url: [tenant URL]
 
 # Wait up to 15 seconds for page load
-Tool: mcp__claude-in-chrome__computer
+Tool: mcp__chrome-devtools__computer
 Parameters:
   action: "wait"
   tabId: [tab ID]
@@ -55,7 +55,7 @@ I'll wait for your confirmation."
 After navigation, check for login indicators:
 
 ```
-Tool: mcp__claude-in-chrome__read_page
+Tool: mcp__chrome-devtools__read_page
 Parameters:
   tabId: [current tab ID]
   filter: "interactive"
@@ -119,7 +119,7 @@ I cannot enter credentials for you due to security policies."
 For F5 XC login page with SSO option:
 
 ```
-Tool: mcp__claude-in-chrome__find
+Tool: mcp__chrome-devtools__find
 Parameters:
   tabId: [tab ID]
   query: "Sign in with SSO OR Enterprise login OR SSO button"
@@ -128,7 +128,7 @@ Parameters:
 Then click the SSO button:
 
 ```
-Tool: mcp__claude-in-chrome__computer
+Tool: mcp__chrome-devtools__computer
 Parameters:
   action: "left_click"
   tabId: [tab ID]
@@ -140,12 +140,12 @@ Parameters:
 If session expired dialog appears:
 
 ```
-Tool: mcp__claude-in-chrome__find
+Tool: mcp__chrome-devtools__find
 Parameters:
   tabId: [tab ID]
   query: "Go to login button"
 
-Tool: mcp__claude-in-chrome__computer
+Tool: mcp__chrome-devtools__computer
 Parameters:
   action: "left_click"
   tabId: [tab ID]
@@ -157,13 +157,13 @@ Parameters:
 After redirect to SSO provider, identify which one:
 
 ```
-Tool: mcp__claude-in-chrome__computer
+Tool: mcp__chrome-devtools__computer
 Parameters:
   action: "wait"
   tabId: [tab ID]
   duration: 3
 
-Tool: mcp__claude-in-chrome__computer
+Tool: mcp__chrome-devtools__computer
 Parameters:
   action: "screenshot"
   tabId: [tab ID]
@@ -202,12 +202,12 @@ Parameters:
 
 2. **Account Selection** (multiple accounts cached):
    ```
-   Tool: mcp__claude-in-chrome__read_page
+   Tool: mcp__chrome-devtools__read_page
    Parameters:
      tabId: [tab ID]
 
    # Look for account tiles, then click the desired one
-   Tool: mcp__claude-in-chrome__find
+   Tool: mcp__chrome-devtools__find
    Parameters:
      tabId: [tab ID]
      query: "user account tile OR email address"
@@ -236,7 +236,7 @@ Parameters:
 After authentication completes:
 
 ```
-Tool: mcp__claude-in-chrome__computer
+Tool: mcp__chrome-devtools__computer
 Parameters:
   action: "wait"
   tabId: [tab ID]
@@ -246,7 +246,7 @@ Parameters:
 ### Step 9: Verify Successful Login
 
 ```
-Tool: mcp__claude-in-chrome__read_page
+Tool: mcp__chrome-devtools__read_page
 Parameters:
   tabId: [tab ID]
 ```
@@ -265,7 +265,7 @@ Parameters:
 ### Step 10: Take Confirmation Screenshot
 
 ```
-Tool: mcp__claude-in-chrome__computer
+Tool: mcp__chrome-devtools__computer
 Parameters:
   action: "screenshot"
   tabId: [tab ID]
@@ -278,12 +278,12 @@ Parameters:
 For "Web App and API Protection":
 
 ```
-Tool: mcp__claude-in-chrome__find
+Tool: mcp__chrome-devtools__find
 Parameters:
   tabId: [tab ID]
   query: "Web App & API Protection card OR WAAP workspace"
 
-Tool: mcp__claude-in-chrome__computer
+Tool: mcp__chrome-devtools__computer
 Parameters:
   action: "left_click"
   tabId: [tab ID]
@@ -293,7 +293,7 @@ Parameters:
 Or navigate directly:
 
 ```
-Tool: mcp__claude-in-chrome__navigate
+Tool: mcp__chrome-devtools__navigate
 Parameters:
   tabId: [tab ID]
   url: "https://[tenant].volterra.us/web/workspaces/web-app-and-api-protection"

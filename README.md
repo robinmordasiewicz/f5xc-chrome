@@ -4,7 +4,7 @@ Chrome browser automation for F5 Distributed Cloud console - navigate, crawl, an
 
 ## Overview
 
-This Claude Code plugin provides browser automation capabilities for the F5 Distributed Cloud (XC) web console. It uses the Claude in Chrome extension to interact with the console GUI, enabling automated navigation, form filling, and data extraction.
+This Claude Code plugin provides browser automation capabilities for the F5 Distributed Cloud (XC) web console. It uses the Chrome DevTools MCP server for browser automation, enabling automated navigation, form filling, and data extraction.
 
 ## Features
 
@@ -18,12 +18,12 @@ This Claude Code plugin provides browser automation capabilities for the F5 Dist
 
 ### Prerequisites
 
-1. **Claude in Chrome Extension**
-   - Install from [Chrome Web Store](https://chrome.google.com/webstore)
-   - Pin extension to toolbar
+1. **Chrome DevTools MCP Server**
+   - Configured automatically via `.mcp.json`
+   - Starts with `npx -y @anthropic/mcp-server-chrome-devtools@latest`
 
 2. **F5 XC Tenant Access**
-   - Azure AD credentials with tenant access
+   - Azure AD, Google, Okta, or SAML credentials with tenant access
    - Valid tenant URL (e.g., `https://yourname.console.ves.volterra.io`)
 
 ### Install Plugin
@@ -54,8 +54,8 @@ claude --plugin-dir /path/to/f5xc-console
 ### Quick Start
 
 ```bash
-# Start Claude Code with Chrome integration
-claude --chrome
+# Start Claude Code (Chrome DevTools MCP starts automatically)
+claude
 
 # Login to your tenant
 /xc:console login https://yourname.console.ves.volterra.io

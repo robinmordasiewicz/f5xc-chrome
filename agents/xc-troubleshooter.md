@@ -35,7 +35,7 @@ Invoke this agent when you encounter:
 - Is the issue intermittent or constant?
 
 ### 2. Data Collection
-Using `mcp__claude-in-chrome__*` tools:
+Using `mcp__chrome-devtools__*` tools:
 - Navigate to relevant F5 XC console pages
 - Capture configuration screenshots
 - Read error logs and status pages

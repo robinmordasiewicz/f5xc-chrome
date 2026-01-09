@@ -28,19 +28,19 @@ Claude will follow the phases below to systematically extract page metadata.
 
 ### Step 1.1: Get Browser Context
 ```
-Tool: mcp__claude-in-chrome__tabs_context_mcp
+Tool: mcp__chrome-devtools__tabs_context_mcp
 Parameters: { createIfEmpty: true }
 ```
 
 ### Step 1.2: Navigate to Tenant Home
 ```
-Tool: mcp__claude-in-chrome__navigate
+Tool: mcp__chrome-devtools__navigate
 Parameters: { tabId: [from context], url: "[tenant-url]" }
 ```
 
 ### Step 1.3: Wait for Page Load
 ```
-Tool: mcp__claude-in-chrome__computer
+Tool: mcp__chrome-devtools__computer
 Parameters: { action: "wait", duration: 3, tabId: [tabId] }
 ```
 
@@ -51,7 +51,7 @@ Check URL - if redirected to login:
 
 ### Step 1.5: Verify Home Page
 ```
-Tool: mcp__claude-in-chrome__computer
+Tool: mcp__chrome-devtools__computer
 Parameters: { action: "screenshot", tabId: [tabId] }
 ```
 Confirm: URL ends with `/web/home` and workspace cards visible.
@@ -62,7 +62,7 @@ Confirm: URL ends with `/web/home` and workspace cards visible.
 
 ### Step 2.1: Read Page Structure
 ```
-Tool: mcp__claude-in-chrome__read_page
+Tool: mcp__chrome-devtools__read_page
 Parameters: { tabId: [tabId], filter: "interactive" }
 ```
 
@@ -223,7 +223,7 @@ Extract all navigation URLs for the sitemap.
 ### Step 2C.1: Extract Navigation Links
 
 ```
-Tool: mcp__claude-in-chrome__javascript_tool
+Tool: mcp__chrome-devtools__javascript_tool
 Parameters: {
   tabId: [tabId],
   text: `
@@ -261,7 +261,7 @@ Add discovered URLs to the sitemap file.
 
 ### Step 3.1: Enter Workspace
 ```
-Tool: mcp__claude-in-chrome__computer
+Tool: mcp__chrome-devtools__computer
 Parameters: { action: "left_click", ref: "[waap_card_ref]", tabId: [tabId] }
 ```
 
@@ -272,7 +272,7 @@ Record current URL: `/web/workspaces/web-app-and-api-protection/...`
 
 ### Step 3.3: Extract Sidebar Navigation
 ```
-Tool: mcp__claude-in-chrome__read_page
+Tool: mcp__chrome-devtools__read_page
 Parameters: { tabId: [tabId] }
 ```
 
@@ -287,7 +287,7 @@ For each menu item:
 
 1. **Click menu item**:
    ```
-   Tool: mcp__claude-in-chrome__computer
+   Tool: mcp__chrome-devtools__computer
    Parameters: { action: "left_click", ref: "[menu_item_ref]", tabId: [tabId] }
    ```
 
@@ -295,7 +295,7 @@ For each menu item:
 
 3. **Extract page metadata**:
    ```
-   Tool: mcp__claude-in-chrome__read_page
+   Tool: mcp__chrome-devtools__read_page
    Parameters: { tabId: [tabId], filter: "interactive" }
    ```
 
@@ -323,7 +323,7 @@ For each menu item:
 
 ### Step 3.5: Return to Home
 ```
-Tool: mcp__claude-in-chrome__navigate
+Tool: mcp__chrome-devtools__navigate
 Parameters: { tabId: [tabId], url: "[tenant-url]/web/home" }
 ```
 
@@ -335,7 +335,7 @@ When a page has an "Add [Resource]" button:
 
 ### Step 4.1: Click Add Button
 ```
-Tool: mcp__claude-in-chrome__computer
+Tool: mcp__chrome-devtools__computer
 Parameters: { action: "left_click", ref: "[add_button_ref]", tabId: [tabId] }
 ```
 
@@ -343,13 +343,13 @@ Wait 2 seconds for form to load.
 
 ### Step 4.2: Screenshot Form
 ```
-Tool: mcp__claude-in-chrome__computer
+Tool: mcp__chrome-devtools__computer
 Parameters: { action: "screenshot", tabId: [tabId] }
 ```
 
 ### Step 4.3: Extract Form Tabs/Sections
 ```
-Tool: mcp__claude-in-chrome__read_page
+Tool: mcp__chrome-devtools__read_page
 Parameters: { tabId: [tabId] }
 ```
 
@@ -395,7 +395,7 @@ Field types to identify:
 
 ### Step 4.6: Cancel Form (DO NOT SUBMIT)
 ```
-Tool: mcp__claude-in-chrome__computer
+Tool: mcp__chrome-devtools__computer
 Parameters: { action: "left_click", ref: "[cancel_button_ref]", tabId: [tabId] }
 ```
 
@@ -535,14 +535,14 @@ Detect user permissions to understand what actions are available vs restricted.
 ### Step 7.1: Navigate to a Resource List Page
 
 ```
-Tool: mcp__claude-in-chrome__navigate
+Tool: mcp__chrome-devtools__navigate
 Parameters: { tabId: [tabId], url: "[tenant-url]/web/workspaces/web-app-and-api-protection/namespaces/[namespace]/manage/load_balancers/http_loadbalancers" }
 ```
 
 ### Step 7.2: Execute Permission Detection Script
 
 ```
-Tool: mcp__claude-in-chrome__javascript_tool
+Tool: mcp__chrome-devtools__javascript_tool
 Parameters: {
   tabId: [tabId],
   action: "javascript_exec",
@@ -554,7 +554,7 @@ Parameters: {
 
 Click on an item's action menu (three dots):
 ```
-Tool: mcp__claude-in-chrome__computer
+Tool: mcp__chrome-devtools__computer
 Parameters: { action: "left_click", ref: "[action_button_ref]", tabId: [tabId] }
 ```
 
@@ -601,14 +601,14 @@ Detect subscription tier and feature availability based on badges and UI indicat
 ### Step 8.1: Navigate to Home Page
 
 ```
-Tool: mcp__claude-in-chrome__navigate
+Tool: mcp__chrome-devtools__navigate
 Parameters: { tabId: [tabId], url: "[tenant-url]/web/home" }
 ```
 
 ### Step 8.2: Execute Subscription Detection Script
 
 ```
-Tool: mcp__claude-in-chrome__javascript_tool
+Tool: mcp__chrome-devtools__javascript_tool
 Parameters: {
   tabId: [tabId],
   action: "javascript_exec",
@@ -660,14 +660,14 @@ Detect which modules/workspaces need initialization or are already enabled.
 
 For each workspace to check:
 ```
-Tool: mcp__claude-in-chrome__navigate
+Tool: mcp__chrome-devtools__navigate
 Parameters: { tabId: [tabId], url: "[tenant-url]/web/workspaces/[workspace]/workspace-info/about" }
 ```
 
 ### Step 9.2: Execute Module Detection Script
 
 ```
-Tool: mcp__claude-in-chrome__javascript_tool
+Tool: mcp__chrome-devtools__javascript_tool
 Parameters: {
   tabId: [tabId],
   action: "javascript_exec",

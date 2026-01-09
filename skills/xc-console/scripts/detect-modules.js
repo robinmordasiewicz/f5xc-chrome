@@ -1,7 +1,7 @@
 /**
  * F5 XC Console - Module Initialization Detection Script
  *
- * Execute via mcp__claude-in-chrome__javascript_tool
+ * Execute via mcp__chrome-devtools__javascript_tool
  * Detects module/workspace initialization states
  *
  * Returns: { modules: { [name]: { initialized, needsInit, status, indicators } } }
