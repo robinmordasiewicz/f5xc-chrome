@@ -20,8 +20,9 @@ function getWorkflowFiles(): string[] {
     return [];
   }
 
+  // Exclude task-workflows.md (index file) and e2e-test-* workflows (test specs have different structure)
   return fs.readdirSync(WORKFLOWS_DIR)
-    .filter((file) => file.endsWith('.md') && file !== 'task-workflows.md')
+    .filter((file) => file.endsWith('.md') && file !== 'task-workflows.md' && !file.startsWith('e2e-test-'))
     .map((file) => path.join(WORKFLOWS_DIR, file));
 }
 
