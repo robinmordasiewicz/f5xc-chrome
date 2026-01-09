@@ -282,6 +282,7 @@ Format as a JSON array and save to lb-list.json"
 |------|---------|
 | `SKILL.md` | This file - skill overview and instructions |
 | `authentication-flows.md` | Multi-provider authentication handling (Azure, Google, Okta, SAML, native, VPN) |
+| `browser-interaction-patterns.md` | **Deterministic patterns for Angular CDK/Material component interaction** |
 | `console-navigation-metadata.json` | v2.3 metadata with stable selectors (data-testid, aria-label, text_match, css) |
 | `url-sitemap.json` | Static/dynamic route mapping with workspace aliases and shortcuts |
 | `crawl-workflow.md` | v2.3 crawl phases including selector, URL, and state detection |
@@ -541,6 +542,65 @@ To refresh the metadata (optional):
 ```
 
 See `crawl-workflow.md` for the detailed crawl process.
+
+## Angular CDK/Material Interaction Patterns
+
+**CRITICAL**: The F5 XC Console uses Angular with Angular CDK/Material components. Some UI elements require specific interaction patterns that differ from standard accessibility-based clicking.
+
+### The Overlay Problem
+
+Action menus (⋮ buttons) open **Angular CDK overlays** whose menu items do NOT appear in accessibility snapshots. This is because:
+- Overlays are rendered in a separate container (`.cdk-overlay-container`)
+- The overlay content is outside the main DOM tree that snapshots capture
+- Standard `click()` may not trigger Angular change detection
+
+### Solution: JavaScript Event Dispatch
+
+When clicking items in dropdown menus, use `evaluate_script` with full MouseEvent sequence:
+
+```javascript
+mcp__chrome-devtools__evaluate_script({
+  function: `(menuText) => {
+    const overlay = document.querySelector('.cdk-overlay-container');
+    if (!overlay) return { success: false, error: 'No overlay' };
+
+    const items = overlay.querySelectorAll('[role="menuitem"], button, .mat-menu-item');
+    for (const item of items) {
+      if (item.textContent.includes(menuText)) {
+        // Full event sequence required for Angular Material
+        ['mousedown', 'mouseup', 'click'].forEach(type => {
+          item.dispatchEvent(new MouseEvent(type, {
+            bubbles: true,
+            cancelable: true,
+            view: window
+          }));
+        });
+        return { success: true, clicked: menuText };
+      }
+    }
+    return { success: false, error: 'Not found: ' + menuText };
+  }`,
+  args: ["Delete"]
+})
+```
+
+### When to Use Each Pattern
+
+| UI Element | Pattern | Reason |
+|------------|---------|--------|
+| Primary buttons | `take_snapshot` → `click` | Visible in accessibility tree |
+| Form inputs | `take_snapshot` → `fill` | Standard form interaction |
+| Action menu trigger | `click` with uid | Opens the overlay |
+| **Dropdown menu items** | **`evaluate_script`** | **NOT in accessibility tree** |
+| Confirmation dialogs | `take_snapshot` → `click` | Dialog IS in accessibility tree |
+
+### Full Reference
+
+See `browser-interaction-patterns.md` for:
+- Complete code examples for all patterns
+- Troubleshooting common issues
+- Test resource naming conventions
+- E2E workflow templates
 
 ## State Detection Capabilities (v2.3)
 
