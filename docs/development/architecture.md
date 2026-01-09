@@ -7,7 +7,7 @@ This document describes the architecture of the F5 XC Console plugin and how its
 ```mermaid
 graph TB
     subgraph "User Interface"
-        A[Claude Code] --> B[/xc:console Command]
+        A[Claude Code] --> B["xc:console Command"]
     end
 
     subgraph "Core Engine"
