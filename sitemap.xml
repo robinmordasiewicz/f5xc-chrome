@@ -2,62 +2,78 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://robinmordasiewicz.github.io/f5xc-console/</loc>
-         <lastmod>2025-12-25</lastmod>
+         <lastmod>2026-01-09</lastmod>
+    </url>
+    <url>
+         <loc>https://robinmordasiewicz.github.io/f5xc-console/development/architecture/</loc>
+         <lastmod>2026-01-09</lastmod>
+    </url>
+    <url>
+         <loc>https://robinmordasiewicz.github.io/f5xc-console/development/ci-cd/</loc>
+         <lastmod>2026-01-09</lastmod>
+    </url>
+    <url>
+         <loc>https://robinmordasiewicz.github.io/f5xc-console/development/contributing/</loc>
+         <lastmod>2026-01-09</lastmod>
+    </url>
+    <url>
+         <loc>https://robinmordasiewicz.github.io/f5xc-console/development/testing/</loc>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://robinmordasiewicz.github.io/f5xc-console/features/crawling/</loc>
-         <lastmod>2025-12-25</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://robinmordasiewicz.github.io/f5xc-console/features/navigation/</loc>
-         <lastmod>2025-12-25</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://robinmordasiewicz.github.io/f5xc-console/features/workflows/</loc>
-         <lastmod>2025-12-25</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://robinmordasiewicz.github.io/f5xc-console/generated/PLUGIN_README/</loc>
-         <lastmod>2025-12-25</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://robinmordasiewicz.github.io/f5xc-console/generated/SKILL_xc-console/</loc>
-         <lastmod>2025-12-25</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://robinmordasiewicz.github.io/f5xc-console/getting-started/authentication/</loc>
-         <lastmod>2025-12-25</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://robinmordasiewicz.github.io/f5xc-console/getting-started/installation/</loc>
-         <lastmod>2025-12-25</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://robinmordasiewicz.github.io/f5xc-console/getting-started/quickstart/</loc>
-         <lastmod>2025-12-25</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://robinmordasiewicz.github.io/f5xc-console/metadata/console/</loc>
-         <lastmod>2025-12-25</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://robinmordasiewicz.github.io/f5xc-console/metadata/selectors/</loc>
-         <lastmod>2025-12-25</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://robinmordasiewicz.github.io/f5xc-console/metadata/sitemap/</loc>
-         <lastmod>2025-12-25</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://robinmordasiewicz.github.io/f5xc-console/reference/api/</loc>
-         <lastmod>2025-12-25</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://robinmordasiewicz.github.io/f5xc-console/reference/commands/</loc>
-         <lastmod>2025-12-25</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://robinmordasiewicz.github.io/f5xc-console/reference/manifest/</loc>
-         <lastmod>2025-12-25</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
 </urlset>
