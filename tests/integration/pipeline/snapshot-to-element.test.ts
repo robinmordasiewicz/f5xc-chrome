@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 /**
  * Integration Tests for Snapshot → Element Finding Pipeline
  *

@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 // Initialize Mermaid diagrams
 document.addEventListener("DOMContentLoaded", function () {
   mermaid.initialize({
