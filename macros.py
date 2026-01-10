@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 """
 MkDocs Macros for f5xc-console documentation.
 
