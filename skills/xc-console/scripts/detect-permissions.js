@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 /**
  * F5 XC Console - RBAC Permission Detection Script
  *

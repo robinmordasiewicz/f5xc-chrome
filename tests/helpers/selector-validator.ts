@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 /**
  * SelectorValidator - CSS Selector Validation and Testing
  *

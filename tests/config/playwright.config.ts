@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 import { defineConfig, devices } from '@playwright/test';
 
 /**
